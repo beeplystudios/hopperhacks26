@@ -17,7 +17,7 @@ function ManageLayout() {
           }}
           className="bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-sm p-1 transition-colors"
           activeProps={{
-            className: "bg-gray-600 !text-gray-200 pointer-events-none",
+            className: "bg-lime-700 !text-gray-200 pointer-events-none",
           }}
         >
           Home
@@ -30,7 +30,7 @@ function ManageLayout() {
           }}
           className="bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-sm p-1 transition-colors"
           activeProps={{
-            className: "bg-gray-600 !text-gray-200 pointer-events-none",
+            className: "bg-lime-700 !text-gray-200 pointer-events-none",
           }}
         >
           Menus
@@ -43,13 +43,13 @@ function ManageLayout() {
           }}
           className="bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-sm p-1 transition-colors"
           activeProps={{
-            className: "bg-gray-600 !text-gray-200 pointer-events-none",
+            className: "bg-lime-700 !text-gray-200 pointer-events-none",
           }}
         >
           Settings
         </Link>
       </div>
-      <div className="h-full inset-shadow-sm overflow-auto rounded-md bg-gray-200 p-2">
+      <div className="h-full inset-shadow-sm overflow-auto rounded-md bg-gray-200 p-3">
         <Outlet />
       </div>
     </div>

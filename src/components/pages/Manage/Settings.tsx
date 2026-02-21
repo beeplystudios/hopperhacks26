@@ -1,3 +1,10 @@
+/**
+ * Tables, what ingredients, location, color,
+ */
 export default function Settings() {
-  return <p>Settings!</p>;
+  return (
+    <div>
+      <div></div>
+    </div>
+  );
 }
