@@ -168,7 +168,7 @@ export const reservation = pgTable("reservation", {
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   status: text("status").notNull().$type<ReservationStatus>(),
-  numberOfSeats: text("number_of_seats").notNull(),
+  numberOfSeats: integer("number_of_seats").notNull(),
   startTime: timestamp("start_time").notNull(),
   endTime: timestamp("end_time").notNull(),
 });
@@ -293,7 +293,7 @@ export const orderItem = pgTable("order_item", {
   menuItem: text("menu_item")
     .notNull()
     .references(() => menuItem.id, { onDelete: "cascade" }),
-  quantity: text("quantity").notNull(),
+  quantity: integer("quantity").notNull(),
 });
 
 export const orderItemRelations = relations(orderItem, ({ one }) => ({

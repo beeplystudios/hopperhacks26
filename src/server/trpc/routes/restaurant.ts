@@ -12,6 +12,24 @@ import {
 import { z } from "zod";
 import { and, asc, eq } from "drizzle-orm";
 
+export const aggregateAllReservationsByIngredientsAndBucketsOfTimeForRestaurant =
+  async (restaurantId: string) => {
+    const allOrders = await db
+      .select()
+      .from(reservation)
+      .where(eq(reservation.restaurantId, restaurantId))
+      .innerJoin(orderItem, eq(reservation.id, orderItem.reservation))
+      .innerJoin(menuItem, eq(orderItem.menuItem, menuItem.id))
+      .innerJoin(
+        menuItemIngredient,
+        eq(menuItem.id, menuItemIngredient.menuItemId),
+      )
+      .innerJoin(ingredient, eq(menuItemIngredient.ingredientId, ingredient.id))
+      .orderBy(asc(reservation.startTime));
+
+    return allOrders;
+  };
+
 export const restaurantRouter = router({
   getAll: publicProcedure.query(async () => {
     return await db.select().from(restaurant);

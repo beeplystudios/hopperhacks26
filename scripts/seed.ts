@@ -1,9 +1,12 @@
 import { spanned } from "@/lib/logger";
 import { db } from "../src/server/db";
 import {
+  ingredient,
   menu,
   menuItem,
+  menuItemIngredient,
   menuItemToMenu,
+  orderItem,
   reservation,
   restaurant,
   table,
@@ -13,6 +16,7 @@ import seedRestaurants from "./restaurants.json";
 import {
   reservation as seedReservations,
   users as seedUsers,
+  orderItems as seedOrderItems,
 } from "./reservations.json";
 import { inArray, sql } from "drizzle-orm";
 
@@ -67,6 +71,12 @@ await db.transaction(async (tx) => {
       seedReservations.map((r) => r.userId),
     ),
   );
+  await tx.delete(orderItem).where(
+    inArray(
+      orderItem.reservation,
+      seedReservations.map((r) => r.id),
+    ),
+  );
   logger.trace(`deleted records that are in the seed data`);
 
   await tx
@@ -111,6 +121,33 @@ await db.transaction(async (tx) => {
     )
     .onConflictDoNothing();
   logger.trace(`seeded ${seedRestaurants.menuItem.length} menu items`);
+
+  await tx
+    .insert(ingredient)
+    .values(
+      seedRestaurants.ingredient.map((i) => ({
+        id: i.id,
+        name: i.name,
+        restaurant: i.restaurant,
+      })),
+    )
+    .onConflictDoNothing();
+  logger.trace(`seeded ${seedRestaurants.ingredient.length} ingredients`);
+
+  await tx
+    .insert(menuItemIngredient)
+    .values(
+      seedRestaurants.menuItemIngredient.map((mii) => ({
+        menuItemId: mii.menuItemId,
+        ingredientId: mii.ingredientId,
+        quantity: mii.quantity,
+        unit: mii.unit,
+      })),
+    )
+    .onConflictDoNothing();
+  logger.trace(
+    `seeded ${seedRestaurants.menuItemIngredient.length} menu item ingredients`,
+  );
 
   await tx
     .insert(menuItemToMenu)
@@ -167,6 +204,19 @@ await db.transaction(async (tx) => {
     )
     .onConflictDoNothing();
   logger.trace(`seeded ${seedReservations.length} reservations`);
+
+  await tx
+    .insert(orderItem)
+    .values(
+      seedOrderItems.map((oi) => ({
+        id: oi.id,
+        reservation: oi.reservation,
+        menuItem: oi.menuItem,
+        quantity: oi.quantity,
+      })),
+    )
+    .onConflictDoNothing();
+  logger.trace(`seeded ${seedOrderItems.length} order items`);
 });
 
 const endTime = Date.now();
