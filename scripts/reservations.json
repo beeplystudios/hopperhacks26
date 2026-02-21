@@ -58,7 +58,7 @@
       "tableId": "t-11-1",
       "userId": "u-001",
       "status": "CONFIRMED",
-      "numberOfSeats": "4",
+      "numberOfSeats": 4,
       "startTime": "2026-02-22T19:00:00Z",
       "endTime": "2026-02-22T21:00:00Z"
     },
@@ -68,7 +68,7 @@
       "tableId": "t-11-1",
       "userId": "u-002",
       "status": "PENDING",
-      "numberOfSeats": "2",
+      "numberOfSeats": 2,
       "startTime": "2026-03-01T12:30:00Z",
       "endTime": "2026-03-01T14:00:00Z"
     },
@@ -78,7 +78,7 @@
       "tableId": "t-br-1",
       "userId": "u-003",
       "status": "CONFIRMED",
-      "numberOfSeats": "2",
+      "numberOfSeats": 2,
       "startTime": "2026-02-25T18:00:00Z",
       "endTime": "2026-02-25T19:30:00Z"
     },
@@ -88,7 +88,7 @@
       "tableId": "t-br-1",
       "userId": "u-004",
       "status": "CANCELLED",
-      "numberOfSeats": "1",
+      "numberOfSeats": 1,
       "startTime": "2026-02-26T20:00:00Z",
       "endTime": "2026-02-26T21:00:00Z"
     },
@@ -98,7 +98,7 @@
       "tableId": "t-katz-1",
       "userId": "u-005",
       "status": "CONFIRMED",
-      "numberOfSeats": "1",
+      "numberOfSeats": 1,
       "startTime": "2026-03-02T11:45:00Z",
       "endTime": "2026-03-02T12:30:00Z"
     },
@@ -108,7 +108,7 @@
       "tableId": "t-katz-1",
       "userId": "u-006",
       "status": "UNPAID",
-      "numberOfSeats": "1",
+      "numberOfSeats": 1,
       "startTime": "2026-03-03T13:00:00Z",
       "endTime": "2026-03-03T13:45:00Z"
     },
@@ -118,7 +118,7 @@
       "tableId": "t-11-1",
       "userId": "u-007",
       "status": "CONFIRMED",
-      "numberOfSeats": "3",
+      "numberOfSeats": 3,
       "startTime": "2026-03-05T18:30:00Z",
       "endTime": "2026-03-05T20:00:00Z"
     },
@@ -128,7 +128,7 @@
       "tableId": "t-br-1",
       "userId": "u-002",
       "status": "PENDING",
-      "numberOfSeats": "2",
+      "numberOfSeats": 2,
       "startTime": "2026-03-06T19:00:00Z",
       "endTime": "2026-03-06T20:30:00Z"
     },
@@ -138,7 +138,7 @@
       "tableId": "t-katz-1",
       "userId": "u-001",
       "status": "CONFIRMED",
-      "numberOfSeats": "2",
+      "numberOfSeats": 2,
       "startTime": "2026-02-28T17:00:00Z",
       "endTime": "2026-02-28T18:00:00Z"
     },
@@ -148,7 +148,7 @@
       "tableId": "t-11-1",
       "userId": "u-008",
       "status": "UNPAID",
-      "numberOfSeats": "4",
+      "numberOfSeats": 4,
       "startTime": "2026-03-07T20:00:00Z",
       "endTime": "2026-03-07T22:00:00Z"
     },
@@ -158,7 +158,7 @@
       "tableId": "t-br-1",
       "userId": "u-009",
       "status": "CANCELLED",
-      "numberOfSeats": "2",
+      "numberOfSeats": 2,
       "startTime": "2026-03-08T12:00:00Z",
       "endTime": "2026-03-08T13:00:00Z"
     },
@@ -168,7 +168,7 @@
       "tableId": "t-katz-1",
       "userId": "u-010",
       "status": "PENDING",
-      "numberOfSeats": "1",
+      "numberOfSeats": 1,
       "startTime": "2026-03-09T10:30:00Z",
       "endTime": "2026-03-09T11:00:00Z"
     }
@@ -178,127 +178,127 @@
       "id": "oi-001",
       "reservation": "res-001",
       "menuItem": "mi-11-seared-cod",
-      "quantity": "2"
+      "quantity": 2
     },
     {
       "id": "oi-002",
       "reservation": "res-001",
       "menuItem": "mi-11-seasonal-salad",
-      "quantity": "1"
+      "quantity": 1
     },
     {
       "id": "oi-003",
       "reservation": "res-002",
       "menuItem": "mi-11-apple-tart",
-      "quantity": "1"
+      "quantity": 1
     },
     {
       "id": "oi-004",
       "reservation": "res-002",
       "menuItem": "mi-11-roasted-carrots",
-      "quantity": "2"
+      "quantity": 2
     },
     {
       "id": "oi-005",
       "reservation": "res-003",
       "menuItem": "mi-br-fish-and-chips",
-      "quantity": "1"
+      "quantity": 1
     },
     {
       "id": "oi-006",
       "reservation": "res-003",
       "menuItem": "mi-br-truffle-fries",
-      "quantity": "1"
+      "quantity": 1
     },
     {
       "id": "oi-007",
       "reservation": "res-004",
       "menuItem": "mi-br-roasted-chicken",
-      "quantity": "1"
+      "quantity": 1
     },
     {
       "id": "oi-008",
       "reservation": "res-005",
       "menuItem": "mi-katz-pastrami",
-      "quantity": "1"
+      "quantity": 1
     },
     {
       "id": "oi-009",
       "reservation": "res-006",
       "menuItem": "mi-katz-egg-salad",
-      "quantity": "1"
+      "quantity": 1
     },
     {
       "id": "oi-010",
       "reservation": "res-007",
       "menuItem": "mi-11-beef-tartare",
-      "quantity": "1"
+      "quantity": 1
     },
     {
       "id": "oi-011",
       "reservation": "res-007",
       "menuItem": "mi-11-smoked-duck",
-      "quantity": "1"
+      "quantity": 1
     },
     {
       "id": "oi-012",
       "reservation": "res-008",
       "menuItem": "mi-br-greens",
-      "quantity": "1"
+      "quantity": 1
     },
     {
       "id": "oi-013",
       "reservation": "res-008",
       "menuItem": "mi-br-truffle-fries",
-      "quantity": "2"
+      "quantity": 2
     },
     {
       "id": "oi-014",
       "reservation": "res-009",
       "menuItem": "mi-katz-pastrami",
-      "quantity": "2"
+      "quantity": 2
     },
     {
       "id": "oi-015",
       "reservation": "res-009",
       "menuItem": "mi-katz-pickle",
-      "quantity": "1"
+      "quantity": 1
     },
     {
       "id": "oi-016",
       "reservation": "res-010",
       "menuItem": "mi-11-seared-cod",
-      "quantity": "4"
+      "quantity": 4
     },
     {
       "id": "oi-017",
       "reservation": "res-010",
       "menuItem": "mi-11-apple-tart",
-      "quantity": "2"
+      "quantity": 2
     },
     {
       "id": "oi-018",
       "reservation": "res-011",
       "menuItem": "mi-br-cake",
-      "quantity": "1"
+      "quantity": 1
     },
     {
       "id": "oi-019",
       "reservation": "res-011",
       "menuItem": "mi-br-fish-and-chips",
-      "quantity": "1"
+      "quantity": 1
     },
     {
       "id": "oi-020",
       "reservation": "res-012",
       "menuItem": "mi-katz-matzo-ball",
-      "quantity": "1"
+      "quantity": 1
     },
     {
       "id": "oi-021",
       "reservation": "res-012",
       "menuItem": "mi-katz-pickle",
-      "quantity": "1"
+      "quantity": 1
     }
   ]
 }
