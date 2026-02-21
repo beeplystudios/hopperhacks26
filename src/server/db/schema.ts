@@ -1,5 +1,14 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  timestamp,
+  boolean,
+  index,
+  real,
+  time,
+  integer,
+} from "drizzle-orm/pg-core";
 import { createId } from "@paralleldrive/cuid2";
 
 export const user = pgTable("user", {
@@ -100,5 +109,191 @@ export const accountRelations = relations(account, ({ one }) => ({
   user: one(user, {
     fields: [account.userId],
     references: [user.id],
+  }),
+}));
+
+// ACTUAL DATA
+export type ReservationStatus =
+  | "PENDING"
+  | "UNPAID"
+  | "CONFIRMED"
+  | "CANCELLED";
+
+export const restaurant = pgTable("restaurant", {
+  id: text("id")
+    .primaryKey()
+    .$default(() => createId()),
+  name: text("name").notNull(),
+});
+
+export const restaurantRelations = relations(restaurant, ({ many }) => ({
+  menuItems: many(menuItem),
+  reservations: many(reservation),
+  tables: many(table),
+}));
+
+export const table = pgTable("table", {
+  id: text("id")
+    .primaryKey()
+    .$default(() => createId()),
+  name: text("name").notNull(),
+  maxSeats: integer("max_seats").notNull(),
+  restaurantId: text("restaurant_id")
+    .notNull()
+    .references(() => restaurant.id, { onDelete: "cascade" }),
+  maxReservationLength: integer("max_reservation_length").notNull(),
+});
+
+export const reservation = pgTable("reservation", {
+  id: text("id")
+    .primaryKey()
+    .$default(() => createId()),
+  restaurantId: text("restaurant_id")
+    .notNull()
+    .references(() => restaurant.id, { onDelete: "cascade" }),
+  tableId: text("table_id")
+    .notNull()
+    .references(() => table.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  status: text("status").notNull().$type<ReservationStatus>(),
+  time: timestamp("time").notNull(),
+  numberOfSeats: text("number_of_seats").notNull(),
+  startTime: timestamp("start_time").notNull(),
+  endTime: timestamp("end_time").notNull(),
+});
+
+export const reservationRelations = relations(reservation, ({ one, many }) => ({
+  restaurant: one(restaurant, {
+    fields: [reservation.restaurantId],
+    references: [restaurant.id],
+  }),
+  table: one(table, {
+    fields: [reservation.tableId],
+    references: [table.id],
+  }),
+  user: one(user, {
+    fields: [reservation.userId],
+    references: [user.id],
+  }),
+  orderItems: many(orderItem),
+}));
+
+/**
+ * A restaurant can have multiple menus: "Lunch", "Dinner", "Drinks", etc.
+ */
+export const menu = pgTable("menu", {
+  id: text("id")
+    .primaryKey()
+    .$default(() => createId()),
+  restaurantId: text("restaurant_id")
+    .notNull()
+    .references(() => restaurant.id, { onDelete: "cascade" }),
+  name: text("name").notNull(),
+  /**
+   * The time of day that the menu is available (TIME ONLY). For example, the "Lunch" menu can be
+   * made available from 11:00:00 to 13:00:00.
+   *
+   * If neither are provided, it is assumed that the menu is available all day.
+   */
+  startTime: time("start_time"),
+  endTime: time("end_time"),
+});
+
+export const menuRelations = relations(menu, ({ one, many }) => ({
+  restaurant: one(restaurant, {
+    fields: [menu.restaurantId],
+    references: [restaurant.id],
+  }),
+  menuItems: many(menuItem),
+}));
+
+/**
+ * A menu item can belong to multiple menus. For example, a "Diet Coke" menu item will likely appear
+ * on both the "Lunch" and "Dinner" menus. This table represents the many-to-many relationship
+ * between menu items and menus.
+ */
+export const menuItemToMenu = pgTable("menu_item_to_menu", {
+  menuId: text("menu_id")
+    .notNull()
+    .references(() => menu.id, { onDelete: "cascade" }),
+  menuItemId: text("menu_item_id")
+    .notNull()
+    .references(() => menuItem.id, { onDelete: "cascade" }),
+});
+
+export const menuItemToMenuRelations = relations(menuItemToMenu, ({ one }) => ({
+  menu: one(menu, {
+    fields: [menuItemToMenu.menuId],
+    references: [menu.id],
+  }),
+  menuItem: one(menuItem, {
+    fields: [menuItemToMenu.menuItemId],
+    references: [menuItem.id],
+  }),
+}));
+
+export const menuItem = pgTable("menu_item", {
+  id: text("id")
+    .primaryKey()
+    .$default(() => createId()),
+  name: text("name").notNull(),
+  price: text("price").notNull(),
+  description: text("description"),
+  image: text("image"),
+});
+
+export const menuItemRelations = relations(menuItem, ({ many }) => ({
+  ingredients: many(menuItemIngredient),
+}));
+
+export const ingredient = pgTable("ingredient", {
+  id: text("id")
+    .primaryKey()
+    .$default(() => createId()),
+  restaurant: text("restaurant_id")
+    .notNull()
+    .references(() => restaurant.id, { onDelete: "cascade" }),
+  name: text("name").notNull(),
+});
+
+export const ingredientRelations = relations(ingredient, ({ one, many }) => ({
+  restaurant: one(restaurant, {
+    fields: [ingredient.restaurant],
+    references: [restaurant.id],
+  }),
+  menuItems: many(menuItemIngredient),
+}));
+
+export const menuItemIngredient = pgTable("menu_item_ingredient", {
+  menuItemId: text("menu_item_id")
+    .notNull()
+    .references(() => menuItem.id, { onDelete: "cascade" }),
+  ingredientId: text("ingredient_id")
+    .notNull()
+    .references(() => ingredient.id, { onDelete: "cascade" }),
+  quantity: real("quantity").notNull(),
+  unit: text("unit").notNull(),
+});
+
+export const orderItem = pgTable("order_item", {
+  reservation: text("reservation")
+    .notNull()
+    .references(() => reservation.id, { onDelete: "cascade" }),
+  menuItem: text("menu_item")
+    .notNull()
+    .references(() => menuItem.id, { onDelete: "cascade" }),
+  quantity: text("quantity").notNull(),
+});
+
+export const orderItemRelations = relations(orderItem, ({ one }) => ({
+  reservation: one(reservation, {
+    fields: [orderItem.reservation],
+    references: [reservation.id],
+  }),
+  menuItem: one(menuItem, {
+    fields: [orderItem.menuItem],
+    references: [menuItem.id],
   }),
 }));
