@@ -1,4 +1,4 @@
-import { desc, relations } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import {
   pgTable,
   text,
@@ -129,6 +129,7 @@ export const restaurant = pgTable("restaurant", {
 export const restaurantRelations = relations(restaurant, ({ many }) => ({
   menuItems: many(menuItem),
   reservations: many(reservation),
+  tables: many(table),
 }));
 
 export const table = pgTable("table", {
