@@ -1,9 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
+import ManageMenus from "@/components/pages/Manage/ManageMenus";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/manage/$id/menus')({
-  component: RouteComponent,
-})
-
-function RouteComponent() {
-  return <div>Hello "/manage/$id/menus"!</div>
-}
+export const Route = createFileRoute("/manage/$id/menus")({
+  component: ManageMenus,
+});
