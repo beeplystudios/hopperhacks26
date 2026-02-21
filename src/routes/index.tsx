@@ -31,6 +31,7 @@ import {
   ModalHeader,
   ModalHeading,
 } from "@/components/ui/modal";
+import { DatePicker } from "@/components/ui/date-picker";
 
 export const Route = createFileRoute("/")({
   component: App,
@@ -146,6 +147,10 @@ function App() {
             </ModalFooter>
           </Modal>
         </DialogTrigger>
+      </div>
+
+      <div className="">
+        <DatePicker />
       </div>
 
       <div className="space-y-2">
