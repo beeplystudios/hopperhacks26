@@ -96,7 +96,7 @@ export const MultiSelectTrigger: React.FC<MultiSelectTriggerProps> = ({
         className={cn(
           inputBase(),
           "w-full flex items-center justify-between focus-visible:ring-sky-800",
-          btnProps?.isInvalid && "!border-red-800 focus-visible:ring-red-800",
+          btnProps?.isInvalid && "border-red-800! focus-visible:ring-red-800",
           btnProps?.isDisabled && "opacity-60 cursor-not-allowed",
         )}
         ref={triggerControl[0]}
@@ -110,7 +110,7 @@ export const MultiSelectTrigger: React.FC<MultiSelectTriggerProps> = ({
               <div
                 id={key as string}
                 key={key}
-                className="py-0.5 group px-3 border-[0.0125rem] w-fit border-sky-200 bg-sky-50 text-sky-800 rounded-full font-sans text-xs font-medium flex gap-1 items-center whitespace-nowrap shadow-sm"
+                className="py-0.5 group px-3 border-[0.0125rem] w-fit border-lime-200 bg-lime-50 text-lime-800 rounded-full font-sans text-xs font-medium flex gap-1 items-center whitespace-nowrap shadow-xs"
               >
                 <p>{keyDisplayMap ? keyDisplayMap.get(key) : key}</p>
 
