@@ -59,6 +59,10 @@ await db.transaction(async (tx) => {
         name: r.name,
         address: r.address,
         location: sql.raw(`ST_Point(${r.location})`),
+        description: r.description,
+        color: r.color,
+        bannerImage: r.bannerImage,
+        logoImage: r.logoImage,
       })),
     )
     .onConflictDoNothing();
