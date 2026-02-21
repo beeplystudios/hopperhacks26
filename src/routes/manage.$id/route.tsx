@@ -15,7 +15,7 @@ function ManageLayout() {
           activeOptions={{
             exact: true,
           }}
-          className="bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-sm p-1 transition-colors"
+          className="bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full p-2 transition-colors"
           activeProps={{
             className: "bg-lime-700 !text-gray-200 pointer-events-none",
           }}
@@ -28,7 +28,7 @@ function ManageLayout() {
           activeOptions={{
             exact: true,
           }}
-          className="bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-sm p-1 transition-colors"
+          className="bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full p-2 transition-colors"
           activeProps={{
             className: "bg-lime-700 !text-gray-200 pointer-events-none",
           }}
@@ -41,7 +41,7 @@ function ManageLayout() {
           activeOptions={{
             exact: true,
           }}
-          className="bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-sm p-1 transition-colors"
+          className="bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full p-2 transition-colors"
           activeProps={{
             className: "bg-lime-700 !text-gray-200 pointer-events-none",
           }}
