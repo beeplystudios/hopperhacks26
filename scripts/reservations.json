@@ -1,0 +1,176 @@
+{
+  "users": [
+    {
+      "id": "u-001",
+      "name": "Alice Johnson",
+      "email": "alice.johnson@gmail.com"
+    },
+    {
+      "id": "u-002",
+      "name": "Bob Smith",
+      "email": "bob.smith@gmail.com"
+    },
+    {
+      "id": "u-003",
+      "name": "Charlie Davis",
+      "email": "charlie.davis@gmail.com"
+    },
+    {
+      "id": "u-004",
+      "name": "Diana Evans",
+      "email": "diana.evans@gmail.com"
+    },
+    {
+      "id": "u-005",
+      "name": "Ethan Brown",
+      "email": "ethan.brown@gmail.com"
+    },
+    {
+      "id": "u-006",
+      "name": "Fiona Green",
+      "email": "fiona.green@gmail.com"
+    },
+    {
+      "id": "u-007",
+      "name": "George Wilson",
+      "email": "george.wilson@gmail.com"
+    },
+    {
+      "id": "u-008",
+      "name": "Hannah Lee",
+      "email": "hannah.lee@gmail.com"
+    },
+    {
+      "id": "u-009",
+      "name": "Ian Clark",
+      "email": "ian.clark@gmail.com"
+    },
+    {
+      "id": "u-010",
+      "name": "Julia Adams",
+      "email": "julia.adams@gmail.com"
+    }
+  ],
+  "reservation": [
+    {
+      "id": "res-001",
+      "restaurantId": "r-11madison",
+      "tableId": "t-11-1",
+      "userId": "u-001",
+      "status": "CONFIRMED",
+      "numberOfSeats": "4",
+      "startTime": "2026-02-22T19:00:00Z",
+      "endTime": "2026-02-22T21:00:00Z"
+    },
+    {
+      "id": "res-002",
+      "restaurantId": "r-11madison",
+      "tableId": "t-11-1",
+      "userId": "u-002",
+      "status": "PENDING",
+      "numberOfSeats": "2",
+      "startTime": "2026-03-01T12:30:00Z",
+      "endTime": "2026-03-01T14:00:00Z"
+    },
+    {
+      "id": "res-003",
+      "restaurantId": "r-blueribbon",
+      "tableId": "t-br-1",
+      "userId": "u-003",
+      "status": "CONFIRMED",
+      "numberOfSeats": "2",
+      "startTime": "2026-02-25T18:00:00Z",
+      "endTime": "2026-02-25T19:30:00Z"
+    },
+    {
+      "id": "res-004",
+      "restaurantId": "r-blueribbon",
+      "tableId": "t-br-1",
+      "userId": "u-004",
+      "status": "CANCELLED",
+      "numberOfSeats": "1",
+      "startTime": "2026-02-26T20:00:00Z",
+      "endTime": "2026-02-26T21:00:00Z"
+    },
+    {
+      "id": "res-005",
+      "restaurantId": "r-katz",
+      "tableId": "t-katz-1",
+      "userId": "u-005",
+      "status": "CONFIRMED",
+      "numberOfSeats": "1",
+      "startTime": "2026-03-02T11:45:00Z",
+      "endTime": "2026-03-02T12:30:00Z"
+    },
+    {
+      "id": "res-006",
+      "restaurantId": "r-katz",
+      "tableId": "t-katz-1",
+      "userId": "u-006",
+      "status": "UNPAID",
+      "numberOfSeats": "1",
+      "startTime": "2026-03-03T13:00:00Z",
+      "endTime": "2026-03-03T13:45:00Z"
+    },
+    {
+      "id": "res-007",
+      "restaurantId": "r-11madison",
+      "tableId": "t-11-1",
+      "userId": "u-007",
+      "status": "CONFIRMED",
+      "numberOfSeats": "3",
+      "startTime": "2026-03-05T18:30:00Z",
+      "endTime": "2026-03-05T20:00:00Z"
+    },
+    {
+      "id": "res-008",
+      "restaurantId": "r-blueribbon",
+      "tableId": "t-br-1",
+      "userId": "u-002",
+      "status": "PENDING",
+      "numberOfSeats": "2",
+      "startTime": "2026-03-06T19:00:00Z",
+      "endTime": "2026-03-06T20:30:00Z"
+    },
+    {
+      "id": "res-009",
+      "restaurantId": "r-katz",
+      "tableId": "t-katz-1",
+      "userId": "u-001",
+      "status": "CONFIRMED",
+      "numberOfSeats": "2",
+      "startTime": "2026-02-28T17:00:00Z",
+      "endTime": "2026-02-28T18:00:00Z"
+    },
+    {
+      "id": "res-010",
+      "restaurantId": "r-11madison",
+      "tableId": "t-11-1",
+      "userId": "u-008",
+      "status": "UNPAID",
+      "numberOfSeats": "4",
+      "startTime": "2026-03-07T20:00:00Z",
+      "endTime": "2026-03-07T22:00:00Z"
+    },
+    {
+      "id": "res-011",
+      "restaurantId": "r-blueribbon",
+      "tableId": "t-br-1",
+      "userId": "u-009",
+      "status": "CANCELLED",
+      "numberOfSeats": "2",
+      "startTime": "2026-03-08T12:00:00Z",
+      "endTime": "2026-03-08T13:00:00Z"
+    },
+    {
+      "id": "res-012",
+      "restaurantId": "r-katz",
+      "tableId": "t-katz-1",
+      "userId": "u-010",
+      "status": "PENDING",
+      "numberOfSeats": "1",
+      "startTime": "2026-03-09T10:30:00Z",
+      "endTime": "2026-03-09T11:00:00Z"
+    }
+  ]
+}

@@ -4,10 +4,16 @@ import {
   menu,
   menuItem,
   menuItemToMenu,
+  reservation,
   restaurant,
   table,
+  user,
 } from "@/server/db/schema";
-import data from "./restaurants.json";
+import seedRestaurants from "./restaurants.json";
+import {
+  reservation as seedReservations,
+  users as seedUsers,
+} from "./reservations.json";
 import { inArray, sql } from "drizzle-orm";
 
 const logger = spanned("seed");
@@ -22,31 +28,43 @@ await db.transaction(async (tx) => {
   await tx.delete(menuItemToMenu).where(
     inArray(
       menuItemToMenu.menuId,
-      data.menu.map((m) => m.id),
+      seedRestaurants.menu.map((m) => m.id),
     ),
   );
   await tx.delete(menuItem).where(
     inArray(
       menuItem.id,
-      data.menuItem.map((mi) => mi.id),
+      seedRestaurants.menuItem.map((mi) => mi.id),
     ),
   );
   await tx.delete(menu).where(
     inArray(
       menu.id,
-      data.menu.map((m) => m.id),
+      seedRestaurants.menu.map((m) => m.id),
     ),
   );
   await tx.delete(table).where(
     inArray(
       table.id,
-      data.table.map((t) => t.id),
+      seedRestaurants.table.map((t) => t.id),
     ),
   );
   await tx.delete(restaurant).where(
     inArray(
       restaurant.id,
-      data.restaurant.map((r) => r.id),
+      seedRestaurants.restaurant.map((r) => r.id),
+    ),
+  );
+  await tx.delete(reservation).where(
+    inArray(
+      reservation.restaurantId,
+      seedRestaurants.restaurant.map((r) => r.id),
+    ),
+  );
+  await tx.delete(user).where(
+    inArray(
+      user.id,
+      seedReservations.map((r) => r.userId),
     ),
   );
   logger.trace(`deleted records that are in the seed data`);
@@ -54,7 +72,7 @@ await db.transaction(async (tx) => {
   await tx
     .insert(restaurant)
     .values(
-      data.restaurant.map((r) => ({
+      seedRestaurants.restaurant.map((r) => ({
         id: r.id,
         name: r.name,
         address: r.address,
@@ -66,24 +84,24 @@ await db.transaction(async (tx) => {
       })),
     )
     .onConflictDoNothing();
-  logger.trace(`seeded ${data.restaurant.length} restaurants`);
+  logger.trace(`seeded ${seedRestaurants.restaurant.length} restaurants`);
 
   await tx
     .insert(menu)
     .values(
-      data.menu.map((m) => ({
+      seedRestaurants.menu.map((m) => ({
         id: m.id,
         name: m.name,
         restaurantId: m.restaurantId,
       })),
     )
     .onConflictDoNothing();
-  logger.trace(`seeded ${data.menu.length} menu items`);
+  logger.trace(`seeded ${seedRestaurants.menu.length} menu items`);
 
   await tx
     .insert(menuItem)
     .values(
-      data.menuItem.map((mi) => ({
+      seedRestaurants.menuItem.map((mi) => ({
         id: mi.id,
         name: mi.name,
         price: mi.price,
@@ -92,25 +110,25 @@ await db.transaction(async (tx) => {
       })),
     )
     .onConflictDoNothing();
-  logger.trace(`seeded ${data.menuItem.length} menu items`);
+  logger.trace(`seeded ${seedRestaurants.menuItem.length} menu items`);
 
   await tx
     .insert(menuItemToMenu)
     .values(
-      data.menuItemToMenu.map((mim) => ({
+      seedRestaurants.menuItemToMenu.map((mim) => ({
         menuId: mim.menuId,
         menuItemId: mim.menuItemId,
       })),
     )
     .onConflictDoNothing();
   logger.trace(
-    `seeded ${data.menuItemToMenu.length} menu item to menu relations`,
+    `seeded ${seedRestaurants.menuItemToMenu.length} menu item to menu relations`,
   );
 
   await tx
     .insert(table)
     .values(
-      data.table.map((t) => ({
+      seedRestaurants.table.map((t) => ({
         id: t.id,
         name: t.name,
         maxSeats: t.maxSeats,
@@ -119,7 +137,36 @@ await db.transaction(async (tx) => {
       })),
     )
     .onConflictDoNothing();
-  logger.trace(`seeded ${data.table.length} tables`);
+  logger.trace(`seeded ${seedRestaurants.table.length} tables`);
+
+  await tx
+    .insert(user)
+    .values(
+      seedUsers.map((u) => ({
+        id: u.id,
+        name: u.name,
+        email: u.email,
+      })),
+    )
+    .onConflictDoNothing();
+  logger.trace(`seeded ${seedReservations.length} users`);
+
+  await tx
+    .insert(reservation)
+    .values(
+      seedReservations.map((r) => ({
+        id: r.id,
+        restaurantId: r.restaurantId,
+        tableId: r.tableId,
+        userId: r.userId,
+        startTime: new Date(r.startTime),
+        endTime: new Date(r.endTime),
+        status: r.status as any,
+        numberOfSeats: r.numberOfSeats,
+      })),
+    )
+    .onConflictDoNothing();
+  logger.trace(`seeded ${seedReservations.length} reservations`);
 });
 
 const endTime = Date.now();

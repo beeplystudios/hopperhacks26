@@ -1,6 +1,6 @@
 import { extractAuth } from "../middleware/auth-middleware";
 import { publicProcedure, router } from "../trpc-config";
-import { restaurantRouter } from "./restraunts";
+import { restaurantRouter } from "./restaurant";
 
 export const appRouter = router({
   test: publicProcedure.query(async () => "Hi from the server!"),
