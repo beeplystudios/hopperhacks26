@@ -12,7 +12,7 @@ export const createTRPCClient = () =>
     links: [
       httpBatchStreamLink({
         transformer: superjson,
-        url: `${process.env.BASE_URL ?? ""}/api/trpc`,
+        url: `${process.env.APP_URL ?? ""}/api/trpc`,
         headers: async () => isomorphicHeaders(),
       }),
     ],
