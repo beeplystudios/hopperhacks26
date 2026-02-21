@@ -14,6 +14,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiHealthcheckRouteImport } from './routes/api/healthcheck'
 import { Route as RestaurantsIdRouteRouteImport } from './routes/restaurants/$id/route'
 import { Route as ManageIdRouteRouteImport } from './routes/manage.$id/route'
+import { Route as ManageIdIndexRouteImport } from './routes/manage.$id/index'
 import { Route as ManageIdSettingsRouteImport } from './routes/manage.$id/settings'
 import { Route as ManageIdMenusRouteImport } from './routes/manage.$id/menus'
 import { Route as ApiTrpcSplatRouteImport } from './routes/api/trpc.$'
@@ -43,6 +44,11 @@ const ManageIdRouteRoute = ManageIdRouteRouteImport.update({
   id: '/manage/$id',
   path: '/manage/$id',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ManageIdIndexRoute = ManageIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ManageIdRouteRoute,
 } as any)
 const ManageIdSettingsRoute = ManageIdSettingsRouteImport.update({
   id: '/settings',
@@ -75,17 +81,18 @@ export interface FileRoutesByFullPath {
   '/api/trpc/$': typeof ApiTrpcSplatRoute
   '/manage/$id/menus': typeof ManageIdMenusRoute
   '/manage/$id/settings': typeof ManageIdSettingsRoute
+  '/manage/$id/': typeof ManageIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/restaurants': typeof RestaurantsRouteRouteWithChildren
-  '/manage/$id': typeof ManageIdRouteRouteWithChildren
   '/restaurants/$id': typeof RestaurantsIdRouteRoute
   '/api/healthcheck': typeof ApiHealthcheckRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
   '/manage/$id/menus': typeof ManageIdMenusRoute
   '/manage/$id/settings': typeof ManageIdSettingsRoute
+  '/manage/$id': typeof ManageIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -98,6 +105,7 @@ export interface FileRoutesById {
   '/api/trpc/$': typeof ApiTrpcSplatRoute
   '/manage/$id/menus': typeof ManageIdMenusRoute
   '/manage/$id/settings': typeof ManageIdSettingsRoute
+  '/manage/$id/': typeof ManageIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,17 +119,18 @@ export interface FileRouteTypes {
     | '/api/trpc/$'
     | '/manage/$id/menus'
     | '/manage/$id/settings'
+    | '/manage/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/restaurants'
-    | '/manage/$id'
     | '/restaurants/$id'
     | '/api/healthcheck'
     | '/api/auth/$'
     | '/api/trpc/$'
     | '/manage/$id/menus'
     | '/manage/$id/settings'
+    | '/manage/$id'
   id:
     | '__root__'
     | '/'
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/api/trpc/$'
     | '/manage/$id/menus'
     | '/manage/$id/settings'
+    | '/manage/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -181,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ManageIdRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/manage/$id/': {
+      id: '/manage/$id/'
+      path: '/'
+      fullPath: '/manage/$id/'
+      preLoaderRoute: typeof ManageIdIndexRouteImport
+      parentRoute: typeof ManageIdRouteRoute
+    }
     '/manage/$id/settings': {
       id: '/manage/$id/settings'
       path: '/settings'
@@ -226,11 +243,13 @@ const RestaurantsRouteRouteWithChildren =
 interface ManageIdRouteRouteChildren {
   ManageIdMenusRoute: typeof ManageIdMenusRoute
   ManageIdSettingsRoute: typeof ManageIdSettingsRoute
+  ManageIdIndexRoute: typeof ManageIdIndexRoute
 }
 
 const ManageIdRouteRouteChildren: ManageIdRouteRouteChildren = {
   ManageIdMenusRoute: ManageIdMenusRoute,
   ManageIdSettingsRoute: ManageIdSettingsRoute,
+  ManageIdIndexRoute: ManageIdIndexRoute,
 }
 
 const ManageIdRouteRouteWithChildren = ManageIdRouteRoute._addFileChildren(
