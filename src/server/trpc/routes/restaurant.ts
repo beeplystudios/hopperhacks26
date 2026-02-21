@@ -7,6 +7,7 @@ import {
   orderItem,
   reservation,
   restaurant,
+  table,
 } from "@/server/db/schema";
 import { z } from "zod";
 import { and, asc, eq } from "drizzle-orm";
@@ -75,5 +76,18 @@ export const restaurantRouter = router({
           eq(menuItemIngredient.ingredientId, ingredient.id),
         )
         .orderBy(asc(reservation.startTime));
+    }),
+
+  getTablesForRestaurant: publicProcedure
+    .input(
+      z.object({
+        restaurantId: z.string(),
+      }),
+    )
+    .query(async ({ input }) => {
+      return await db
+        .select()
+        .from(table)
+        .where(eq(table.restaurantId, input.restaurantId));
     }),
 });
