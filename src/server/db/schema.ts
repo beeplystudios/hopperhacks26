@@ -1,5 +1,12 @@
-import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import { desc, relations } from "drizzle-orm";
+import {
+  pgTable,
+  text,
+  timestamp,
+  boolean,
+  index,
+  real,
+} from "drizzle-orm/pg-core";
 import { createId } from "@paralleldrive/cuid2";
 
 export const user = pgTable("user", {
@@ -100,5 +107,123 @@ export const accountRelations = relations(account, ({ one }) => ({
   user: one(user, {
     fields: [account.userId],
     references: [user.id],
+  }),
+}));
+
+// ACTUAL DATA
+export type ReservationStatus =
+  | "PENDING"
+  | "UNPAID"
+  | "CONFIRMED"
+  | "CANCELLED";
+
+export const restaurant = pgTable("restaurant", {
+  id: text("id")
+    .primaryKey()
+    .$default(() => createId()),
+  name: text("name").notNull(),
+  seatsPerNight: text("seats_per_night").notNull(),
+});
+
+export const restaurantRelations = relations(restaurant, ({ many }) => ({
+  menuItems: many(menuItem),
+  reservations: many(reservation),
+}));
+
+export const reservation = pgTable("reservation", {
+  id: text("id")
+    .primaryKey()
+    .$default(() => createId()),
+  restaurantId: text("restaurant_id")
+    .notNull()
+    .references(() => restaurant.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  status: text("status").notNull().$type<ReservationStatus>(),
+  time: timestamp("time").notNull(),
+  numberOfSeats: text("number_of_seats").notNull(),
+});
+
+export const reservationRelations = relations(reservation, ({ one, many }) => ({
+  restaurant: one(restaurant, {
+    fields: [reservation.restaurantId],
+    references: [restaurant.id],
+  }),
+  user: one(user, {
+    fields: [reservation.userId],
+    references: [user.id],
+  }),
+  orderItems: many(orderItem),
+}));
+
+export const menuItem = pgTable("menu_item", {
+  id: text("id")
+    .primaryKey()
+    .$default(() => createId()),
+  restaurantId: text("restaurant_id")
+    .notNull()
+    .references(() => restaurant.id, { onDelete: "cascade" }),
+  name: text("name").notNull(),
+  price: text("price").notNull(),
+  description: text("description"),
+  image: text("image"),
+});
+
+export const menuItemRelations = relations(menuItem, ({ one, many }) => ({
+  restaurant: one(restaurant, {
+    fields: [menuItem.restaurantId],
+    references: [restaurant.id],
+  }),
+  ingredients: many(menuItemIngredient),
+}));
+
+export const ingredient = pgTable("ingredient", {
+  id: text("id")
+    .primaryKey()
+    .$default(() => createId()),
+  restaurant: text("restaurant_id")
+    .notNull()
+    .references(() => restaurant.id, { onDelete: "cascade" }),
+  name: text("name").notNull(),
+});
+
+export const ingredientRelations = relations(ingredient, ({ one, many }) => ({
+  restaurant: one(restaurant, {
+    fields: [ingredient.restaurant],
+    references: [restaurant.id],
+  }),
+  menuItems: many(menuItemIngredient),
+}));
+
+export const menuItemIngredient = pgTable("menu_item_ingredient", {
+  menuItemId: text("menu_item_id")
+    .notNull()
+    .references(() => menuItem.id, { onDelete: "cascade" }),
+  ingredientId: text("ingredient_id")
+    .notNull()
+    .references(() => ingredient.id, { onDelete: "cascade" }),
+  quantity: real("quantity").notNull(),
+  unit: text("unit").notNull(),
+});
+
+export const orderItem = pgTable("order_item", {
+  reservation: text("reservation")
+    .notNull()
+    .references(() => reservation.id, { onDelete: "cascade" }),
+  menuItem: text("menu_item")
+    .notNull()
+    .references(() => menuItem.id, { onDelete: "cascade" }),
+  quantity: text("quantity").notNull(),
+});
+
+export const orderItemRelations = relations(orderItem, ({ one }) => ({
+  reservation: one(reservation, {
+    fields: [orderItem.reservation],
+    references: [reservation.id],
+  }),
+  menuItem: one(menuItem, {
+    fields: [orderItem.menuItem],
+    references: [menuItem.id],
   }),
 }));
