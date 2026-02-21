@@ -1,8 +1,31 @@
 {
   "restaurant": [
-    { "id": "r-11madison", "name": "11 Madison Park" },
-    { "id": "r-blueribbon", "name": "Blue Ribbon" },
-    { "id": "r-katz", "name": "Katz's Delicatessen" }
+    {
+      "id": "r-11madison",
+      "name": "11 Madison Park",
+      "address": "11 Madison Ave, New York, NY 10010",
+      "location": "40.741895, -73.989308",
+      "description": "11 Madison Park is a contemporary American restaurant located in the heart of Manhattan. Known for its innovative cuisine and exceptional service, it offers a seasonal tasting menu that highlights local ingredients. The elegant dining room provides a sophisticated atmosphere, making it a popular destination for food enthusiasts and special occasions.",
+      "bannerImage": "https://gourmadela.com/wp-content/uploads/2017/05/Eleven-Madison-Park_9099.jpg"
+    },
+    {
+      "id": "r-blueribbon",
+      "name": "Blue Ribbon",
+      "address": "335 Greenwich St, New York, NY 10013",
+      "location": "40.7179447, -74.0103584",
+      "description": "Blue Ribbon is a renowned restaurant in New York City known for its eclectic menu that combines American and international flavors. With a focus on high-quality ingredients, Blue Ribbon offers a diverse selection of dishes ranging from seafood to steak. The restaurant's cozy and inviting atmosphere, along with its extensive wine list, makes it a favorite among locals and visitors alike.",
+      "bannerImage": "https://popmenucloud.com/cdn-cgi/image/width=1920,height=1920,format=auto,fit=scale-down/lbiypvtw/efe97379-a773-429a-be79-3ea101faeb32.jpeg"
+    },
+    {
+      "id": "r-katz",
+      "name": "Katz's Delicatessen",
+      "address": "205 E Houston St, New York, NY 10002",
+      "location": "40.7223431, -73.987353",
+      "color": "#CD5C5C",
+      "description": "Katz Delicatessen is an iconic New York City institution, famous for its classic Jewish deli fare. Established in 1888, Katz's is best known for its pastrami sandwiches, which are piled high with tender, flavorful meat. The deli's old-school ambiance, complete with vintage decor and a bustling atmosphere, offers a nostalgic dining experience that has made it a beloved spot for both locals and tourists seeking an authentic taste of New York's culinary history.",
+      "bannerImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Lozupone_katz2.png/1280px-Lozupone_katz2.png",
+      "logoImage": "https://d2zyb4ugwufqpc.cloudfront.net/media/catalog/product/cache/0ee050c3ffc3555709b9bb6062f4d7e9/p/a/pastramitight.jpg"
+    }
   ],
 
   "menu": [
@@ -204,7 +227,34 @@
     },
     { "id": "ing-potato", "restaurant": "r-blueribbon", "name": "Potato" },
     { "id": "ing-pastrami", "restaurant": "r-katz", "name": "Pastrami" },
-    { "id": "ing-rye", "restaurant": "r-katz", "name": "Rye Bread" }
+    { "id": "ing-rye", "restaurant": "r-katz", "name": "Rye Bread" },
+    { "id": "ing-beef", "restaurant": "r-11madison", "name": "Beef" },
+    { "id": "ing-capers", "restaurant": "r-11madison", "name": "Capers" },
+    { "id": "ing-carrot", "restaurant": "r-11madison", "name": "Carrot" },
+    { "id": "ing-duck", "restaurant": "r-11madison", "name": "Duck" },
+    { "id": "ing-greens", "restaurant": "r-11madison", "name": "Mixed Greens" },
+
+    {
+      "id": "ing-cod-br",
+      "restaurant": "r-blueribbon",
+      "name": "Atlantic Cod (BR)"
+    },
+    { "id": "ing-batter", "restaurant": "r-blueribbon", "name": "Batter" },
+    { "id": "ing-chicken", "restaurant": "r-blueribbon", "name": "Chicken" },
+    {
+      "id": "ing-potato-br",
+      "restaurant": "r-blueribbon",
+      "name": "Potato (BR)"
+    },
+    {
+      "id": "ing-greens-br",
+      "restaurant": "r-blueribbon",
+      "name": "Greens (BR)"
+    },
+
+    { "id": "ing-matzo", "restaurant": "r-katz", "name": "Matzo" },
+    { "id": "ing-egg", "restaurant": "r-katz", "name": "Egg" },
+    { "id": "ing-cucumber", "restaurant": "r-katz", "name": "Cucumber" }
   ],
 
   "menuItemIngredient": [

@@ -8,6 +8,7 @@ import {
   real,
   time,
   integer,
+  geometry,
 } from "drizzle-orm/pg-core";
 import { createId } from "@paralleldrive/cuid2";
 
@@ -124,6 +125,12 @@ export const restaurant = pgTable("restaurant", {
     .primaryKey()
     .$default(() => createId()),
   name: text("name").notNull(),
+  address: text("address").notNull(),
+  location: geometry("location", { type: "point" }).notNull(),
+  description: text("description"),
+  color: text("color"),
+  bannerImage: text("banner_image"),
+  logoImage: text("logo_image"),
 });
 
 export const restaurantRelations = relations(restaurant, ({ many }) => ({
@@ -161,8 +168,7 @@ export const reservation = pgTable("reservation", {
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   status: text("status").notNull().$type<ReservationStatus>(),
-  time: timestamp("time").notNull(),
-  numberOfSeats: text("number_of_seats").notNull(),
+  numberOfSeats: integer("number_of_seats").notNull(),
   startTime: timestamp("start_time").notNull(),
   endTime: timestamp("end_time").notNull(),
 });
@@ -287,7 +293,7 @@ export const orderItem = pgTable("order_item", {
   menuItem: text("menu_item")
     .notNull()
     .references(() => menuItem.id, { onDelete: "cascade" }),
-  quantity: text("quantity").notNull(),
+  quantity: integer("quantity").notNull(),
 });
 
 export const orderItemRelations = relations(orderItem, ({ one }) => ({

@@ -15,9 +15,9 @@ function ManageLayout() {
           activeOptions={{
             exact: true,
           }}
-          className="bg-lime-100 text-lime-800 rounded-sm p-1 transition-colors"
+          className="bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-sm p-1 transition-colors"
           activeProps={{
-            className: "bg-lime-600 !text-lime-100 pointer-events-none",
+            className: "bg-gray-600 !text-gray-200 pointer-events-none",
           }}
         >
           Home
@@ -28,9 +28,9 @@ function ManageLayout() {
           activeOptions={{
             exact: true,
           }}
-          className="bg-lime-100 text-lime-800 rounded-sm p-1 transition-colors"
+          className="bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-sm p-1 transition-colors"
           activeProps={{
-            className: "bg-lime-600 !text-lime-100 pointer-events-none",
+            className: "bg-gray-600 !text-gray-200 pointer-events-none",
           }}
         >
           Menus
@@ -41,15 +41,15 @@ function ManageLayout() {
           activeOptions={{
             exact: true,
           }}
-          className="bg-lime-100 text-lime-800 rounded-sm p-1 transition-colors"
+          className="bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-sm p-1 transition-colors"
           activeProps={{
-            className: "bg-lime-600 !text-lime-100 pointer-events-none",
+            className: "bg-gray-600 !text-gray-200 pointer-events-none",
           }}
         >
           Settings
         </Link>
       </div>
-      <div className="h-full inset-shadow-sm overflow-auto rounded-md bg-lime-100 p-2">
+      <div className="h-full inset-shadow-sm overflow-auto rounded-md bg-gray-200 p-2">
         <Outlet />
       </div>
     </div>
