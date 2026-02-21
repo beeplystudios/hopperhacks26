@@ -30,9 +30,9 @@ const ApiHealthcheckRoute = ApiHealthcheckRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const RestaurantsIdRouteRoute = RestaurantsIdRouteRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => RestaurantsRouteRoute,
+  id: '/restaurants/$id',
+  path: '/restaurants/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ManageIdRouteRoute = ManageIdRouteRouteImport.update({
   id: '/manage/$id',
@@ -136,6 +136,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ManageIdRouteRoute: typeof ManageIdRouteRouteWithChildren
+  RestaurantsIdRouteRoute: typeof RestaurantsIdRouteRoute
   ApiHealthcheckRoute: typeof ApiHealthcheckRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiTrpcSplatRoute: typeof ApiTrpcSplatRoute
@@ -159,10 +160,10 @@ declare module '@tanstack/react-router' {
     }
     '/restaurants/$id': {
       id: '/restaurants/$id'
-      path: '/$id'
+      path: '/restaurants/$id'
       fullPath: '/restaurants/$id'
       preLoaderRoute: typeof RestaurantsIdRouteRouteImport
-      parentRoute: typeof RestaurantsRouteRoute
+      parentRoute: typeof rootRouteImport
     }
     '/manage/$id': {
       id: '/manage/$id'
@@ -228,6 +229,7 @@ const ManageIdRouteRouteWithChildren = ManageIdRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ManageIdRouteRoute: ManageIdRouteRouteWithChildren,
+  RestaurantsIdRouteRoute: RestaurantsIdRouteRoute,
   ApiHealthcheckRoute: ApiHealthcheckRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiTrpcSplatRoute: ApiTrpcSplatRoute,
