@@ -1,8 +1,23 @@
 {
   "restaurant": [
-    { "id": "r-11madison", "name": "11 Madison Park" },
-    { "id": "r-blueribbon", "name": "Blue Ribbon" },
-    { "id": "r-katz", "name": "Katz's Delicatessen" }
+    {
+      "id": "r-11madison",
+      "name": "11 Madison Park",
+      "address": "11 Madison Ave, New York, NY 10010",
+      "location": "40.741895, -73.989308"
+    },
+    {
+      "id": "r-blueribbon",
+      "name": "Blue Ribbon",
+      "address": "335 Greenwich St, New York, NY 10013",
+      "location": "40.7179447, -74.0103584"
+    },
+    {
+      "id": "r-katz",
+      "name": "Katz's Delicatessen",
+      "address": "205 E Houston St, New York, NY 10002",
+      "location": "40.7223431, -73.987353"
+    }
   ],
 
   "menu": [

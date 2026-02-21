@@ -8,6 +8,7 @@ import {
   real,
   time,
   integer,
+  geometry,
 } from "drizzle-orm/pg-core";
 import { createId } from "@paralleldrive/cuid2";
 
@@ -124,6 +125,8 @@ export const restaurant = pgTable("restaurant", {
     .primaryKey()
     .$default(() => createId()),
   name: text("name").notNull(),
+  address: text("address").notNull(),
+  location: geometry("location", { type: "point" }).notNull(),
 });
 
 export const restaurantRelations = relations(restaurant, ({ many }) => ({

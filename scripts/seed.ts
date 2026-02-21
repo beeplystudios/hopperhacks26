@@ -8,16 +8,59 @@ import {
   table,
 } from "@/server/db/schema";
 import data from "./restaurants.json";
+import { inArray, sql } from "drizzle-orm";
 
 const logger = spanned("seed");
 logger.info("seeding database...");
 
 const startTime = Date.now();
 
+await db.execute(sql`CREATE EXTENSION IF NOT EXISTS postgis;`);
+
 await db.transaction(async (tx) => {
+  // delete records that are in the seed data but not in the database
+  await tx.delete(menuItemToMenu).where(
+    inArray(
+      menuItemToMenu.menuId,
+      data.menu.map((m) => m.id),
+    ),
+  );
+  await tx.delete(menuItem).where(
+    inArray(
+      menuItem.id,
+      data.menuItem.map((mi) => mi.id),
+    ),
+  );
+  await tx.delete(menu).where(
+    inArray(
+      menu.id,
+      data.menu.map((m) => m.id),
+    ),
+  );
+  await tx.delete(table).where(
+    inArray(
+      table.id,
+      data.table.map((t) => t.id),
+    ),
+  );
+  await tx.delete(restaurant).where(
+    inArray(
+      restaurant.id,
+      data.restaurant.map((r) => r.id),
+    ),
+  );
+  logger.trace(`deleted records that are in the seed data`);
+
   await tx
     .insert(restaurant)
-    .values(data.restaurant.map((r) => ({ id: r.id, name: r.name })))
+    .values(
+      data.restaurant.map((r) => ({
+        id: r.id,
+        name: r.name,
+        address: r.address,
+        location: sql.raw(`ST_Point(${r.location})`),
+      })),
+    )
     .onConflictDoNothing();
   logger.trace(`seeded ${data.restaurant.length} restaurants`);
 
