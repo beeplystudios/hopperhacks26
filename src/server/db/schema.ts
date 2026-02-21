@@ -141,6 +141,9 @@ export const table = pgTable("table", {
   restaurantId: text("restaurant_id")
     .notNull()
     .references(() => restaurant.id, { onDelete: "cascade" }),
+  /**
+   * The number of minutes that a reservation is made for.
+   */
   maxReservationLength: integer("max_reservation_length").notNull(),
 });
 

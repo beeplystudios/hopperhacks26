@@ -1,0 +1,358 @@
+{
+  "restaurant": [
+    { "id": "r-11madison", "name": "11 Madison Park" },
+    { "id": "r-blueribbon", "name": "Blue Ribbon" },
+    { "id": "r-katz", "name": "Katz's Delicatessen" }
+  ],
+
+  "menu": [
+    {
+      "id": "m-11-lunch",
+      "restaurantId": "r-11madison",
+      "name": "Lunch",
+      "startTime": "12:00:00",
+      "endTime": "15:00:00"
+    },
+    {
+      "id": "m-11-dinner",
+      "restaurantId": "r-11madison",
+      "name": "Dinner",
+      "startTime": "17:30:00",
+      "endTime": "22:00:00"
+    },
+    {
+      "id": "m-br-lunch",
+      "restaurantId": "r-blueribbon",
+      "name": "Lunch",
+      "startTime": "11:30:00",
+      "endTime": "14:30:00"
+    },
+    {
+      "id": "m-br-dinner",
+      "restaurantId": "r-blueribbon",
+      "name": "Dinner",
+      "startTime": "17:00:00",
+      "endTime": "22:30:00"
+    },
+    {
+      "id": "m-katz-all",
+      "restaurantId": "r-katz",
+      "name": "All Day",
+      "startTime": null,
+      "endTime": null
+    }
+  ],
+
+  "menuItem": [
+    {
+      "id": "mi-11-seared-cod",
+      "name": "Seared Cod",
+      "price": "32.00",
+      "description": "Pan-seared cod with seasonal vegetables",
+      "image": ""
+    },
+    {
+      "id": "mi-11-apple-tart",
+      "name": "Apple Tart",
+      "price": "12.00",
+      "description": "Warm apple tart with caramel sauce",
+      "image": ""
+    },
+    {
+      "id": "mi-br-steak",
+      "name": "Blue Ribbon Steak",
+      "price": "45.00",
+      "description": "Dry-aged sirloin with fries",
+      "image": ""
+    },
+    {
+      "id": "mi-br-cake",
+      "name": "Basque Cheesecake",
+      "price": "10.00",
+      "description": "Creamy Basque-style cheesecake",
+      "image": ""
+    },
+    {
+      "id": "mi-katz-pastrami",
+      "name": "Pastrami Sandwich",
+      "price": "18.00",
+      "description": "Classic pastrami on rye",
+      "image": ""
+    },
+    {
+      "id": "mi-katz-reuben",
+      "name": "Reuben Sandwich",
+      "price": "17.00",
+      "description": "Corned beef, sauerkraut, swiss cheese",
+      "image": ""
+    },
+
+    {
+      "id": "mi-11-beef-tartare",
+      "name": "Beef Tartare",
+      "price": "26.00",
+      "description": "Hand-cut beef, capers, egg yolk",
+      "image": ""
+    },
+    {
+      "id": "mi-11-roasted-carrots",
+      "name": "Roasted Carrots",
+      "price": "10.00",
+      "description": "Carrots with herb vinaigrette",
+      "image": ""
+    },
+    {
+      "id": "mi-11-smoked-duck",
+      "name": "Smoked Duck",
+      "price": "28.00",
+      "description": "Thin-sliced smoked duck breast",
+      "image": ""
+    },
+    {
+      "id": "mi-11-seasonal-salad",
+      "name": "Seasonal Salad",
+      "price": "14.00",
+      "description": "Market greens, vinaigrette",
+      "image": ""
+    },
+
+    {
+      "id": "mi-br-fish-and-chips",
+      "name": "Fish & Chips",
+      "price": "22.00",
+      "description": "Beer-battered cod, tartar sauce",
+      "image": ""
+    },
+    {
+      "id": "mi-br-roasted-chicken",
+      "name": "Roasted Chicken",
+      "price": "27.00",
+      "description": "Half chicken, herbs, jus",
+      "image": ""
+    },
+    {
+      "id": "mi-br-truffle-fries",
+      "name": "Truffle Fries",
+      "price": "9.00",
+      "description": "Hand-cut fries, truffle oil",
+      "image": ""
+    },
+    {
+      "id": "mi-br-greens",
+      "name": "Sautéed Greens",
+      "price": "8.00",
+      "description": "Garlic, lemon",
+      "image": ""
+    },
+
+    {
+      "id": "mi-katz-matzo-ball",
+      "name": "Matzo Ball Soup",
+      "price": "8.00",
+      "description": "Traditional chicken broth and matzo ball",
+      "image": ""
+    },
+    {
+      "id": "mi-katz-egg-salad",
+      "name": "Egg Salad Sandwich",
+      "price": "12.00",
+      "description": "Classic egg salad on rye",
+      "image": ""
+    },
+    {
+      "id": "mi-katz-pickle",
+      "name": "Kosher Pickle",
+      "price": "3.00",
+      "description": "House-brined dill pickle",
+      "image": ""
+    }
+  ],
+
+  "menuItemToMenu": [
+    { "menuId": "m-11-lunch", "menuItemId": "mi-11-seared-cod" },
+    { "menuId": "m-11-dinner", "menuItemId": "mi-11-seared-cod" },
+    { "menuId": "m-11-dinner", "menuItemId": "mi-11-apple-tart" },
+    { "menuId": "m-br-lunch", "menuItemId": "mi-br-steak" },
+    { "menuId": "m-br-dinner", "menuItemId": "mi-br-steak" },
+    { "menuId": "m-br-dinner", "menuItemId": "mi-br-cake" },
+    { "menuId": "m-katz-all", "menuItemId": "mi-katz-pastrami" },
+    { "menuId": "m-katz-all", "menuItemId": "mi-katz-reuben" },
+    { "menuId": "m-11-lunch", "menuItemId": "mi-11-beef-tartare" },
+    { "menuId": "m-11-dinner", "menuItemId": "mi-11-beef-tartare" },
+    { "menuId": "m-11-lunch", "menuItemId": "mi-11-roasted-carrots" },
+    { "menuId": "m-11-dinner", "menuItemId": "mi-11-smoked-duck" },
+    { "menuId": "m-11-dinner", "menuItemId": "mi-11-seasonal-salad" },
+
+    { "menuId": "m-br-lunch", "menuItemId": "mi-br-fish-and-chips" },
+    { "menuId": "m-br-dinner", "menuItemId": "mi-br-roasted-chicken" },
+    { "menuId": "m-br-dinner", "menuItemId": "mi-br-truffle-fries" },
+    { "menuId": "m-br-lunch", "menuItemId": "mi-br-greens" },
+
+    { "menuId": "m-katz-all", "menuItemId": "mi-katz-matzo-ball" },
+    { "menuId": "m-katz-all", "menuItemId": "mi-katz-egg-salad" },
+    { "menuId": "m-katz-all", "menuItemId": "mi-katz-pickle" }
+  ],
+
+  "ingredient": [
+    { "id": "ing-lemon", "restaurant": "r-11madison", "name": "Lemon" },
+    { "id": "ing-cod", "restaurant": "r-11madison", "name": "Atlantic Cod" },
+    { "id": "ing-apple", "restaurant": "r-11madison", "name": "Apple" },
+    {
+      "id": "ing-steak",
+      "restaurant": "r-blueribbon",
+      "name": "Sirloin Steak"
+    },
+    { "id": "ing-potato", "restaurant": "r-blueribbon", "name": "Potato" },
+    { "id": "ing-pastrami", "restaurant": "r-katz", "name": "Pastrami" },
+    { "id": "ing-rye", "restaurant": "r-katz", "name": "Rye Bread" }
+  ],
+
+  "menuItemIngredient": [
+    {
+      "menuItemId": "mi-11-seared-cod",
+      "ingredientId": "ing-cod",
+      "quantity": 1,
+      "unit": "piece"
+    },
+    {
+      "menuItemId": "mi-11-seared-cod",
+      "ingredientId": "ing-lemon",
+      "quantity": 0.5,
+      "unit": "oz"
+    },
+    {
+      "menuItemId": "mi-11-apple-tart",
+      "ingredientId": "ing-apple",
+      "quantity": 2,
+      "unit": "unit"
+    },
+    {
+      "menuItemId": "mi-br-steak",
+      "ingredientId": "ing-steak",
+      "quantity": 12,
+      "unit": "oz"
+    },
+    {
+      "menuItemId": "mi-br-steak",
+      "ingredientId": "ing-potato",
+      "quantity": 8,
+      "unit": "oz"
+    },
+    {
+      "menuItemId": "mi-katz-pastrami",
+      "ingredientId": "ing-pastrami",
+      "quantity": 6,
+      "unit": "oz"
+    },
+    {
+      "menuItemId": "mi-katz-pastrami",
+      "ingredientId": "ing-rye",
+      "quantity": 2,
+      "unit": "slice"
+    },
+    {
+      "menuItemId": "mi-11-beef-tartare",
+      "ingredientId": "ing-beef",
+      "quantity": 6,
+      "unit": "oz"
+    },
+    {
+      "menuItemId": "mi-11-beef-tartare",
+      "ingredientId": "ing-capers",
+      "quantity": 0.5,
+      "unit": "oz"
+    },
+    {
+      "menuItemId": "mi-11-roasted-carrots",
+      "ingredientId": "ing-carrot",
+      "quantity": 3,
+      "unit": "unit"
+    },
+    {
+      "menuItemId": "mi-11-smoked-duck",
+      "ingredientId": "ing-duck",
+      "quantity": 6,
+      "unit": "oz"
+    },
+    {
+      "menuItemId": "mi-11-seasonal-salad",
+      "ingredientId": "ing-greens",
+      "quantity": 3,
+      "unit": "cup"
+    },
+
+    {
+      "menuItemId": "mi-br-fish-and-chips",
+      "ingredientId": "ing-cod-br",
+      "quantity": 1,
+      "unit": "piece"
+    },
+    {
+      "menuItemId": "mi-br-fish-and-chips",
+      "ingredientId": "ing-batter",
+      "quantity": 6,
+      "unit": "oz"
+    },
+    {
+      "menuItemId": "mi-br-roasted-chicken",
+      "ingredientId": "ing-chicken",
+      "quantity": 1,
+      "unit": "unit"
+    },
+    {
+      "menuItemId": "mi-br-truffle-fries",
+      "ingredientId": "ing-potato-br",
+      "quantity": 10,
+      "unit": "oz"
+    },
+    {
+      "menuItemId": "mi-br-greens",
+      "ingredientId": "ing-greens-br",
+      "quantity": 4,
+      "unit": "oz"
+    },
+
+    {
+      "menuItemId": "mi-katz-matzo-ball",
+      "ingredientId": "ing-matzo",
+      "quantity": 1,
+      "unit": "unit"
+    },
+    {
+      "menuItemId": "mi-katz-egg-salad",
+      "ingredientId": "ing-egg",
+      "quantity": 3,
+      "unit": "unit"
+    },
+    {
+      "menuItemId": "mi-katz-pickle",
+      "ingredientId": "ing-cucumber",
+      "quantity": 1,
+      "unit": "unit"
+    }
+  ],
+
+  "table": [
+    {
+      "id": "t-11-1",
+      "name": "Main 1",
+      "maxSeats": 4,
+      "restaurantId": "r-11madison",
+      "maxReservationLength": 120
+    },
+    {
+      "id": "t-br-1",
+      "name": "Bar 1",
+      "maxSeats": 2,
+      "restaurantId": "r-blueribbon",
+      "maxReservationLength": 90
+    },
+    {
+      "id": "t-katz-1",
+      "name": "Counter 1",
+      "maxSeats": 1,
+      "restaurantId": "r-katz",
+      "maxReservationLength": 60
+    }
+  ]
+}
