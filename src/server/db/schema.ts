@@ -131,6 +131,8 @@ export const restaurant = pgTable("restaurant", {
   color: text("color"),
   bannerImage: text("banner_image"),
   logoImage: text("logo_image"),
+  openTime: time("open_time").notNull(),
+  closeTime: time("close_time").notNull(),
 });
 
 export const restaurantRelations = relations(restaurant, ({ many }) => ({
