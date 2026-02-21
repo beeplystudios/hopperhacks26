@@ -1,37 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { signInOptions, signOutOptions } from "@/lib/auth-client";
-import { useTRPC } from "@/lib/trpc-client";
-import { signOut } from "better-auth/api";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { MenuItem, MenuTrigger, SubmenuItem } from "@/components/ui/menu-item";
-import { ModalPopover } from "@/components/ui/modal-popover";
-import { DialogTrigger, Key, Menu } from "react-aria-components";
-import {
-  Select,
-  SelectBody,
-  SelectItem,
-  SelectTrigger,
-} from "@/components/ui/select";
-import { useEffect, useState } from "react";
-import {
-  MultiSelect,
-  MultiSelectTrigger,
-  MultiSelectBody,
-  MultiSelectItem,
-} from "@/components/ui/multi-select";
-import {
-  Modal,
-  ModalBody,
-  ModalDescription,
-  ModalFooter,
-  ModalHeader,
-  ModalHeading,
-} from "@/components/ui/modal";
 import RestaurantCard from "@/components/pages/Restaurants/RestaurantCard";
+import { useTRPC } from "@/lib/trpc-client";
+import { useQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   component: App,
