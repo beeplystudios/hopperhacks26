@@ -9,20 +9,28 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { MenuItem, MenuTrigger, SubmenuItem } from "@/components/ui/menu-item";
 import { ModalPopover } from "@/components/ui/modal-popover";
-import { Key, Menu } from "react-aria-components";
+import { DialogTrigger, Key, Menu } from "react-aria-components";
 import {
   Select,
   SelectBody,
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   MultiSelect,
   MultiSelectTrigger,
   MultiSelectBody,
   MultiSelectItem,
 } from "@/components/ui/multi-select";
+import {
+  Modal,
+  ModalBody,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalHeading,
+} from "@/components/ui/modal";
 
 export const Route = createFileRoute("/")({
   component: App,
@@ -36,6 +44,8 @@ function App() {
   const signOut = useMutation(signOutOptions);
 
   const [selectedKeys, setSelectedKeys] = useState(new Set<Key>());
+
+  useEffect(() => console.log(selectedKeys), [selectedKeys]);
 
   return (
     <div className="text-center flex flex-col items-center">
@@ -89,23 +99,53 @@ function App() {
         </Select>
       </div>
 
-      <div>
+      <div className="my-2">
         <MultiSelect
           selectedKeys={selectedKeys}
           setSelectedKeys={setSelectedKeys}
         >
-          <Label>Collaborators</Label>
           <MultiSelectTrigger
+            keyDisplayMap={
+              new Map([
+                ["hi", "Hi"],
+                ["be", "Be"],
+              ])
+            }
             btnProps={{
               placeholder: "Add Collaborators...",
             }}
           >
             <MultiSelectBody>
-              <MultiSelectItem value="hi">Hi</MultiSelectItem>
-              <MultiSelectItem value="be">Be</MultiSelectItem>
+              <MultiSelectItem id="hi" value="hi">
+                Hi
+              </MultiSelectItem>
+              <MultiSelectItem id="be" value="be">
+                Be
+              </MultiSelectItem>
             </MultiSelectBody>
           </MultiSelectTrigger>
         </MultiSelect>
+      </div>
+
+      <div>
+        <DialogTrigger>
+          <Button variant="secondary">Modal</Button>
+          <Modal>
+            <ModalBody>
+              <ModalHeader>
+                <ModalHeading>Publish Draft</ModalHeading>
+                <ModalDescription>
+                  Publishing this draft will make it publicly available on the
+                  website. You can use the preview to confirm that everything
+                  looks as expected.
+                </ModalDescription>
+              </ModalHeader>
+            </ModalBody>
+            <ModalFooter>
+              <Button>Action</Button>
+            </ModalFooter>
+          </Modal>
+        </DialogTrigger>
       </div>
 
       <div className="space-y-2">
