@@ -127,6 +127,10 @@ export const restaurant = pgTable("restaurant", {
   name: text("name").notNull(),
   address: text("address").notNull(),
   location: geometry("location", { type: "point" }).notNull(),
+  description: text("description"),
+  color: text("color"),
+  bannerImage: text("banner_image"),
+  logoImage: text("logo_image"),
 });
 
 export const restaurantRelations = relations(restaurant, ({ many }) => ({
