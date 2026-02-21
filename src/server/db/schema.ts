@@ -168,7 +168,6 @@ export const reservation = pgTable("reservation", {
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   status: text("status").notNull().$type<ReservationStatus>(),
-  time: timestamp("time").notNull(),
   numberOfSeats: text("number_of_seats").notNull(),
   startTime: timestamp("start_time").notNull(),
   endTime: timestamp("end_time").notNull(),
