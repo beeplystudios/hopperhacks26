@@ -11,6 +11,7 @@ import { cn } from "@/lib/cn";
 import { Button } from "./button";
 import { ChevronDownIcon } from "./icons";
 import { Popover } from "./popover";
+import useMeasure from "react-use-measure";
 
 type SelectProps = Omit<ComponentProps<typeof AriaSelect>, "onSelectionChange">;
 
@@ -18,15 +19,17 @@ export const Select: React.FC<SelectProps> = ({
   onChange,
   className,
   ...props
-}) => (
-  <SelectContext.Provider value={{ placeholder: props.placeholder }}>
-    <AriaSelect
-      onChange={onChange}
-      className={cn(className, "flex flex-col gap-2")}
-      {...props}
-    />
-  </SelectContext.Provider>
-);
+}) => {
+  return (
+    <SelectContext.Provider value={{ placeholder: props.placeholder }}>
+      <AriaSelect
+        onChange={onChange}
+        className={cn(className, "flex flex-col gap-2 w-full")}
+        {...props}
+      />
+    </SelectContext.Provider>
+  );
+};
 
 type SelectItemProps = Omit<ComponentProps<typeof Item>, "className">;
 
@@ -62,26 +65,37 @@ SelectItem.displayName = "SelectItem";
 type SelectTriggerProps = Omit<
   ComponentProps<typeof AriaSelectValue> & {
     btnProps?: Omit<ComponentPropsWithoutRef<typeof Button>, "children">;
+    textClassName?: string;
     leadingVisual?: React.ReactNode;
     hideDescription?: boolean;
+    triggerRef?: React.ComponentProps<typeof Button>["ref"];
   },
   "className"
 >;
 
 export const SelectTrigger: React.FC<SelectTriggerProps> = ({
   btnProps,
+  textClassName,
   leadingVisual,
   hideDescription = false,
+  triggerRef,
   ...props
 }) => {
   return (
-    <Button {...btnProps} size="max" trailingVisual={<ChevronDownIcon />}>
+    <Button
+      {...btnProps}
+      size="max"
+      trailingVisual={<ChevronDownIcon className="absolute right-4" />}
+      ref={triggerRef}
+    >
       <span
         className={cn(
           "flex flex-col items-start gap-0.5",
           !!leadingVisual && "my-2",
+          textClassName,
         )}
       >
+        <p className="text-xs text-neutral-500">Guests</p>
         {!!leadingVisual && leadingVisual}
         <AriaSelectValue
           className={cn(
@@ -109,7 +123,7 @@ export const SelectBody: React.FC<SelectBodyProps> = ({
 }) => {
   return (
     <Popover {...popoverProps}>
-      <ListBox className="outline-none" {...props}>
+      <ListBox className="outline-none h-48 overflow-auto" {...props}>
         {children}
       </ListBox>
     </Popover>
