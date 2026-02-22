@@ -38,7 +38,9 @@ const categories = [
 ];
 
 export default function ReservationPage() {
-  const param = useParams({ from: "/restaurants/$id/reserve/$reservationId" });
+  const param = useParams({
+    from: "/_navlayout/restaurants/$id/reserve/$reservationId",
+  });
 
   const trpc = useTRPC();
   const restaurant = useSuspenseQuery(
