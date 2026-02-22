@@ -23,6 +23,18 @@ import { inArray, sql } from "drizzle-orm";
 const logger = spanned("seed");
 logger.info("seeding database...");
 
+const fixDateToCurrentDay = (date: Date) => {
+  const now = new Date();
+  return new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds(),
+  );
+};
+
 const startTime = Date.now();
 
 await db.execute(sql`CREATE EXTENSION IF NOT EXISTS postgis;`);
@@ -201,8 +213,8 @@ await db.transaction(async (tx) => {
         restaurantId: r.restaurantId,
         tableId: r.tableId,
         userId: r.userId,
-        startTime: new Date(r.startTime),
-        endTime: new Date(r.endTime),
+        startTime: fixDateToCurrentDay(new Date(r.startTime)),
+        endTime: fixDateToCurrentDay(new Date(r.endTime)),
         status: r.status as any,
         numberOfSeats: r.numberOfSeats,
       })),
