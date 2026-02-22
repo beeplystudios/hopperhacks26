@@ -23,6 +23,7 @@ import { DateValue, DialogTrigger } from "react-aria-components";
 import useMeasure from "react-use-measure";
 import { motion } from "motion/react";
 import { cn } from "@/lib/cn";
+import { formatPsqlTime } from "@/lib/parse-time";
 
 export default function Restaurants() {
   const param = useParams({ from: "/restaurants/$id/" });
@@ -213,7 +214,7 @@ export default function Restaurants() {
                 >
                   <div className="flex flex-col items-start">
                     <p className="text-sm font-medium">
-                      {slot.time.slice(0, 5)}
+                      {formatPsqlTime(slot.time)}
                     </p>
                     <p className="text-xs font-semibold w-max">
                       {slot.available ? slot.maxSeats : "No"} Seats Available

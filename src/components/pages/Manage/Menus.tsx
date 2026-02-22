@@ -1,16 +1,7 @@
+import { formatPsqlTime } from "@/lib/parse-time";
 import { useTRPC } from "@/lib/trpc-client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
-
-// HH:MM:SS -> HH:MM am/pm
-const formatPsqlTime = (time: string) => {
-  const [hourStr, minuteStr] = time.split(":");
-  let hour = parseInt(hourStr, 10);
-  const minute = parseInt(minuteStr, 10);
-  const ampm = hour >= 12 ? "pm" : "am";
-  hour = hour % 12 || 12; // Convert to 12-hour format
-  return `${hour}:${minute.toString().padStart(2, "0")} ${ampm}`;
-};
 
 /**
  * Create menus for time periods, configure menu items, add ingredients to menu items
