@@ -10,8 +10,20 @@ import {
   table,
 } from "@/server/db/schema";
 import { z } from "zod";
-import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
-import { restaurantOwnerProcedure } from "../middleware/auth-middleware";
+import {
+  and,
+  asc,
+  desc,
+  eq,
+  getTableColumns,
+  gte,
+  lte,
+  sql,
+} from "drizzle-orm";
+import {
+  authedProcedure,
+  restaurantOwnerProcedure,
+} from "../middleware/auth-middleware";
 
 export interface TimeBlock {
   startTime: Date;
@@ -152,6 +164,40 @@ export const restaurantRouter = router({
   getAll: publicProcedure.query(async () => {
     return await db.select().from(restaurant);
   }),
+  getPastRestraunts: authedProcedure.query(async ({ ctx }) => {
+    return await db
+      .select({ ...getTableColumns(restaurant) })
+      .from(restaurant)
+      .innerJoin(reservation, eq(restaurant.id, reservation.restaurantId))
+      .where(
+        and(
+          eq(reservation.userId, ctx.user.id),
+          lte(reservation.endTime, new Date()),
+        ),
+      );
+  }),
+  getNearby: publicProcedure
+    .input(z.object({ lat: z.number(), lng: z.number() }))
+    .query(async ({ input }) => {
+      const sqlPoint = sql`ST_SetSRID(ST_MakePoint(${input.lng}, ${input.lat}), 4326)`;
+
+      try {
+        const res = await db
+          .select({
+            ...getTableColumns(restaurant),
+            distance: sql`ST_Distance(ST_SetSRID(${restaurant.location}, 4326), ${sqlPoint})`,
+          })
+          .from(restaurant)
+          .orderBy(
+            sql`ST_SetSRID(${restaurant.location}, 4326) <-> ${sqlPoint}`,
+          );
+
+        return res;
+      } catch (err) {
+        console.error("Nearby query failed:", err);
+        throw err;
+      }
+    }),
 
   getById: publicProcedure
     .input(
