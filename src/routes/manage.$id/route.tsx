@@ -17,7 +17,7 @@ function ManageLayout() {
   return (
     <>
       <Navbar />
-      <div className="flex gap-12 h-screen pt-20 pb-8 w-full pl-8 pr-8">
+      <div className="flex gap-12 h-screen pt-20 w-full pl-8 pr-8">
         <div className="flex flex-col gap-3 items-center">
           <ManageTab to="/manage/$id" id={id} Icon={HomeIcon}>
             Today
@@ -36,7 +36,7 @@ function ManageLayout() {
           </ManageTab>
         </div>
         <div className="border-l border-black/30 h-full"></div>
-        <div className="h-full w-full">
+        <div className="h-full w-full overflow-y-scroll pb-8">
           <Outlet />
         </div>
       </div>
