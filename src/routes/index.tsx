@@ -1,6 +1,6 @@
 import RestaurantCard from "@/components/pages/Restaurants/RestaurantCard";
 import { Button } from "@/components/ui/button";
-import { LogOutIcon } from "@/components/ui/icons";
+import { ChevronDownIcon, LogOutIcon } from "@/components/ui/icons";
 import { MenuItem, SubmenuItem } from "@/components/ui/menu-item";
 import { ModalPopover } from "@/components/ui/modal-popover";
 import { signInOptions, signOutOptions } from "@/lib/auth-client";
@@ -32,7 +32,9 @@ const Navbar: React.FC = () => {
         {user.data && (
           <div>
             <MenuTrigger>
-              <Button>{user.data.name}</Button>
+              <Button>
+                {user.data.name} <ChevronDownIcon />
+              </Button>
               <ModalPopover
                 popoverProps={{
                   placement: "bottom right",
@@ -105,15 +107,19 @@ function App() {
       <Navbar />
       <h2 className="text-6xl font-bold text-left w-full px-8">Welcome!</h2>
 
-      {pastRestaurantQuery.data?.length === 0 && (
+      {(pastRestaurantQuery.data?.length ?? 0) > 0 && (
         <>
           <p className="text-left w-full">Visit Again</p>
           <RestaurantRow restaurants={pastRestaurantQuery.data ?? []} />
         </>
       )}
 
-      <p className="text-left w-full">Places Near You</p>
-      <RestaurantRow restaurants={nearbyRestaurantQuery.data ?? []} />
+      {(nearbyRestaurantQuery.data?.length ?? 0) > 0 && (
+        <>
+          <p className="text-left w-full">Places Near You</p>
+          <RestaurantRow restaurants={nearbyRestaurantQuery.data ?? []} />
+        </>
+      )}
 
       <p className="text-left w-full">Explore All</p>
       <RestaurantRow restaurants={allRestaurantQuery.data ?? []} />

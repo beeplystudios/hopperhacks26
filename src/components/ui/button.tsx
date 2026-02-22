@@ -126,7 +126,7 @@ export const Button: React.FC<ButtonProps> = ({
           )}
         >
           {leadingVisual && leadingVisual}
-          <span className="flex flex-col gap-1">{children}</span>
+          <span className="flex items-center gap-2">{children}</span>
           {trailingVisual && trailingVisual}
         </span>
       </AriaButton>
