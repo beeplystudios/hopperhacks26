@@ -38,8 +38,9 @@ export default function ReservationPage() {
   );
 
   const menus = useSuspenseQuery(
-    trpc.menu.getAllMenus.queryOptions({
+    trpc.menu.getCurrentMenus.queryOptions({
       restaurantId: param.id,
+      date: reservation.data.startTime,
     }),
   );
 

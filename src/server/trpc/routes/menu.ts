@@ -108,11 +108,11 @@ export const menuRouter = router({
   }),
 
   getCurrentMenus: publicProcedure
-    .input(z.object({ restaurantId: z.string() }))
+    .input(z.object({ restaurantId: z.string(), date: z.date().optional() }))
     .query(async ({ ctx, input }) => {
       const menus = await getRestaurantMenus(ctx.db, {
         restaurantId: input.restaurantId,
-        time: new Date(),
+        time: input.date ?? new Date(),
       });
 
       return menus;
