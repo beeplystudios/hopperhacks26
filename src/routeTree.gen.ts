@@ -19,6 +19,7 @@ import { Route as ManageIdUpcomingRouteImport } from './routes/manage.$id/upcomi
 import { Route as ManageIdTablesRouteImport } from './routes/manage.$id/tables'
 import { Route as ManageIdSettingsRouteImport } from './routes/manage.$id/settings'
 import { Route as ManageIdMenusRouteImport } from './routes/manage.$id/menus'
+import { Route as ManageIdIngredientsRouteImport } from './routes/manage.$id/ingredients'
 import { Route as ApiTrpcSplatRouteImport } from './routes/api/trpc.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
 import { Route as RestaurantsIdReserveReservationIdRouteImport } from './routes/restaurants/$id/reserve.$reservationId'
@@ -73,6 +74,11 @@ const ManageIdMenusRoute = ManageIdMenusRouteImport.update({
   path: '/menus',
   getParentRoute: () => ManageIdRouteRoute,
 } as any)
+const ManageIdIngredientsRoute = ManageIdIngredientsRouteImport.update({
+  id: '/ingredients',
+  path: '/ingredients',
+  getParentRoute: () => ManageIdRouteRoute,
+} as any)
 const ApiTrpcSplatRoute = ApiTrpcSplatRouteImport.update({
   id: '/api/trpc/$',
   path: '/api/trpc/$',
@@ -97,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/api/healthcheck': typeof ApiHealthcheckRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
+  '/manage/$id/ingredients': typeof ManageIdIngredientsRoute
   '/manage/$id/menus': typeof ManageIdMenusRoute
   '/manage/$id/settings': typeof ManageIdSettingsRoute
   '/manage/$id/tables': typeof ManageIdTablesRoute
@@ -110,6 +117,7 @@ export interface FileRoutesByTo {
   '/api/healthcheck': typeof ApiHealthcheckRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
+  '/manage/$id/ingredients': typeof ManageIdIngredientsRoute
   '/manage/$id/menus': typeof ManageIdMenusRoute
   '/manage/$id/settings': typeof ManageIdSettingsRoute
   '/manage/$id/tables': typeof ManageIdTablesRoute
@@ -126,6 +134,7 @@ export interface FileRoutesById {
   '/api/healthcheck': typeof ApiHealthcheckRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
+  '/manage/$id/ingredients': typeof ManageIdIngredientsRoute
   '/manage/$id/menus': typeof ManageIdMenusRoute
   '/manage/$id/settings': typeof ManageIdSettingsRoute
   '/manage/$id/tables': typeof ManageIdTablesRoute
@@ -143,6 +152,7 @@ export interface FileRouteTypes {
     | '/api/healthcheck'
     | '/api/auth/$'
     | '/api/trpc/$'
+    | '/manage/$id/ingredients'
     | '/manage/$id/menus'
     | '/manage/$id/settings'
     | '/manage/$id/tables'
@@ -156,6 +166,7 @@ export interface FileRouteTypes {
     | '/api/healthcheck'
     | '/api/auth/$'
     | '/api/trpc/$'
+    | '/manage/$id/ingredients'
     | '/manage/$id/menus'
     | '/manage/$id/settings'
     | '/manage/$id/tables'
@@ -171,6 +182,7 @@ export interface FileRouteTypes {
     | '/api/healthcheck'
     | '/api/auth/$'
     | '/api/trpc/$'
+    | '/manage/$id/ingredients'
     | '/manage/$id/menus'
     | '/manage/$id/settings'
     | '/manage/$id/tables'
@@ -261,6 +273,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ManageIdMenusRouteImport
       parentRoute: typeof ManageIdRouteRoute
     }
+    '/manage/$id/ingredients': {
+      id: '/manage/$id/ingredients'
+      path: '/ingredients'
+      fullPath: '/manage/$id/ingredients'
+      preLoaderRoute: typeof ManageIdIngredientsRouteImport
+      parentRoute: typeof ManageIdRouteRoute
+    }
     '/api/trpc/$': {
       id: '/api/trpc/$'
       path: '/api/trpc/$'
@@ -286,6 +305,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface ManageIdRouteRouteChildren {
+  ManageIdIngredientsRoute: typeof ManageIdIngredientsRoute
   ManageIdMenusRoute: typeof ManageIdMenusRoute
   ManageIdSettingsRoute: typeof ManageIdSettingsRoute
   ManageIdTablesRoute: typeof ManageIdTablesRoute
@@ -294,6 +314,7 @@ interface ManageIdRouteRouteChildren {
 }
 
 const ManageIdRouteRouteChildren: ManageIdRouteRouteChildren = {
+  ManageIdIngredientsRoute: ManageIdIngredientsRoute,
   ManageIdMenusRoute: ManageIdMenusRoute,
   ManageIdSettingsRoute: ManageIdSettingsRoute,
   ManageIdTablesRoute: ManageIdTablesRoute,

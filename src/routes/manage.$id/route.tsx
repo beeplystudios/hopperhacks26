@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/pages/navbar";
 import {
+  CakeIcon,
   HomeIcon,
   MenuTabIcon,
   SettingsIcon,
@@ -27,6 +28,9 @@ function ManageLayout() {
           </ManageTab>
           <ManageTab to="/manage/$id/menus" id={id} Icon={MenuTabIcon}>
             Menus
+          </ManageTab>
+          <ManageTab to="/manage/$id/ingredients" id={id} Icon={CakeIcon}>
+            Ingredients
           </ManageTab>
           <ManageTab to="/manage/$id/tables" id={id} Icon={TablesIcon}>
             Tables
