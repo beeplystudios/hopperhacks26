@@ -130,7 +130,7 @@ export const Navbar: React.FC = () => {
   const signIn = useMutation(signInOptions);
 
   return (
-    <nav className="w-full flex items-center px-8 pt-2 pb-8 absolute top-0 left-0 z-100">
+    <nav className="w-full flex items-center p-4 px-8 absolute top-0 left-0 z-100 backdrop-blur-sm bg-white/30">
       <h1 className="font-medium text-2xl">Restrauntzulsàveplated</h1>
 
       <div className="ml-auto">
