@@ -2,6 +2,7 @@ import { publicProcedure, router } from "../trpc-config";
 import { db } from "@/server/db";
 import {
   ingredient,
+  menu,
   menuItem,
   menuItemIngredient,
   orderItem,
@@ -24,6 +25,7 @@ import {
   authedProcedure,
   restaurantOwnerProcedure,
 } from "../middleware/auth-middleware";
+import { timeStringToMinutes } from "@/lib/parse-time";
 
 export interface TimeBlock {
   startTime: Date;
@@ -240,6 +242,78 @@ export const restaurantRouter = router({
           endTime: input.endTime ?? new Date(8640000000000000),
         },
       );
+    }),
+
+  getDishesOverTimeOnDate: restaurantOwnerProcedure
+    .input(
+      z.object({
+        date: z.date(),
+        restaurantId: z.string(),
+      }),
+    )
+    .query(async ({ input }) => {
+      const startOfDay = new Date(input.date);
+      startOfDay.setHours(0, 0, 0, 0);
+      const endOfDay = new Date(input.date);
+      endOfDay.setHours(23, 59, 59, 999);
+
+      const restaurantTimes = (
+        await db
+          .select({
+            openTime: restaurant.openTime,
+            closeTime: restaurant.closeTime,
+          })
+          .from(restaurant)
+          .where(eq(restaurant.id, input.restaurantId))
+          .limit(1)
+      )[0];
+
+      const startMinutes = timeStringToMinutes(restaurantTimes.openTime);
+      const endMinutes = timeStringToMinutes(restaurantTimes.closeTime);
+
+      const allMenuItems = await db
+        .select({ id: menuItem.id, name: menuItem.name })
+        .from(menu)
+        .where(eq(menu.restaurantId, input.restaurantId))
+        .leftJoin(menuItem, eq(menu.id, menuItem.menuId));
+
+      const menuItems = await db
+        .select({
+          name: menuItem.name,
+          reservationStartTime: reservation.startTime,
+          quantity: orderItem.quantity,
+        })
+        .from(reservation)
+        .where(
+          and(
+            eq(reservation.restaurantId, input.restaurantId),
+            gte(reservation.startTime, startOfDay),
+            lte(reservation.startTime, endOfDay),
+            eq(reservation.status, "CONFIRMED"),
+          ),
+        )
+        .innerJoin(orderItem, eq(reservation.id, orderItem.reservation))
+        .innerJoin(menuItem, eq(orderItem.menuItem, menuItem.id));
+
+      const dishesOverTimeMap = new Map<string, number[]>();
+      const arrSlots = (endMinutes - startMinutes) / 30 + 1;
+      for (const menuItem of allMenuItems) {
+        dishesOverTimeMap.set(
+          menuItem.name ?? "",
+          new Array().fill(0, arrSlots),
+        );
+      }
+
+      for (const menuItem of menuItems) {
+        const recordStartMinutes =
+          menuItem.reservationStartTime.getHours() * 60 +
+          menuItem.reservationStartTime.getMinutes();
+        const itemIdx = Math.floor((recordStartMinutes - startMinutes) / 30);
+        const dishDesc = dishesOverTimeMap.get(menuItem.name)!;
+        dishDesc[itemIdx] += menuItem.quantity;
+      }
+
+      return dishesOverTimeMap;
     }),
 
   getTablesForRestaurant: restaurantOwnerProcedure.query(async ({ input }) => {

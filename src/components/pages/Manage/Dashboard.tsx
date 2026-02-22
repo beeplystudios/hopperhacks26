@@ -6,12 +6,19 @@ import { CalendarIcon } from "@/components/ui/icons";
 import LineChart from "./lineChart";
 import { DateValue, DialogTrigger } from "react-aria-components";
 import { useState } from "react";
+import { DishesOverTimeChart } from "./charts/dishes-over-time";
+import { useTRPC } from "@/lib/trpc-client";
 
 export default function ManageDashboard() {
-  const { timeBlocks, totalIngredients } = Route.useLoaderData();
+  const { dishesOverTime, reservations, restaurant } = Route.useLoaderData();
   const [date, setDate] = useState<DateValue | null>(null);
   return (
     <div>
+      <DishesOverTimeChart
+        data={dishesOverTime}
+        startTime={restaurant.openTime}
+        endTime={restaurant.closeTime}
+      />
       <div className="grid grid-cols-3 gap-2">
         <div>
           <div className="flex items-center gap-2">
@@ -46,7 +53,7 @@ export default function ManageDashboard() {
           <div>
             <h1 className="font-bold text-lg">Total Ingredients</h1>
             <div className="flex justify-between text-md flex-nowrap overflow-x-auto gap-2">
-              {[...totalIngredients.values()].map((ingredient) => (
+              {[...reservations.totalIngredients.values()].map((ingredient) => (
                 <div>
                   <p className="font-semibold">{ingredient.name}</p>
                   <p>{ingredient.quantity}</p>
@@ -55,7 +62,7 @@ export default function ManageDashboard() {
             </div>
           </div>
 
-          {[...timeBlocks.values()].map((timeblock, i) => {
+          {[...reservations.timeBlocks.values()].map((timeblock, i) => {
             const time = new Date(timeblock.startTime);
             return (
               <div key={timeblock.startTime.toISOString() + "-" + i}>
