@@ -10,7 +10,8 @@ import {
   table,
 } from "@/server/db/schema";
 import { z } from "zod";
-import { and, asc, eq, gte, lte } from "drizzle-orm";
+import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
+import { restaurantOwnerProcedure } from "../middleware/auth-middleware";
 
 export interface TimeBlock {
   startTime: Date;
@@ -155,24 +156,31 @@ export const restaurantRouter = router({
   getById: publicProcedure
     .input(
       z.object({
-        id: z.string(),
+        restaurantId: z.string(),
       }),
     )
     .query(async ({ input }) => {
-      const res = await db
-        .select()
-        .from(restaurant)
-        .where(eq(restaurant.id, input.id))
+      const res = (
+        await db
+          .select()
+          .from(restaurant)
+          .where(eq(restaurant.id, input.restaurantId))
+          .limit(1)
+      )[0];
+
+      const maxTableSize = await db
+        .select({ maxSeats: table.maxSeats })
+        .from(table)
+        .where(eq(table.restaurantId, input.restaurantId))
+        .orderBy(desc(table.maxSeats))
         .limit(1);
 
-      return res[0];
+      return { ...res, maxTableSize: maxTableSize[0]?.maxSeats ?? 0 };
     }),
 
-  // FIXME: this should be a procedure that is only visible to restaurant owners
-  getAllReservations: publicProcedure
+  getAllReservations: restaurantOwnerProcedure
     .input(
       z.object({
-        restaurantId: z.string(),
         startTime: z.date().nullish(),
         endTime: z.date().nullish(),
       }),
@@ -188,16 +196,10 @@ export const restaurantRouter = router({
       );
     }),
 
-  getTablesForRestaurant: publicProcedure
-    .input(
-      z.object({
-        restaurantId: z.string(),
-      }),
-    )
-    .query(async ({ input }) => {
-      return await db
-        .select()
-        .from(table)
-        .where(eq(table.restaurantId, input.restaurantId));
-    }),
+  getTablesForRestaurant: restaurantOwnerProcedure.query(async ({ input }) => {
+    return await db
+      .select()
+      .from(table)
+      .where(eq(table.restaurantId, input.restaurantId));
+  }),
 });

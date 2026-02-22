@@ -11,7 +11,6 @@ import { cn } from "@/lib/cn";
 import { Button } from "./button";
 import { ChevronDownIcon } from "./icons";
 import { Popover } from "./popover";
-import useMeasure from "react-use-measure";
 
 type SelectProps = Omit<ComponentProps<typeof AriaSelect>, "onSelectionChange">;
 
@@ -25,6 +24,7 @@ export const Select: React.FC<SelectProps> = ({
       <AriaSelect
         onChange={onChange}
         className={cn(className, "flex flex-col gap-2 w-full")}
+        aria-label="select"
         {...props}
       />
     </SelectContext.Provider>
@@ -49,7 +49,7 @@ export const SelectItem: React.FC<SelectItemProps> = (props) => {
             "bg-neutral-100": isFocusVisible,
             "bg-neutral-100 text-neutral-800 outline-none":
               isHovered && !isDisabled,
-            // "bg-sky-800/80 text-white": isSelected,
+            "bg-[var(--base-restaurant-color)] text-white": isSelected,
             // "bg-sky-900/80 text-white": isSelected && (isHovered || isFocused),
             "cursor-not-allowed opacity-70": isDisabled,
           },

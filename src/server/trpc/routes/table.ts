@@ -1,14 +1,16 @@
 import { table } from "@/server/db/schema";
-import { authedProcedure } from "../middleware/auth-middleware";
+import {
+  authedProcedure,
+  restaurantOwnerProcedure,
+} from "../middleware/auth-middleware";
 import { router } from "../trpc-config";
 import { z } from "zod";
 import { eq } from "drizzle-orm";
 
 export const tableRouter = router({
-  create: authedProcedure
+  create: restaurantOwnerProcedure
     .input(
       z.object({
-        restaurantId: z.string(),
         name: z.string(),
         maxSeats: z.number().int().positive(),
         maxReservationLength: z.number().int().positive(),
@@ -30,7 +32,7 @@ export const tableRouter = router({
       return newTable;
     }),
 
-  delete: authedProcedure
+  delete: restaurantOwnerProcedure
     .input(
       z.object({
         tableId: z.string(),
@@ -41,7 +43,7 @@ export const tableRouter = router({
       await ctx.db.delete(table).where(eq(table.id, input.tableId));
     }),
 
-  update: authedProcedure
+  update: restaurantOwnerProcedure
     .input(
       z.object({
         tableId: z.string(),
@@ -51,7 +53,6 @@ export const tableRouter = router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      // FIXME: check that only the restaurant owner can update tables for their restaurant
       const updatedTable = await ctx.db
         .update(table)
         .set({

@@ -39,10 +39,11 @@ export const DatePicker: React.FC<React.ComponentProps<typeof AriaCalendar>> = (
                 "p-2 text-center rounded-md text-sm font-medium cursor-default m-0.5 [td:first-child_&]:rounded-s-md [td:last-child_&]:rounded-e-md transition-colors",
                 "focus:outline-none focus-visible:ring-[1.25px] focus-visible:ring-offset-0 focus-visible:ring-lime-800",
                 {
-                  "relative after:size-2 after:absolute after:bottom-2.5 after:left-1/2 after:-translate-x-1/2 after:text-lime-600 after:content-['•']":
+                  "relative after:size-2 after:absolute after:bottom-2.5 after:left-1/2 after:-translate-x-1/2 after:text-(--base-restaurant-color) after:content-['•']":
                     isToday(date, getLocalTimeZone()),
                   "text-neutral-400": isOutsideVisibleRange,
-                  "bg-lime-500": isSelected || isHovered,
+                  "bg-(--base-restaurant-color) text-white":
+                    isSelected || isHovered,
                 },
               )
             }
