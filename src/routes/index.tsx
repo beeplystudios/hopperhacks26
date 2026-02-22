@@ -53,8 +53,6 @@ function App() {
     <>
       <Navbar />
       <div className="text-center flex flex-col items-center w-full py-4 pt-16">
-        <h2 className="text-6xl font-bold text-left w-full px-8">Welcome!</h2>
-
         {(pastRestaurantQuery.data?.length ?? 0) > 0 && (
           <>
             <p className="text-left w-full">Visit Again</p>
@@ -64,17 +62,26 @@ function App() {
 
         {(nearbyRestaurantQuery.data?.length ?? 0) > 0 && (
           <>
-            <p className="text-left w-full">Places Near You</p>
+            <h2 className="text-center w-full text-xl font-semibold">
+              Places Near You
+            </h2>
             <RestaurantRow restaurants={nearbyRestaurantQuery.data ?? []} />
           </>
         )}
 
-        <p className="text-left w-full">Explore All</p>
-        <Input
-          className="max-w-sm mb-4"
-          placeholder="Search..."
-          onChange={(e) => setDebouncedQuery(e.target.value)}
-        />
+        <center className="space-y-1">
+          <h2 className="text-xl font-semibold my-2">Explore All</h2>
+          <h6 className="italic text-sm text-gray-400">
+            Or, have your heart set on one place?
+          </h6>
+          <Input
+            className="text-lg"
+            fullWidth
+            placeholder="Search..."
+            onChange={(e) => setDebouncedQuery(e.target.value)}
+          />
+        </center>
+
         <RestaurantRow restaurants={allRestaurantQuery.data ?? []} />
       </div>
     </>
@@ -84,7 +91,7 @@ function App() {
 const RestaurantRow: React.FC<{
   restaurants: inferRouterOutputs<TRPCRouter>["restaurant"]["getAll"];
 }> = ({ restaurants }) => (
-  <div className="flex items-center w-full px-6 overflow-scroll gap-4 py-6">
+  <div className="flex justify-center items-stretch w-full p-3 flex-wrap">
     {restaurants.map((r) => (
       <RestaurantCard
         key={r.id}
