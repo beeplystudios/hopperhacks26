@@ -33,6 +33,7 @@ export default function Settings() {
   return (
     <div>
       <h1 className="text-2xl font-bold">Tables</h1>
+      <h3 className="text-lg">Configure available tables</h3>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -44,53 +45,64 @@ export default function Settings() {
           {(field) => {
             return (
               <div className="space-y-2">
-                <table className="space-y-2">
-                  <tbody>
-                    {field.state.value.map((_, i) => (
-                      <tr key={i + "-table"}>
-                        <tableForm.Field name={`tables[${i}].maxSeats`}>
-                          {(subField) => (
-                            <td>
-                              <Label>
-                                <p>Seats</p>
-                                <Input
-                                  value={subField.state.value}
-                                  type="number"
-                                  onChange={(e) =>
-                                    subField.handleChange(
-                                      Number.parse(e.target.value),
-                                    )
-                                  }
-                                />
-                              </Label>
-                            </td>
-                          )}
-                        </tableForm.Field>
-                        <tableForm.Field
-                          name={`tables[${i}].maxReservationLength`}
+                <div className="grid grid-cols-3 gap-2 w-[75%]">
+                  {field.state.value.map((_, i) => (
+                    <div
+                      key={i + "-table"}
+                      className="grid grid-cols-subgrid col-span-full gap-2"
+                    >
+                      <tableForm.Field name={`tables[${i}].maxSeats`}>
+                        {(subField) => (
+                          <div>
+                            <Label>
+                              <p>Seats</p>
+                              <Input
+                                value={subField.state.value}
+                                type="number"
+                                onChange={(e) =>
+                                  subField.handleChange(
+                                    Number.parse(e.target.value),
+                                  )
+                                }
+                              />
+                            </Label>
+                          </div>
+                        )}
+                      </tableForm.Field>
+                      <tableForm.Field
+                        name={`tables[${i}].maxReservationLength`}
+                      >
+                        {(subField) => (
+                          <div>
+                            <Label>
+                              <p>Max Minutes</p>
+                              <Input
+                                value={subField.state.value}
+                                type="number"
+                                step={15}
+                                onChange={(e) =>
+                                  subField.handleChange(
+                                    Number.parse(e.target.value),
+                                  )
+                                }
+                              />
+                            </Label>
+                          </div>
+                        )}
+                      </tableForm.Field>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          onClick={() => {
+                            field.insertValue(i + 1, field.state.value[i]);
+                          }}
                         >
-                          {(subField) => (
-                            <td>
-                              <Label>
-                                <p>Max Minutes</p>
-                                <Input
-                                  value={subField.state.value}
-                                  type="number"
-                                  step={15}
-                                  onChange={(e) =>
-                                    subField.handleChange(
-                                      Number.parse(e.target.value),
-                                    )
-                                  }
-                                />
-                              </Label>
-                            </td>
-                          )}
-                        </tableForm.Field>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                          Duplicate
+                        </Button>
+                        <Button>Delete</Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
                 <div className="w-full flex gap-3">
                   <Button
                     onClick={() =>
