@@ -22,7 +22,7 @@ export const button = cva(
     variants: {
       variant: {
         brand:
-          "bg-lime-600 hover:bg-lime-700/85 text-white disabled:hover:bg-orange-300",
+          "bg-[var(--base-restaurant-color)] hover:bg-[var(--hover-restaurant-color)] text-white disabled:hover:bg-orange-300",
         primary:
           "bg-neutral-800 hover:bg-neutral-900/85 text-white disabled:hover:bg-neutral-300",
         outline:
