@@ -1,6 +1,8 @@
 import RestaurantCard from "@/components/pages/Restaurants/RestaurantCard";
 import { Button } from "@/components/ui/button";
+import { LogOutIcon } from "@/components/ui/icons";
 import { MenuItem, SubmenuItem } from "@/components/ui/menu-item";
+import { ModalPopover } from "@/components/ui/modal-popover";
 import { signInOptions, signOutOptions } from "@/lib/auth-client";
 import { useTRPC } from "@/lib/trpc-client";
 import { TRPCRouter } from "@/server/trpc/routes";
@@ -29,16 +31,29 @@ const Navbar: React.FC = () => {
         {user.data && (
           <div>
             <MenuTrigger>
-              <Button>
-                <p className="font-medium text-lg">{user.data.name}</p>
-              </Button>
-              <Menu>
-                <MenuSection>
-                  <MenuItem onAction={() => signOut.mutate()}>
+              <Button>{user.data.name}</Button>
+              <ModalPopover
+                popoverProps={{
+                  placement: "bottom right",
+                }}
+              >
+                <Menu className="focus:outline-none min-w-42">
+                  <MenuItem
+                    onAction={() => {
+                      navigator.geolocation.getCurrentPosition(() => {});
+                    }}
+                  >
+                    Enable Location Services
+                  </MenuItem>
+                  <MenuItem
+                    onAction={() => {
+                      signOut.mutate();
+                    }}
+                  >
                     Sign Out
                   </MenuItem>
-                </MenuSection>
-              </Menu>
+                </Menu>
+              </ModalPopover>
             </MenuTrigger>
           </div>
         )}
