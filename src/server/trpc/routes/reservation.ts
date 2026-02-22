@@ -1,6 +1,6 @@
 import { publicProcedure, router } from "../trpc-config";
 import { db } from "@/server/db";
-import { reservation, restaurant, table } from "@/server/db/schema";
+import { orderItem, reservation, restaurant, table } from "@/server/db/schema";
 import { z } from "zod";
 import { and, asc, eq, gt, gte, lt } from "drizzle-orm";
 import { authedProcedure } from "../middleware/auth-middleware";
@@ -54,6 +54,66 @@ export const reservationRouter = router({
         )
         .limit(1);
       return res[0];
+    }),
+  changeStatus: authedProcedure
+    .input(
+      z.object({
+        reservationId: z.string(),
+        newStatus: z.enum(["UNPAID", "CONFIRMED", "CANCELLED"]),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const res = await db
+        .update(reservation)
+        .set({ status: input.newStatus })
+        .where(
+          and(
+            eq(reservation.id, input.reservationId),
+            eq(reservation.userId, ctx.user.id),
+          ),
+        )
+        .returning();
+      return res[0];
+    }),
+  addMenuItem: authedProcedure
+    .input(
+      z.object({
+        reservationId: z.string(),
+        menuItemId: z.string(),
+        quantity: z.number(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const res = await db
+        .select()
+        .from(orderItem)
+        .where(
+          and(
+            eq(orderItem.reservation, input.reservationId),
+            eq(orderItem.menuItem, input.menuItemId),
+          ),
+        )
+        .limit(1);
+
+      if (res.length === 0) {
+        return await db.insert(orderItem).values({
+          reservation: input.reservationId,
+          menuItem: input.menuItemId,
+          quantity: input.quantity,
+        });
+      }
+
+      return await db
+        .update(orderItem)
+        .set({
+          quantity: res[0].quantity + input.quantity,
+        })
+        .where(
+          and(
+            eq(orderItem.reservation, input.reservationId),
+            eq(orderItem.menuItem, input.menuItemId),
+          ),
+        );
     }),
   getAvailableTimes: publicProcedure
     .input(
