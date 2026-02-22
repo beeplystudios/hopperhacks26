@@ -63,7 +63,6 @@ export const reservationRouter = router({
   getById: authedProcedure
     .input(z.object({ reservationId: z.string() }))
     .query(async ({ input, ctx }) => {
-      console.log("qeery");
       const res = await db
         .select()
         .from(reservation)

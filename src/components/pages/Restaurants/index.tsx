@@ -67,8 +67,6 @@ export default function Restaurants() {
     }),
   );
 
-  console.log(reservationTimes.data);
-
   useEffect(() => {
     const color = restaurant.data.color ?? "0.648 0.2 131.684";
     const [l, c, h] = color.split(" ").map(Number.parseFloat);

@@ -38,8 +38,6 @@ function App() {
     if (isGeolocationAvailable && isGeolocationEnabled && coords) {
       setUserCoords({ lat: coords.latitude, lng: coords.longitude });
       nearbyRestaurantQuery.refetch();
-      console.log("User coordinates:", coords.latitude, coords.longitude);
-      console.log("Nearby restaurants:", nearbyRestaurantQuery.data);
     }
   }, [coords, isGeolocationAvailable, isGeolocationEnabled]);
 
