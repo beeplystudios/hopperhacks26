@@ -65,7 +65,7 @@ export default function ReservationPage() {
     trpc.reservation.addMenuItem.mutationOptions({
       onSuccess(_, __, ___, context) {
         context.client.invalidateQueries({
-          queryKey: trpc.menu.getReservationMenus.queryKey(),
+          queryKey: trpc.pathKey(),
         });
       },
     }),
@@ -75,7 +75,7 @@ export default function ReservationPage() {
     trpc.reservation.removeMenuItem.mutationOptions({
       onSuccess(_, __, ___, context) {
         return context.client.invalidateQueries({
-          queryKey: trpc.menu.pathKey(),
+          queryKey: trpc.pathKey(),
         });
       },
     }),
