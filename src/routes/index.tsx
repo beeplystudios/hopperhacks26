@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/pages/navbar";
 import RestaurantCard from "@/components/pages/Restaurants/RestaurantCard";
+import { Input } from "@/components/ui/input";
 import { useTRPC } from "@/lib/trpc-client";
 import { TRPCRouter } from "@/server/trpc/routes";
 import { useQuery } from "@tanstack/react-query";
@@ -7,6 +8,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { inferRouterOutputs } from "@trpc/server";
 import { useEffect, useState } from "react";
 import { useGeolocated } from "react-geolocated";
+import { useDebounceValue } from "usehooks-ts";
 
 export const Route = createFileRoute("/")({
   component: App,
@@ -15,7 +17,13 @@ export const Route = createFileRoute("/")({
 function App() {
   const trpc = useTRPC();
 
-  const allRestaurantQuery = useQuery(trpc.restaurant.getAll.queryOptions());
+  const [debouncedQuery, setDebouncedQuery] = useDebounceValue("", 500, {
+    trailing: true,
+  });
+
+  const allRestaurantQuery = useQuery(
+    trpc.restaurant.getAll.queryOptions({ query: debouncedQuery }),
+  );
   const pastRestaurantQuery = useQuery(
     trpc.restaurant.getPastRestraunts.queryOptions(),
   );
@@ -62,6 +70,11 @@ function App() {
         )}
 
         <p className="text-left w-full">Explore All</p>
+        <Input
+          className="max-w-sm mb-4"
+          placeholder="Search..."
+          onChange={(e) => setDebouncedQuery(e.target.value)}
+        />
         <RestaurantRow restaurants={allRestaurantQuery.data ?? []} />
       </div>
     </>

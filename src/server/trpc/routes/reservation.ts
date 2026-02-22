@@ -2,7 +2,18 @@ import { publicProcedure, router } from "../trpc-config";
 import { db } from "@/server/db";
 import { orderItem, reservation, restaurant, table } from "@/server/db/schema";
 import { z } from "zod";
-import { and, asc, eq, getTableColumns, gt, gte, lt, lte } from "drizzle-orm";
+import {
+  and,
+  asc,
+  count,
+  eq,
+  getTableColumns,
+  gt,
+  gte,
+  lt,
+  lte,
+  sql,
+} from "drizzle-orm";
 import {
   authedProcedure,
   restaurantOwnerProcedure,
@@ -150,6 +161,51 @@ export const reservationRouter = router({
           ),
         );
     }),
+
+  removeMenuItem: authedProcedure
+    .input(
+      z.object({
+        reservationId: z.string(),
+        menuItemId: z.string(),
+        quantity: z.number(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const res = await db
+        .select({ quantity: orderItem.quantity })
+        .from(orderItem)
+        .where(
+          and(
+            eq(orderItem.reservation, input.reservationId),
+            eq(orderItem.menuItem, input.menuItemId),
+          ),
+        )
+        .limit(1);
+
+      if (res[0]?.quantity === 1) {
+        return await db
+          .delete(orderItem)
+          .where(
+            and(
+              eq(orderItem.reservation, input.reservationId),
+              eq(orderItem.menuItem, input.menuItemId),
+            ),
+          );
+      }
+
+      return await db
+        .update(orderItem)
+        .set({
+          quantity: sql`${orderItem.quantity} - 1`,
+        })
+        .where(
+          and(
+            eq(orderItem.reservation, input.reservationId),
+            eq(orderItem.menuItem, input.menuItemId),
+          ),
+        );
+    }),
+
   getInDateRange: restaurantOwnerProcedure
     .input(
       z.object({
