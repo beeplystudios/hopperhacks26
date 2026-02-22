@@ -166,7 +166,12 @@ export const reservationRouter = router({
 
       const timesToTable: Record<
         string,
-        { time: string; maxSeats: number; available: boolean }
+        {
+          time: string;
+          maxSeats: number;
+          available: boolean;
+          tableId: string | null;
+        }
       > = {};
 
       for (const table of tables) {
@@ -187,6 +192,7 @@ export const reservationRouter = router({
               time: minutesToTimeString(time),
               maxSeats: table.maxSeats,
               available: !isReserved,
+              tableId: !isReserved ? table.id : null,
             };
           }
 
