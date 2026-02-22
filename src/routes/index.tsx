@@ -44,7 +44,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <div className="text-center flex flex-col items-center w-full py-4">
+      <div className="text-center flex flex-col items-center w-full py-4 pt-16">
         <h2 className="text-6xl font-bold text-left w-full px-8">Welcome!</h2>
 
         {(pastRestaurantQuery.data?.length ?? 0) > 0 && (

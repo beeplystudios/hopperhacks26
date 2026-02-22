@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/pages/navbar";
 import {
   HomeIcon,
-  MenuIcon,
+  MenuTabIcon,
   SettingsIcon,
   TablesIcon,
 } from "@/components/ui/icons";
@@ -21,7 +21,7 @@ function ManageLayout() {
           <ManageTab to="/manage/$id" id={id} Icon={HomeIcon}>
             Today
           </ManageTab>
-          <ManageTab to="/manage/$id/menus" id={id} Icon={MenuIcon}>
+          <ManageTab to="/manage/$id/menus" id={id} Icon={MenuTabIcon}>
             Menus
           </ManageTab>
           <ManageTab to="/manage/$id/tables" id={id} Icon={TablesIcon}>
