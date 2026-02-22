@@ -1,9 +1,9 @@
 import { button, Button } from "@/components/ui/button";
-import { CalendarIcon, UsersIcon } from "@/components/ui/icons";
+import { CalendarIcon, PlusMicroIcon, UsersIcon } from "@/components/ui/icons";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/cn";
 import { useTRPC } from "@/lib/trpc-client";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { Link, useParams } from "@tanstack/react-router";
 import { motion } from "motion/react";
 
@@ -38,9 +38,30 @@ export default function ReservationPage() {
   );
 
   const menus = useSuspenseQuery(
-    trpc.menu.getCurrentMenus.queryOptions({
+    trpc.menu.getReservationMenus.queryOptions({
       restaurantId: param.id,
+      reservationId: param.reservationId,
       date: reservation.data.startTime,
+    }),
+  );
+
+  const addMenuItem = useMutation(
+    trpc.reservation.addMenuItem.mutationOptions({
+      onSuccess(_, __, ___, context) {
+        context.client.invalidateQueries({
+          queryKey: trpc.menu.getReservationMenus.queryKey(),
+        });
+      },
+    }),
+  );
+
+  const removeMenuItem = useMutation(
+    trpc.reservation.removeMenuItem.mutationOptions({
+      onSuccess(_, __, ___, context) {
+        context.client.invalidateQueries({
+          queryKey: trpc.menu.getReservationMenus.queryKey(),
+        });
+      },
     }),
   );
 
@@ -119,22 +140,68 @@ export default function ReservationPage() {
           ))}
         </div>
         {menus.data.map((menu) => (
-          <div className="my-4 flex flex-col gap-2" id={menu.name}>
+          <div
+            className="my-4 flex flex-col gap-2"
+            id={menu.name}
+            key={menu.menuId}
+          >
             <p className="font-medium">{menu.name}</p>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {menu.items.map((menuItem) => (
-                <div className="flex gap-4 items-center border-zinc-300/70 rounded-md border-[0.0125rem]">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuVKl1mUH_ydB5c0ayg8E98Z_jtA5DHC5XHL9Lni8S_T6zgzduTPuVDyceDlB7jW0jiiIVCnYiKk7O6CpwlZKfVG3L4je-MeexRWzLCbyTQMKclmwAaA&s=10&ec=121532756"
-                    alt=""
-                    className="max-w-32 h-full object-cover rounded-md"
-                  />
-                  <div className="p-2">
+                <div
+                  key={menuItem.id}
+                  className="flex gap-4 items-center border-zinc-300/70 rounded-md border-[0.0125rem] justify-between"
+                >
+                  <div className="p-3">
                     <p className="font-medium">{menuItem.name}</p>
                     <p className="text-xs">${menuItem.price}</p>
                     <p className="text-sm text-neutral-700">
                       {menuItem.description}
                     </p>
+                  </div>
+                  <div className="h-full relative">
+                    <img
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuVKl1mUH_ydB5c0ayg8E98Z_jtA5DHC5XHL9Lni8S_T6zgzduTPuVDyceDlB7jW0jiiIVCnYiKk7O6CpwlZKfVG3L4je-MeexRWzLCbyTQMKclmwAaA&s=10&ec=121532756"
+                      alt=""
+                      className="max-w-32 h-full object-cover rounded-md"
+                    />
+                    <motion.div className="absolute bottom-2 right-2 flex items-center gap-2 bg-zinc-100 rounded-full">
+                      {menuItem.quantity && (
+                        <div className="flex items-center gap-2">
+                          <Button
+                            size="icon"
+                            variant="secondary"
+                            isLoading={removeMenuItem.isPending}
+                            onPress={() =>
+                              removeMenuItem.mutate({
+                                menuItemId: menuItem.id,
+                                quantity: 1,
+                                reservationId: param.reservationId,
+                              })
+                            }
+                          >
+                            -
+                          </Button>
+                          <p className="text-sm font-medium">
+                            {menuItem.quantity}
+                          </p>
+                        </div>
+                      )}
+                      <Button
+                        size="icon"
+                        variant="secondary"
+                        isLoading={addMenuItem.isPending}
+                        onPress={() =>
+                          addMenuItem.mutate({
+                            menuItemId: menuItem.id,
+                            quantity: 1,
+                            reservationId: param.reservationId,
+                          })
+                        }
+                      >
+                        <PlusMicroIcon />
+                      </Button>
+                    </motion.div>
                   </div>
                 </div>
               ))}
