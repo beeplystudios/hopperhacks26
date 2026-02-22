@@ -1,114 +1,94 @@
 import { DateValue, DialogTrigger } from "react-aria-components";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon } from "@/components/ui/icons";
+import { CalendarIcon, DownloadIcon } from "@/components/ui/icons";
 import { ModalPopover } from "@/components/ui/modal-popover";
 import { DatePicker } from "@/components/ui/date-picker";
 import { useState } from "react";
 import { useParams } from "@tanstack/react-router";
 import { Route } from "@/routes/manage.$id/upcoming";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { today } from "@internationalized/date";
 
 export default function UpcomingDashboard() {
   const { timeBlocks, totalIngredients } = Route.useLoaderData();
   const params = useParams({ from: "/manage/$id/upcoming" });
 
-  const [date, setDate] = useState<DateValue | null>(null);
+  const [date, setDate] = useState<DateValue | null>(today("UTC"));
+
+  const formatDateValue = (d: DateValue) => {
+    const v = d as any;
+    return typeof v.toDate === "function"
+      ? new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(
+          v.toDate(),
+        )
+      : String(d);
+  };
+
+  const ingredientData = Array.from(totalIngredients.values());
 
   return (
-    <div className="grid grid-cols-5 w-full h-full grid-rows-2 gap-8">
-      <div className="col-span-3 flex flex-col items-center justify-start gap-4 rounded-xl p-4 border-zinc-300/50 border-[0.0125rem]">
-        <h3 className="font-bold text-xl">Pre-Ordered Dishes</h3>
+    <div className="grid grid-cols-5 w-full h-full gap-8">
+      <div className="col-span-3 flex flex-col items-center justify-start gap-4 rounded-xl p-6 border-zinc-300/50 border-[0.0125rem]">
+        <div className="flex items-center justify-between w-full">
+          <DialogTrigger>
+            <Button
+              className="h-12 items-center"
+              leadingVisual={<CalendarIcon />}
+              variant="outline"
+              isCircular={false}
+            >
+              <div>
+                <p className="text-xs text-start text-zinc-500">Date</p>
+                {date ? formatDateValue(date) : "Select a Date"}
+              </div>
+            </Button>
+            <ModalPopover>
+              <div className="px-4 py-2 ">
+                <DatePicker value={date} onChange={(d) => setDate(d)} />
+              </div>
+            </ModalPopover>
+          </DialogTrigger>
+          <h3 className="font-bold text-xl">Ingredients Report</h3>
+          <Button
+            className="h-12 items-center"
+            leadingVisual={<DownloadIcon />}
+            onClick={() => alert("didnt implement! (> o <)")}
+            variant="outline"
+            isCircular={false}
+          >
+            Download
+          </Button>
+        </div>
+        <Table className="">
+          <TableHeader>
+            <TableRow className="">
+              <TableHead className="w-full font-bold">Item</TableHead>
+              <TableHead className="font-bold">Amount</TableHead>
+              <TableHead className="font-bold">Unit</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody className="">
+            {ingredientData.map((ingredient) => (
+              <TableRow key={ingredient.name} className="border-zinc-300">
+                <TableCell className="">{ingredient.name}</TableCell>
+                <TableCell className="text-right">
+                  {ingredient.quantity}
+                </TableCell>
+                <TableCell className="text-right">{ingredient.unit}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
       <div className="col-span-2 flex flex-col items-center justify-start gap-4 rounded-xl p-4 border-zinc-300/50 border-[0.0125rem]">
-        <h3 className="font-bold text-xl">Reservation Capacity</h3>
-      </div>
-      <div className="grid grid-cols-3 gap-2">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="italic text-lg text-nowrap">
-              Coming up this week...
-            </h1>
-            <DialogTrigger>
-              <Button
-                className="h-12"
-                leadingVisual={<CalendarIcon className="absolute left-1.5" />}
-                fullWidth
-                variant="outline"
-                isCircular={false}
-              >
-                <div className="absolute left-10 top-1/2 -translate-y-1/2">
-                  <p className="text-xs text-start text-zinc-500">Date</p>
-                  {date
-                    ? new Intl.DateTimeFormat("en-US", {
-                        dateStyle: "medium",
-                      }).format(date.toDate("UTC"))
-                    : "Select a Date"}
-                </div>
-              </Button>
-              <ModalPopover>
-                <div className="px-4 py-2 ">
-                  <DatePicker value={date} onChange={(date) => setDate(date)} />
-                </div>
-              </ModalPopover>
-            </DialogTrigger>
-          </div>
-
-          <div>
-            <h1 className="font-bold text-lg">Total Ingredients</h1>
-            <div className="flex justify-between text-md flex-nowrap overflow-x-auto gap-2">
-              {[...totalIngredients.values()].map((ingredient) => (
-                <div>
-                  <p className="font-semibold">{ingredient.name}</p>
-                  <p>{ingredient.quantity}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {[...timeBlocks.values()].map((timeblock, i) => {
-            const time = new Date(timeblock.startTime);
-            return (
-              <div key={timeblock.startTime.toISOString() + "-" + i}>
-                <hr />
-                <div className="flex gap-2 items-center py-2">
-                  <h1 className="text-lg font-bold">Ingredients</h1>
-                  <span className="text-xs bg-lime-700 w-fit rounded-full p-1.5 text-white">
-                    {time.toLocaleDateString()} {time.toLocaleTimeString()}
-                  </span>
-                </div>
-                <table>
-                  <thead>
-                    <tr className="font-bold">
-                      <td>Name</td>
-                      <td>Quantity</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {timeblock.orders.map((o) =>
-                      [...o.totalIngredients.values()].map(
-                        ({ name, quantity }, i) => (
-                          <tr key={o.id + i + name}>
-                            <td className="pr-10">{name}</td>
-                            <td>{quantity}</td>
-                          </tr>
-                        ),
-                      ),
-                    )}
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <td className="font-bold">Total</td>
-                      <td className="font-bold">
-                        {timeblock.orders
-                          .flatMap((o) => [...o.totalIngredients.values()])
-                          .reduce((acc, curr) => acc + curr.quantity, 0)}
-                      </td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-            );
-          })}
-        </div>
+        <h3 className="font-bold text-xl">Reservations</h3>
       </div>
     </div>
   );

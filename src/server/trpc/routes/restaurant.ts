@@ -42,6 +42,7 @@ export interface IngredientDesc {
   id: string;
   name: string;
   quantity: number;
+  unit: string;
 }
 
 export interface ReservationDesc {
@@ -56,6 +57,7 @@ export interface AggregatedOrder {
   startTime: Date;
   endTime: Date;
   totalIngredients: Map<string, IngredientDesc>;
+  unit: string;
 }
 
 interface AggregateAllReservationsByIngredientsAndBucketsOfTimeForRestaurantFilterOptions {
@@ -74,6 +76,7 @@ export const aggregateAllReservationsByIngredientsAndBucketsOfTimeForRestaurant 
         ingredientId: ingredient.id,
         ingredientName: ingredient.name,
         ingredientQuantity: menuItemIngredient.quantity,
+        ingredientUnit: menuItemIngredient.unit,
         reservationId: reservation.id,
         reservationStartTime: reservation.startTime,
       })
@@ -111,6 +114,7 @@ export const aggregateAllReservationsByIngredientsAndBucketsOfTimeForRestaurant 
           startTime: record.reservationStartTime,
           endTime: record.reservationStartTime,
           totalIngredients: new Map<string, IngredientDesc>(),
+          unit: record.ingredientUnit,
         });
       }
 
@@ -120,6 +124,7 @@ export const aggregateAllReservationsByIngredientsAndBucketsOfTimeForRestaurant 
           id: record.ingredientId,
           name: record.ingredientName,
           quantity: 0,
+          unit: record.ingredientUnit,
         });
       }
 
@@ -134,6 +139,7 @@ export const aggregateAllReservationsByIngredientsAndBucketsOfTimeForRestaurant 
             id: ingredientDesc.id,
             name: ingredientDesc.name,
             quantity: 0,
+            unit: ingredientDesc.unit,
           });
         }
 
@@ -296,7 +302,6 @@ export const restaurantRouter = router({
       return await aggregateAllReservationsByIngredientsAndBucketsOfTimeForRestaurant(
         {
           restaurantId: input.restaurantId,
-          // TODO: adjust this
           startTime: input.startTime ?? new Date(0),
           endTime: input.endTime ?? new Date(8640000000000000),
         },
