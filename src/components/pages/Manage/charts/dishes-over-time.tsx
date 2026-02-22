@@ -37,10 +37,6 @@ const options = {
     legend: {
       display: false,
     },
-    // title: {
-    //   display: true,
-    //   text: "Dishes Ordered",
-    // },
     filler: {
       propagate: true,
     },

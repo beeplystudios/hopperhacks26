@@ -10,11 +10,14 @@ export const Route = createFileRoute("/manage/$id/")({
       }),
     );
 
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
     const reservationsQuery = await queryClient.ensureQueryData(
-      trpc.restaurant.getAllReservations.queryOptions({
+      trpc.reservation.getInDateRange.queryOptions({
         restaurantId: id,
-        startTime: new Date(0),
-        endTime: new Date(3000, 0, 0),
+        startTime: today,
+        endTime: tomorrow,
       }),
     );
 

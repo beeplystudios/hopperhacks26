@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { relations, sql, SQL } from "drizzle-orm";
 import {
   pgTable,
   text,
@@ -9,8 +9,17 @@ import {
   time,
   integer,
   geometry,
+  customType,
 } from "drizzle-orm/pg-core";
 import { createId } from "@paralleldrive/cuid2";
+
+export const tsvector = customType<{
+  data: string;
+}>({
+  dataType() {
+    return "tsvector";
+  },
+});
 
 export const user = pgTable("user", {
   id: text("id")
@@ -120,20 +129,31 @@ export type ReservationStatus =
   | "CONFIRMED"
   | "CANCELLED";
 
-export const restaurant = pgTable("restaurant", {
-  id: text("id")
-    .primaryKey()
-    .$default(() => createId()),
-  name: text("name").notNull(),
-  address: text("address").notNull(),
-  location: geometry("location", { type: "point" }).notNull(),
-  description: text("description"),
-  color: text("color"),
-  bannerImage: text("banner_image"),
-  logoImage: text("logo_image"),
-  openTime: time("open_time").notNull(),
-  closeTime: time("close_time").notNull(),
-});
+export const restaurant = pgTable(
+  "restaurant",
+  {
+    id: text("id")
+      .primaryKey()
+      .$default(() => createId()),
+    name: text("name").notNull(),
+    address: text("address").notNull(),
+    location: geometry("location", { type: "point" }).notNull(),
+    description: text("description"),
+    color: text("color"),
+    bannerImage: text("banner_image"),
+    logoImage: text("logo_image"),
+    openTime: time("open_time").notNull(),
+    closeTime: time("close_time").notNull(),
+
+    searchVector: tsvector("search_vector").generatedAlwaysAs(
+      (): SQL =>
+        sql`setweight(to_tsvector('english', coalesce(${restaurant.name}, '')), 'A') ||
+          setweight(to_tsvector('english', coalesce(${restaurant.address}, '')), 'B') ||
+          setweight(to_tsvector('english', coalesce(${restaurant.description}, '')), 'C')`,
+    ),
+  },
+  (t) => [index("restaurant_search_vector_idx").using("gin", t.searchVector)],
+);
 
 export const restaurantRelations = relations(restaurant, ({ many }) => ({
   menuItems: many(menuItem),

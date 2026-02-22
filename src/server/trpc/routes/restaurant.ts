@@ -169,9 +169,33 @@ export const aggregateAllReservationsByIngredientsAndBucketsOfTimeForRestaurant 
   };
 
 export const restaurantRouter = router({
-  getAll: publicProcedure.query(async () => {
-    return await db.select().from(restaurant);
-  }),
+  getAll: publicProcedure
+    .input(
+      z.object({
+        query: z.string().optional(),
+      }),
+    )
+    .query(async ({ input }) => {
+      if (input.query) {
+        const processedQuery = sql`to_tsquery('english', ${input.query.replace(/\s+/g, " & ").trim()})`;
+
+        const results = await db
+          .select({
+            restaurant,
+            rank: sql<number>`ts_rank(${restaurant.searchVector}, ${processedQuery})`.as(
+              "rank",
+            ),
+          })
+          .from(restaurant)
+          .where(sql`(${restaurant.searchVector} @@ ${processedQuery})`)
+          .orderBy(desc(sql`rank`));
+
+        return results.map((result) => result.restaurant);
+      }
+
+      return await db.select().from(restaurant);
+    }),
+
   patchById: restaurantOwnerProcedure
     .input(
       z.object({

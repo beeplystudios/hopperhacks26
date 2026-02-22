@@ -29,7 +29,10 @@ export const ReservationCapacityChart: React.FC<{
     datasets: [
       {
         data: [seatsFilled, capacity - seatsFilled],
-        backgroundColor: ["#60b3eb", "#2276e3"],
+        backgroundColor: [
+          "oklch(53.2% 0.157 131.589)",
+          "oklch(50% 0.134 242.749)",
+        ],
       },
     ],
   };
