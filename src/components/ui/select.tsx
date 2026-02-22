@@ -11,7 +11,6 @@ import { cn } from "@/lib/cn";
 import { Button } from "./button";
 import { ChevronDownIcon } from "./icons";
 import { Popover } from "./popover";
-import useMeasure from "react-use-measure";
 
 type SelectProps = Omit<ComponentProps<typeof AriaSelect>, "onSelectionChange">;
 
@@ -25,6 +24,7 @@ export const Select: React.FC<SelectProps> = ({
       <AriaSelect
         onChange={onChange}
         className={cn(className, "flex flex-col gap-2 w-full")}
+        aria-label="select"
         {...props}
       />
     </SelectContext.Provider>
