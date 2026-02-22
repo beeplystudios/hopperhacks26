@@ -62,6 +62,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      colorizr:
+        specifier: ^4.0.1
+        version: 4.0.1
       dotenv:
         specifier: ^17.3.1
         version: 17.3.1
@@ -2207,6 +2210,9 @@ packages:
   clsx@2.1.1:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
     engines: {node: '>=6'}
+
+  colorizr@4.0.1:
+    resolution: {integrity: sha512-CBHSSK2PE+uPKGGufG0tqsjNrvhWnbkSyerALcZljF62CCw2KzW6nEEJOWWfy7uu3/+MOdGjMtBG6gtBo7t9QA==}
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
@@ -5429,6 +5435,8 @@ snapshots:
   client-only@0.0.1: {}
 
   clsx@2.1.1: {}
+
+  colorizr@4.0.1: {}
 
   convert-source-map@2.0.0: {}
 
