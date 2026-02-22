@@ -26,7 +26,7 @@ export default function Restaurants() {
 
   const trpc = useTRPC();
   const restaurant = useSuspenseQuery(
-    trpc.restaurant.getById.queryOptions({ id: param.id }),
+    trpc.restaurant.getById.queryOptions({ restaurantId: param.id }),
   );
 
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
