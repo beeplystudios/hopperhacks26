@@ -32,15 +32,19 @@ export const reservationRouter = router({
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      const newReservation = await db.insert(reservation).values({
-        restaurantId: input.restaurantId,
-        tableId: input.tableId,
-        startTime: input.startTime,
-        endTime: input.endTime,
-        numberOfSeats: input.numberOfSeats,
-        status: "PENDING",
-        userId: ctx.user.id,
-      });
+      const newReservation = await db
+        .insert(reservation)
+        .values({
+          restaurantId: input.restaurantId,
+          tableId: input.tableId,
+          startTime: input.startTime,
+          endTime: input.endTime,
+          numberOfSeats: input.numberOfSeats,
+          status: "PENDING",
+          userId: ctx.user.id,
+        })
+        .returning();
+
       return newReservation;
     }),
   getForRestaurantOnDate: restaurantOwnerProcedure
@@ -70,6 +74,7 @@ export const reservationRouter = router({
   getById: authedProcedure
     .input(z.object({ reservationId: z.string() }))
     .query(async ({ input, ctx }) => {
+      console.log("qeery");
       const res = await db
         .select()
         .from(reservation)
@@ -80,6 +85,7 @@ export const reservationRouter = router({
           ),
         )
         .limit(1);
+
       return res[0];
     }),
   changeStatus: authedProcedure

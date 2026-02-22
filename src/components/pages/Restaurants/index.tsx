@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Button as AriaButton } from "react-aria-components";
 import { DatePicker } from "@/components/ui/date-picker";
 import {
   CalendarIcon,
@@ -15,12 +16,13 @@ import {
 } from "@/components/ui/select";
 import { useTRPC } from "@/lib/trpc-client";
 import { CalendarDate, today } from "@internationalized/date";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import { Link, useParams } from "@tanstack/react-router";
+import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { Link, useParams, useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { DateValue, DialogTrigger } from "react-aria-components";
 import useMeasure from "react-use-measure";
 import { motion } from "motion/react";
+import { cn } from "@/lib/cn";
 
 export default function Restaurants() {
   const param = useParams({ from: "/restaurants/$id/" });
@@ -31,6 +33,7 @@ export default function Restaurants() {
   );
 
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const router = useRouter();
 
   const [date, setDate] = useState<DateValue>(today(userTimeZone));
   const [queryEnabled, setQueryEnabled] = useState(false);
@@ -48,6 +51,20 @@ export default function Restaurants() {
         enabled: queryEnabled,
       },
     ),
+  );
+
+  const createPendingReservation = useMutation(
+    trpc.reservation.createPending.mutationOptions({
+      onSuccess([result]) {
+        router.navigate({
+          to: "/restaurants/$id/reserve/$reservationId",
+          params: {
+            id: param.id,
+            reservationId: result.id,
+          },
+        });
+      },
+    }),
   );
 
   console.log(reservationTimes.data);
@@ -164,7 +181,7 @@ export default function Restaurants() {
               <p className="text-sm font-medium text-zinc-500">
                 {new Intl.DateTimeFormat("en-US", {
                   dateStyle: "medium",
-                }).format(date?.toDate("EST"))}
+                }).format(date?.toDate(userTimeZone))}
               </p>
               <Button
                 size="icon"
@@ -174,26 +191,38 @@ export default function Restaurants() {
                 <ChevronRightIcon />
               </Button>
             </div>
-            <div className="flex gap-4 flex-wrap mt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
               {reservationTimes.data.map((slot) => (
-                <Link
-                  to="/restaurants/$id/reserve/$reservationId"
-                  params={{
-                    id: param.id,
-                    reservationId: "aaa",
+                <AriaButton
+                  isDisabled={!slot.available}
+                  onPress={() => {
+                    const startTime = date.toDate("UTC");
+                    startTime.setUTCHours(parseInt(slot.time.slice(0, 2)));
+
+                    createPendingReservation.mutate({
+                      startTime,
+                      numberOfSeats: partySize,
+                      restaurantId: param.id,
+                      tableId: slot.tableId!,
+                      endTime: new Date(8000000000),
+                    });
                   }}
-                  className="bg-(--light-restaurant-color) hover:bg-(--hover-restaurant-color) hover:text-white transition-colors py-2 px-4 rounded-md flex items-center gap-2"
+                  className={cn(
+                    "bg-(--light-restaurant-color) hover:bg-(--hover-restaurant-color) hover:text-white transition-colors py-2 px-4 rounded-md flex justify-between items-center gap-2",
+                    !slot.available &&
+                      "bg-zinc-100 hover:bg-zinc-100 cursor-not-allowed hover:text-black",
+                  )}
                 >
-                  <div>
+                  <div className="flex flex-col items-start">
                     <p className="text-sm font-medium">
                       {slot.time.slice(0, 5)}
                     </p>
-                    <p className="text-xs font-semibold">
-                      {slot.maxSeats} Seats Available
+                    <p className="text-xs font-semibold w-max">
+                      {slot.available ? slot.maxSeats : "No"} Seats Available
                     </p>
                   </div>
                   <ChevronRightIcon />
-                </Link>
+                </AriaButton>
               ))}
             </div>
           </div>
