@@ -91,6 +91,8 @@ await db.transaction(async (tx) => {
         color: r.color,
         bannerImage: r.bannerImage,
         logoImage: r.logoImage,
+        openTime: r.openTime,
+        closeTime: r.closeTime,
       })),
     )
     .onConflictDoNothing();

@@ -11,6 +11,7 @@ import {
 } from "@/server/db/schema";
 import { z } from "zod";
 import { and, asc, eq, gte, lte } from "drizzle-orm";
+import { restaurantOwnerProcedure } from "../middleware/auth-middleware";
 
 export interface TimeBlock {
   startTime: Date;
@@ -155,24 +156,22 @@ export const restaurantRouter = router({
   getById: publicProcedure
     .input(
       z.object({
-        id: z.string(),
+        restaurantId: z.string(),
       }),
     )
     .query(async ({ input }) => {
       const res = await db
         .select()
         .from(restaurant)
-        .where(eq(restaurant.id, input.id))
+        .where(eq(restaurant.id, input.restaurantId))
         .limit(1);
 
       return res[0];
     }),
 
-  // FIXME: this should be a procedure that is only visible to restaurant owners
-  getAllReservations: publicProcedure
+  getAllReservations: restaurantOwnerProcedure
     .input(
       z.object({
-        restaurantId: z.string(),
         startTime: z.date().nullish(),
         endTime: z.date().nullish(),
       }),
@@ -188,16 +187,10 @@ export const restaurantRouter = router({
       );
     }),
 
-  getTablesForRestaurant: publicProcedure
-    .input(
-      z.object({
-        restaurantId: z.string(),
-      }),
-    )
-    .query(async ({ input }) => {
-      return await db
-        .select()
-        .from(table)
-        .where(eq(table.restaurantId, input.restaurantId));
-    }),
+  getTablesForRestaurant: restaurantOwnerProcedure.query(async ({ input }) => {
+    return await db
+      .select()
+      .from(table)
+      .where(eq(table.restaurantId, input.restaurantId));
+  }),
 });
