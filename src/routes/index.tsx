@@ -123,10 +123,6 @@ function App() {
 
       <p className="text-left w-full">Explore All</p>
       <RestaurantRow restaurants={allRestaurantQuery.data ?? []} />
-
-      <button onClick={() => signIn.mutate()}>Sign In</button>
-      <p>{JSON.stringify(user.data)}</p>
-      <button onClick={() => signOut.mutate()}>Sign Out</button>
     </div>
   );
 }
