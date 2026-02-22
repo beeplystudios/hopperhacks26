@@ -98,7 +98,7 @@ export default function ReservationPage() {
   );
 
   return (
-    <div className="absolute top-1/12 left-1/2 -translate-x-1/2 w-3/4 lg:w-3/5 flex flex-col gap-4">
+    <div className="absolute top-1/8 left-1/2 -translate-x-1/2 w-3/4 lg:w-3/5 flex flex-col gap-4">
       <motion.div
         layoutId="restaurant-heading"
         className="bg-white shadow-xs rounded-md border-zinc-300/70 border-[0.0125rem] p-8"
