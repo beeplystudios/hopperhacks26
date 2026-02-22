@@ -7,18 +7,7 @@ import {
   authedProcedure,
   restaurantOwnerProcedure,
 } from "../middleware/auth-middleware";
-
-const timeStringToMinutes = (time: string) => {
-  const [hours, minutes] = time.split(":").map(Number);
-  return hours * 60 + minutes;
-};
-const minutesToTimeString = (minutes: number) => {
-  const hours = Math.floor(minutes / 60);
-  const mins = minutes % 60;
-  return `${hours.toString().padStart(2, "0")}:${mins
-    .toString()
-    .padStart(2, "0")}:00`;
-};
+import { minutesToTimeString, timeStringToMinutes } from "@/lib/parse-time";
 
 export const reservationRouter = router({
   createPending: authedProcedure
