@@ -27,6 +27,6 @@ import { eq } from "drizzle-orm";
 // });
 
 getRestaurantMenus(db, "r-katz").then((res) => {
-  console.log(res);
+  console.log(res[0]);
   process.exit(0);
 });

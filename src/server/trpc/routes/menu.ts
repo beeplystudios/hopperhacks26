@@ -6,7 +6,7 @@ import {
   menuItemToMenu,
 } from "@/server/db/schema";
 import { router } from "../trpc-config";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import type { DbType } from "@/server/db";
 
 export const getRestaurantIngredients = async (
@@ -36,10 +36,28 @@ export const getRestaurantMenus = async (db: DbType, restaurantId: string) => {
     .select({
       menuId: menu.id,
       menuName: menu.name,
+      items: sql<
+        {
+          id: string;
+          name: string;
+          description: string;
+          price: number;
+        }[]
+      >`jsonb_agg(
+        jsonb_build_object(
+          'id', ${menuItem.id},
+          'name', ${menuItem.name},
+          'description', ${menuItem.description},
+          'price', ${menuItem.price},
+          'image', CASE WHEN ${menuItem.image} IS NULL THEN NULL ELSE ${menuItem.image} END
+        )
+      )`.as("items"),
     })
     .from(menu)
     .where(eq(menu.restaurantId, restaurantId))
-    .innerJoin(menuItemToMenu, eq(menuItemToMenu.menuId, menu.id));
+    .innerJoin(menuItemToMenu, eq(menuItemToMenu.menuId, menu.id))
+    .innerJoin(menuItem, eq(menuItem.id, menuItemToMenu.menuItemId))
+    .groupBy(menu.id);
 
   return records;
 };
