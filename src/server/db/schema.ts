@@ -257,6 +257,7 @@ export const menuItem = pgTable("menu_item", {
 
 export const menuItemRelations = relations(menuItem, ({ many }) => ({
   ingredients: many(menuItemIngredient),
+  menu: many(menuItemToMenu),
 }));
 
 export const ingredient = pgTable("ingredient", {

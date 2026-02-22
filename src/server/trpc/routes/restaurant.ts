@@ -10,7 +10,7 @@ import {
   table,
 } from "@/server/db/schema";
 import { z } from "zod";
-import { and, asc, eq, gte, lte } from "drizzle-orm";
+import { and, asc, desc, eq, gte, lte } from "drizzle-orm";
 import { restaurantOwnerProcedure } from "../middleware/auth-middleware";
 
 export interface TimeBlock {
@@ -160,13 +160,22 @@ export const restaurantRouter = router({
       }),
     )
     .query(async ({ input }) => {
-      const res = await db
-        .select()
-        .from(restaurant)
-        .where(eq(restaurant.id, input.restaurantId))
+      const res = (
+        await db
+          .select()
+          .from(restaurant)
+          .where(eq(restaurant.id, input.restaurantId))
+          .limit(1)
+      )[0];
+
+      const maxTableSize = await db
+        .select({ maxSeats: table.maxSeats })
+        .from(table)
+        .where(eq(table.restaurantId, input.restaurantId))
+        .orderBy(desc(table.maxSeats))
         .limit(1);
 
-      return res[0];
+      return { ...res, maxTableSize: maxTableSize[0]?.maxSeats ?? 0 };
     }),
 
   getAllReservations: restaurantOwnerProcedure

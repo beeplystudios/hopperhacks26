@@ -7,7 +7,7 @@ const RestaurantCard: React.FC<{
   id: string;
 }> = ({ title, description, logo, id }) => {
   return (
-    <a href={`/restaurant/${id}`}>
+    <a href={`/restaurants/${id}`}>
       <div className="p-6 rounded-xl shadow-md aspect-square min-w-64 w-64 group flex flex-col cursor-pointer">
         <div className="flex flex-col items-start justify-start gap-3 flex-1">
           <div className="flex items-center justify-start gap-2">
