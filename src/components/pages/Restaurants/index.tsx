@@ -14,7 +14,7 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import { useTRPC } from "@/lib/trpc-client";
-import { CalendarDate, today } from "@internationalized/date";
+import { today } from "@internationalized/date";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
@@ -150,7 +150,10 @@ export default function Restaurants() {
             </div>
             <div className="flex gap-4 flex-wrap mt-4">
               {[...new Array(10)].map((_, idx) => (
-                <div className="bg-(--light-restaurant-color) py-2 px-4 rounded-md">
+                <div
+                  className="bg-(--light-restaurant-color) py-2 px-4 rounded-md"
+                  key={idx}
+                >
                   <p className="text-sm font-medium">{idx}:00 AM</p>
                 </div>
               ))}
