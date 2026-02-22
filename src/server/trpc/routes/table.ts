@@ -8,28 +8,43 @@ import { z } from "zod";
 import { eq } from "drizzle-orm";
 
 export const tableRouter = router({
-  create: restaurantOwnerProcedure
+  /**
+   * completely replaces the tables for a restaurant with the given tables.
+   */
+  bulkUpdate: restaurantOwnerProcedure
     .input(
       z.object({
-        name: z.string(),
-        maxSeats: z.number().int().positive(),
-        maxReservationLength: z.number().int().positive(),
+        tables: z.array(
+          z.object({
+            name: z.string(),
+            maxSeats: z.number().int().positive(),
+            maxReservationLength: z.number().int().positive(),
+          }),
+        ),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      // FIXME: check that only the restaurant owner can create tables for their restaurant
-      const newTable = await ctx.db
-        .insert(table)
-        .values({
-          restaurantId: input.restaurantId,
-          name: input.name,
-          maxSeats: input.maxSeats,
-          maxReservationLength: input.maxReservationLength,
-        })
-        .returning()
-        .then((rows) => rows[0]);
+      await ctx.db.transaction(async (tx) => {
+        // delete all existing tables for the restaurant
+        await tx
+          .delete(table)
+          .where(eq(table.restaurantId, input.restaurantId));
 
-      return newTable;
+        // insert new tables
+        const insertedTables = await tx
+          .insert(table)
+          .values(
+            input.tables.map((t) => ({
+              name: t.name,
+              maxSeats: t.maxSeats,
+              maxReservationLength: t.maxReservationLength,
+              restaurantId: input.restaurantId,
+            })),
+          )
+          .returning();
+
+        return insertedTables;
+      });
     }),
 
   delete: restaurantOwnerProcedure
@@ -41,30 +56,6 @@ export const tableRouter = router({
     .mutation(async ({ ctx, input }) => {
       // FIXME: check that only the restaurant owner can delete tables for their restaurant
       await ctx.db.delete(table).where(eq(table.id, input.tableId));
-    }),
-
-  update: restaurantOwnerProcedure
-    .input(
-      z.object({
-        tableId: z.string(),
-        name: z.string().optional(),
-        maxSeats: z.number().int().positive().optional(),
-        maxReservationLength: z.number().int().positive().optional(),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      const updatedTable = await ctx.db
-        .update(table)
-        .set({
-          name: input.name,
-          maxSeats: input.maxSeats,
-          maxReservationLength: input.maxReservationLength,
-        })
-        .where(eq(table.id, input.tableId))
-        .returning()
-        .then((rows) => rows[0]);
-
-      return updatedTable;
     }),
 
   getByRestaurant: authedProcedure
