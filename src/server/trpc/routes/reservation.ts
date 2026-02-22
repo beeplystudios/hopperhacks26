@@ -2,7 +2,7 @@ import { publicProcedure, router } from "../trpc-config";
 import { db } from "@/server/db";
 import { orderItem, reservation, restaurant, table } from "@/server/db/schema";
 import { z } from "zod";
-import { and, asc, eq, getTableColumns, gt, gte, lt } from "drizzle-orm";
+import { and, asc, eq, getTableColumns, gt, gte, lt, lte } from "drizzle-orm";
 import {
   authedProcedure,
   restaurantOwnerProcedure,
@@ -149,6 +149,30 @@ export const reservationRouter = router({
             eq(orderItem.menuItem, input.menuItemId),
           ),
         );
+    }),
+  getInDateRange: restaurantOwnerProcedure
+    .input(
+      z.object({
+        restaurantId: z.string(),
+        startTime: z.date(),
+        endTime: z.date(),
+      }),
+    )
+    .query(async ({ input }) => {
+      input.startTime.setHours(0, 0, 0, 0);
+      input.endTime.setHours(23, 59, 59, 999);
+      const reservations = await db
+        .select()
+        .from(reservation)
+        .where(
+          and(
+            eq(reservation.restaurantId, input.restaurantId),
+            gte(reservation.startTime, input.startTime),
+            lte(reservation.startTime, input.endTime),
+          ),
+        )
+        .orderBy(asc(reservation.startTime));
+      return reservations;
     }),
   getAvailableTimes: publicProcedure
     .input(

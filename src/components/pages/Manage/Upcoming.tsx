@@ -15,9 +15,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { today } from "@internationalized/date";
+import { cn } from "@/lib/cn";
 
 export default function UpcomingDashboard() {
-  const { timeBlocks, totalIngredients } = Route.useLoaderData();
+  const {
+    reservations,
+    ingredients: { totalIngredients },
+  } = Route.useLoaderData();
   const params = useParams({ from: "/manage/$id/upcoming" });
 
   const [date, setDate] = useState<DateValue | null>(today("UTC"));
@@ -87,8 +91,52 @@ export default function UpcomingDashboard() {
           </TableBody>
         </Table>
       </div>
-      <div className="col-span-2 flex flex-col items-center justify-start gap-4 rounded-xl p-4 border-zinc-300/50 border-[0.0125rem]">
-        <h3 className="font-bold text-xl">Reservations</h3>
+      <div className="col-span-2 flex flex-col items-center justify-start gap-6 rounded-xl p-4 border-zinc-300/50 border-[0.0125rem]">
+        <div className="h-12 flex items-center justify-center">
+          <h3 className="font-bold text-xl">Reservations</h3>
+        </div>
+        {reservations.map((reservation) => (
+          <div key={reservation.id} className="w-full flex flex-col gap-2 px-6">
+            <div className="flex items-center justify-between w-full">
+              <div className="flex flex-col items-start justify-start">
+                <p className="font-medium">
+                  {new Date(reservation.startTime).toLocaleString("en-US", {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  })}{" "}
+                  -{" "}
+                  {new Date(reservation.endTime).toLocaleString("en-US", {
+                    timeStyle: "short",
+                  })}
+                </p>
+                <p className="text-sm text-zinc-500">
+                  {reservation.numberOfSeats} Seat
+                  {reservation.numberOfSeats !== 1 ? "s" : ""}
+                </p>
+              </div>
+              <div className="flex items-center px-2 gap-2 border border-zinc-300 rounded-xl">
+                <span
+                  className={cn(
+                    "rounded-full h-2 aspect-square",
+                    reservation.status === "PENDING"
+                      ? "bg-yellow-500"
+                      : reservation.status === "CONFIRMED"
+                        ? "bg-green-500"
+                        : reservation.status === "CANCELLED"
+                          ? "bg-red-500"
+                          : reservation.status === "UNPAID"
+                            ? "bg-orange-500"
+                            : "bg-gray-500",
+                  )}
+                ></span>
+                <p className="text-sm text-gray-700">
+                  {reservation.status.charAt(0).toUpperCase() +
+                    reservation.status.slice(1).toLowerCase()}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
