@@ -8,6 +8,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 
@@ -19,28 +20,27 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
+  Filler,
 );
 
-export const oldOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    title: {
-      display: true,
-      text: "Dishes Ordered",
-    },
-  },
-};
 const options = {
   responsive: true,
   scales: {
     y: {
       stacked: true,
+      ticks: {
+        stepSize: 1,
+      },
     },
   },
   plugins: {
+    legend: {
+      display: false,
+    },
+    // title: {
+    //   display: true,
+    //   text: "Dishes Ordered",
+    // },
     filler: {
       propagate: true,
     },
@@ -48,28 +48,6 @@ const options = {
   interaction: {
     intersect: false,
   },
-};
-
-const labels = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
-
-export const oldData = {
-  labels,
-  datasets: [
-    {
-      label: "Ingredients",
-      data: labels.map(() => Math.random() * 25),
-      borderColor: "#65a30d",
-      // backgroundColor: "rgba(255, 99, 132, 0.5)",
-    },
-  ],
 };
 
 export const DishesOverTimeChart: React.FC<{
@@ -80,15 +58,22 @@ export const DishesOverTimeChart: React.FC<{
   if (!data || !startTime || !endTime) {
     return <div>Loading...</div>;
   }
+
   const formattedData = {
     labels: timeLabels(startTime, endTime),
-    datasets: Array.from(data.entries()).map(([name, quantities]) => ({
+    datasets: Array.from(data.entries()).map(([name, quantities], index) => ({
       label: name,
       data: quantities,
-      borderColor: `hsl(${Math.random() * 360} 70% 50%)`,
+      borderColor: `hsl(${100 + index * 20} 35% 55%)`,
       fill: true,
     })),
   };
 
-  return <Line options={options} data={formattedData} />;
+  return (
+    <Line
+      options={options}
+      data={formattedData}
+      className="max-w-full max-h-[90%]"
+    />
+  );
 };

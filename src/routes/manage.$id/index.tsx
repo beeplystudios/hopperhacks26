@@ -24,10 +24,18 @@ export const Route = createFileRoute("/manage/$id/")({
       }),
     );
 
+    const restaurantCapacityQuery = await queryClient.ensureQueryData(
+      trpc.restaurant.getCapacityInfo.queryOptions({
+        restaurantId: id,
+        date: new Date(),
+      }),
+    );
+
     return {
       dishesOverTime: dishesOverTimeQuery,
       reservations: reservationsQuery,
       restaurant: restaurantQuery,
+      restaurantCapacity: restaurantCapacityQuery,
     };
   },
 

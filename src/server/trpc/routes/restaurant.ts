@@ -178,6 +178,65 @@ export const restaurantRouter = router({
         ),
       );
   }),
+  getCapacityInfo: restaurantOwnerProcedure
+    .input(
+      z.object({
+        restaurantId: z.string(),
+        date: z.date(),
+      }),
+    )
+    .query(async ({ input }) => {
+      const startOfDay = new Date(input.date);
+      startOfDay.setHours(0, 0, 0, 0);
+      const endOfDay = new Date(input.date);
+      endOfDay.setHours(23, 59, 59, 999);
+
+      const seatsFilled = (
+        await db
+          .select({ seatsFilled: sql`SUM(number_of_seats)` })
+          .from(reservation)
+          .where(
+            and(
+              eq(reservation.restaurantId, input.restaurantId),
+              eq(reservation.status, "CONFIRMED"),
+              gte(reservation.startTime, startOfDay),
+              lte(reservation.endTime, endOfDay),
+            ),
+          )
+      )[0].seatsFilled as number;
+
+      const restaurantTimes = (
+        await db
+          .select({
+            openTime: restaurant.openTime,
+            closeTime: restaurant.closeTime,
+          })
+          .from(restaurant)
+          .where(eq(restaurant.id, input.restaurantId))
+          .limit(1)
+      )[0];
+      const startMinutes = timeStringToMinutes(restaurantTimes.openTime);
+      const closeMinutes = timeStringToMinutes(restaurantTimes.closeTime);
+
+      const tables = await db
+        .select()
+        .from(table)
+        .where(eq(table.restaurantId, input.restaurantId));
+
+      let capacity = 0;
+
+      for (const table of tables) {
+        capacity +=
+          Math.floor(
+            (closeMinutes - startMinutes) / table.maxReservationLength,
+          ) * table.maxSeats;
+      }
+
+      return {
+        seatsFilled: seatsFilled ?? 0,
+        capacity: capacity,
+      };
+    }),
   getNearby: publicProcedure
     .input(z.object({ lat: z.number(), lng: z.number() }))
     .query(async ({ input }) => {
@@ -298,16 +357,19 @@ export const restaurantRouter = router({
       const dishesOverTimeMap = new Map<string, number[]>();
       const arrSlots = (endMinutes - startMinutes) / 30 + 1;
       for (const menuItem of allMenuItems) {
-        dishesOverTimeMap.set(
-          menuItem.name ?? "",
-          new Array().fill(0, arrSlots),
-        );
+        dishesOverTimeMap.set(menuItem.name ?? "", new Array(arrSlots).fill(0));
       }
 
       for (const menuItem of menuItems) {
         const recordStartMinutes =
-          menuItem.reservationStartTime.getHours() * 60 +
-          menuItem.reservationStartTime.getMinutes();
+          menuItem.reservationStartTime.getUTCHours() * 60 +
+          menuItem.reservationStartTime.getUTCMinutes();
+        console.log(recordStartMinutes, startMinutes, endMinutes);
+        console.log(
+          menuItem.reservationStartTime,
+          restaurantTimes.openTime,
+          restaurantTimes.closeTime,
+        );
         const itemIdx = Math.floor((recordStartMinutes - startMinutes) / 30);
         const dishDesc = dishesOverTimeMap.get(menuItem.name)!;
         dishDesc[itemIdx] += menuItem.quantity;

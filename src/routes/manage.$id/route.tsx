@@ -32,7 +32,7 @@ function ManageLayout() {
           </ManageTab>
         </div>
         <div className="border-l border-black/30 h-full"></div>
-        <div className="h-full overflow-auto w-full">
+        <div className="h-full w-full">
           <Outlet />
         </div>
       </div>
