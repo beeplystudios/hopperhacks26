@@ -40,6 +40,21 @@ export const reservationRouter = router({
       });
       return newReservation;
     }),
+  getById: authedProcedure
+    .input(z.object({ reservationId: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const res = await db
+        .select()
+        .from(reservation)
+        .where(
+          and(
+            eq(reservation.id, input.reservationId),
+            eq(reservation.userId, ctx.user.id),
+          ),
+        )
+        .limit(1);
+      return res[0];
+    }),
   getAvailableTimes: publicProcedure
     .input(
       z.object({
