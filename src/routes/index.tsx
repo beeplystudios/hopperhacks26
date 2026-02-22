@@ -1,7 +1,9 @@
 import RestaurantCard from "@/components/pages/Restaurants/RestaurantCard";
+import { signInOptions, signOutOptions } from "@/lib/auth-client";
 import { useTRPC } from "@/lib/trpc-client";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { signInSocial, signOut } from "better-auth/api";
 
 export const Route = createFileRoute("/")({
   component: App,
@@ -9,6 +11,10 @@ export const Route = createFileRoute("/")({
 
 function App() {
   const trpc = useTRPC();
+  const user = useQuery(trpc.me.queryOptions());
+
+  const signIn = useMutation(signInOptions);
+  const signOut = useMutation(signOutOptions);
   const restrauntQuery = useQuery(trpc.restaurant.getAll.queryOptions());
 
   return (
@@ -25,6 +31,12 @@ function App() {
           />
         ))}
       </div>
+
+      <button onClick={() => signIn.mutate()}>Sign In</button>
+      <p>{JSON.stringify(user.data)}</p>
+      <button onClick={() => signOut.mutate()}>Sign Out</button>
     </div>
   );
 }
+
+// const RestaurantRow = (restaurants: )
