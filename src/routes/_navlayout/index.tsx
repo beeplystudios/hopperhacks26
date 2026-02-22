@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/pages/navbar";
 import RestaurantCard from "@/components/pages/Restaurants/RestaurantCard";
 import { Input } from "@/components/ui/input";
 import { useTRPC } from "@/lib/trpc-client";
@@ -10,7 +9,7 @@ import { useEffect, useState } from "react";
 import { useGeolocated } from "react-geolocated";
 import { useDebounceValue } from "usehooks-ts";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_navlayout/")({
   component: App,
 });
 
@@ -50,41 +49,38 @@ function App() {
   }, [coords, isGeolocationAvailable, isGeolocationEnabled]);
 
   return (
-    <>
-      <Navbar />
-      <div className="text-center flex flex-col items-center w-full py-4 pt-16">
-        {(pastRestaurantQuery.data?.length ?? 0) > 0 && (
-          <>
-            <p className="text-left w-full">Visit Again</p>
-            <RestaurantRow restaurants={pastRestaurantQuery.data ?? []} />
-          </>
-        )}
+    <div className="text-center flex flex-col items-center w-full pt-22">
+      {(pastRestaurantQuery.data?.length ?? 0) > 0 && (
+        <>
+          <p className="text-left w-full">Visit Again</p>
+          <RestaurantRow restaurants={pastRestaurantQuery.data ?? []} />
+        </>
+      )}
 
-        {(nearbyRestaurantQuery.data?.length ?? 0) > 0 && (
-          <>
-            <h2 className="text-center w-full text-xl font-semibold">
-              Places Near You
-            </h2>
-            <RestaurantRow restaurants={nearbyRestaurantQuery.data ?? []} />
-          </>
-        )}
+      {(nearbyRestaurantQuery.data?.length ?? 0) > 0 && (
+        <>
+          <h2 className="text-center w-full text-xl font-semibold">
+            Places Near You
+          </h2>
+          <RestaurantRow restaurants={nearbyRestaurantQuery.data ?? []} />
+        </>
+      )}
 
-        <center className="space-y-1">
-          <h2 className="text-xl font-semibold my-2">Explore All</h2>
-          <h6 className="italic text-sm text-gray-400">
-            Or, have your heart set on one place?
-          </h6>
-          <Input
-            className="text-lg"
-            fullWidth
-            placeholder="Search..."
-            onChange={(e) => setDebouncedQuery(e.target.value)}
-          />
-        </center>
+      <center className="space-y-1">
+        <h2 className="text-xl font-semibold my-2">Explore All</h2>
+        <h6 className="italic text-sm text-gray-400">
+          Or, have your heart set on one place?
+        </h6>
+        <Input
+          className="text-lg"
+          fullWidth
+          placeholder="Search..."
+          onChange={(e) => setDebouncedQuery(e.target.value)}
+        />
+      </center>
 
-        <RestaurantRow restaurants={allRestaurantQuery.data ?? []} />
-      </div>
-    </>
+      <RestaurantRow restaurants={allRestaurantQuery.data ?? []} />
+    </div>
   );
 }
 
