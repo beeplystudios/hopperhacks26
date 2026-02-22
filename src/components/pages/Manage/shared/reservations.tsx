@@ -1,9 +1,11 @@
 import { cn } from "@/lib/cn";
+import { TRPCRouter } from "@/server/trpc/routes";
+import { inferRouterOutputs } from "@trpc/server";
 
 export default function Reservations({
   reservations,
 }: {
-  reservations: any[];
+  reservations: inferRouterOutputs<TRPCRouter>["reservation"]["getInDateRange"];
 }) {
   return (
     <div>
