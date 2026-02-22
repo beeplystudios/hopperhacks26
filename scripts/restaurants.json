@@ -197,609 +197,696 @@
       "name": "Seared Cod",
       "price": "32.00",
       "description": "Pan-seared cod with seasonal vegetables",
-      "image": ""
+      "image": "",
+      "menuId": "m-11-dinner"
     },
     {
       "id": "mi-11-apple-tart",
       "name": "Apple Tart",
       "price": "12.00",
       "description": "Warm apple tart with caramel sauce",
-      "image": ""
+      "image": "",
+      "menuId": "m-11-dinner"
     },
     {
       "id": "mi-br-steak",
       "name": "Blue Ribbon Steak",
       "price": "45.00",
       "description": "Dry-aged sirloin with fries",
-      "image": ""
+      "image": "",
+      "menuId": "m-br-dinner"
     },
     {
       "id": "mi-br-cake",
       "name": "Basque Cheesecake",
       "price": "10.00",
       "description": "Creamy Basque-style cheesecake",
-      "image": ""
+      "image": "",
+      "menuId": "m-br-dinner"
     },
     {
       "id": "mi-katz-pastrami",
       "name": "Pastrami Sandwich",
       "price": "18.00",
       "description": "Classic pastrami on rye",
-      "image": ""
+      "image": "",
+      "menuId": "m-katz-all"
     },
     {
       "id": "mi-katz-reuben",
       "name": "Reuben Sandwich",
       "price": "17.00",
       "description": "Corned beef, sauerkraut, swiss cheese",
-      "image": ""
+      "image": "",
+      "menuId": "m-katz-all"
     },
     {
       "id": "mi-11-beef-tartare",
       "name": "Beef Tartare",
       "price": "26.00",
       "description": "Hand-cut beef, capers, egg yolk",
-      "image": ""
+      "image": "",
+      "menuId": "m-11-dinner"
     },
     {
       "id": "mi-11-roasted-carrots",
       "name": "Roasted Carrots",
       "price": "10.00",
       "description": "Carrots with herb vinaigrette",
-      "image": ""
+      "image": "",
+      "menuId": "m-11-lunch"
     },
     {
       "id": "mi-11-smoked-duck",
       "name": "Smoked Duck",
       "price": "28.00",
       "description": "Thin-sliced smoked duck breast",
-      "image": ""
+      "image": "",
+      "menuId": "m-11-dinner"
     },
     {
       "id": "mi-11-seasonal-salad",
       "name": "Seasonal Salad",
       "price": "14.00",
       "description": "Market greens, vinaigrette",
-      "image": ""
+      "image": "",
+      "menuId": "m-11-dinner"
     },
     {
       "id": "mi-br-fish-and-chips",
       "name": "Fish & Chips",
       "price": "22.00",
       "description": "Beer-battered cod, tartar sauce",
-      "image": ""
+      "image": "",
+      "menuId": "m-br-lunch"
     },
     {
       "id": "mi-br-roasted-chicken",
       "name": "Roasted Chicken",
       "price": "27.00",
       "description": "Half chicken, herbs, jus",
-      "image": ""
+      "image": "",
+      "menuId": "m-br-dinner"
     },
     {
       "id": "mi-br-truffle-fries",
       "name": "Truffle Fries",
       "price": "9.00",
       "description": "Hand-cut fries, truffle oil",
-      "image": ""
+      "image": "",
+      "menuId": "m-br-dinner"
     },
     {
       "id": "mi-br-greens",
       "name": "Sautéed Greens",
       "price": "8.00",
       "description": "Garlic, lemon",
-      "image": ""
+      "image": "",
+      "menuId": "m-br-lunch"
     },
     {
       "id": "mi-katz-matzo-ball",
       "name": "Matzo Ball Soup",
       "price": "8.00",
       "description": "Traditional chicken broth and matzo ball",
-      "image": ""
+      "image": "",
+      "menuId": "m-katz-all"
     },
     {
       "id": "mi-katz-egg-salad",
       "name": "Egg Salad Sandwich",
       "price": "12.00",
       "description": "Classic egg salad on rye",
-      "image": ""
+      "image": "",
+      "menuId": "m-katz-all"
     },
     {
       "id": "mi-katz-pickle",
       "name": "Kosher Pickle",
       "price": "3.00",
       "description": "House-brined dill pickle",
-      "image": ""
+      "image": "",
+      "menuId": "m-katz-all"
     },
     {
       "id": "mi-osteria-tagliatelle",
       "name": "Tagliatelle Bolognese",
       "price": "24.00",
       "description": "Slow ragu, fresh tagliatelle",
-      "image": ""
+      "image": "",
+      "menuId": "m-osteria-all"
     },
     {
       "id": "mi-osteria-risotto",
       "name": "Mushroom Risotto",
       "price": "22.00",
       "description": "Arborio rice, porcini, parm",
-      "image": ""
+      "image": "",
+      "menuId": "m-osteria-all"
     },
     {
       "id": "mi-osteria-bruschetta",
       "name": "Tomato Bruschetta",
       "price": "8.00",
       "description": "Grilled bread, tomato, basil",
-      "image": ""
+      "image": "",
+      "menuId": "m-osteria-all"
     },
     {
       "id": "mi-osteria-gnocchi",
       "name": "Potato Gnocchi",
       "price": "20.00",
       "description": "Gnocchi, brown butter, sage",
-      "image": ""
+      "image": "",
+      "menuId": "m-osteria-all"
     },
     {
       "id": "mi-osteria-ossobuco",
       "name": "Ossobuco",
       "price": "32.00",
       "description": "Braised veal shank, gremolata",
-      "image": ""
+      "image": "",
+      "menuId": "m-osteria-all"
     },
     {
       "id": "mi-osteria-caprese",
       "name": "Caprese Salad",
       "price": "12.00",
       "description": "Tomato, buffalo mozzarella, basil",
-      "image": ""
+      "image": "",
+      "menuId": "m-osteria-all"
     },
     {
       "id": "mi-osteria-tiramisu",
       "name": "Tiramisu",
       "price": "9.00",
       "description": "Classic espresso tiramisu",
-      "image": ""
+      "image": "",
+      "menuId": "m-osteria-all"
     },
     {
       "id": "mi-osteria-gelato",
       "name": "Seasonal Gelato",
       "price": "7.00",
       "description": "Two scoops, house-made",
-      "image": ""
+      "image": "",
+      "menuId": "m-osteria-all"
     },
     {
       "id": "mi-osteria-carapaccio",
       "name": "Beef Carpaccio",
       "price": "18.00",
       "description": "Thin sliced beef, lemon, capers",
-      "image": ""
+      "image": "",
+      "menuId": "m-osteria-all"
     },
     {
       "id": "mi-osteria-pizza-bianca",
       "name": "Pizza Bianca",
       "price": "16.00",
       "description": "Olive oil, rosemary, sea salt",
-      "image": ""
+      "image": "",
+      "menuId": "m-osteria-all"
     },
     {
       "id": "mi-chezlouis-onion-soup",
       "name": "French Onion Soup",
       "price": "10.00",
       "description": "Caramelized onions, gruyere",
-      "image": ""
+      "image": "",
+      "menuId": "m-chezlouis-all"
     },
     {
       "id": "mi-chezlouis-coq-au-vin",
       "name": "Coq au Vin",
       "price": "28.00",
       "description": "Red wine braised chicken",
-      "image": ""
+      "image": "",
+      "menuId": "m-chezlouis-all"
     },
     {
       "id": "mi-chezlouis-salade-nicoise",
       "name": "Salade Niçoise",
       "price": "16.00",
       "description": "Tuna, egg, olives",
-      "image": ""
+      "image": "",
+      "menuId": "m-chezlouis-all"
     },
     {
       "id": "mi-chezlouis-steak-frites",
       "name": "Steak Frites",
       "price": "30.00",
       "description": "Seared steak, pommes frites",
-      "image": ""
+      "image": "",
+      "menuId": "m-chezlouis-all"
     },
     {
       "id": "mi-chezlouis-ratatouille",
       "name": "Ratatouille",
       "price": "15.00",
       "description": "Provencal vegetables",
-      "image": ""
+      "image": "",
+      "menuId": "m-chezlouis-all"
     },
     {
       "id": "mi-chezlouis-foie-gras",
       "name": "Seared Foie Gras",
       "price": "26.00",
       "description": "Apple jam, brioche",
-      "image": ""
+      "image": "",
+      "menuId": "m-chezlouis-all"
     },
     {
       "id": "mi-chezlouis-tarte-tatin",
       "name": "Tarte Tatin",
       "price": "9.00",
       "description": "Caramelized apple tart",
-      "image": ""
+      "image": "",
+      "menuId": "m-chezlouis-all"
     },
     {
       "id": "mi-chezlouis-creme-brulee",
       "name": "Creme Brûlée",
       "price": "8.00",
       "description": "Vanilla custard, caramelized sugar",
-      "image": ""
+      "image": "",
+      "menuId": "m-chezlouis-all"
     },
     {
       "id": "mi-chezlouis-moules",
       "name": "Moules Mariniere",
       "price": "18.00",
       "description": "Mussels, white wine, parsley",
-      "image": ""
+      "image": "",
+      "menuId": "m-chezlouis-all"
     },
     {
       "id": "mi-chezlouis-pissaladiere",
       "name": "Pissaladière",
       "price": "12.00",
       "description": "Onion tart, anchovy, olive",
-      "image": ""
+      "image": "",
+      "menuId": "m-chezlouis-all"
     },
     {
       "id": "mi-sushiyama-nigiri-salmon",
       "name": "Salmon Nigiri",
       "price": "6.00",
       "description": "Sliced salmon over sushi rice",
-      "image": ""
+      "image": "",
+      "menuId": "m-sushiyama-all"
     },
     {
       "id": "mi-sushiyama-nigiri-tuna",
       "name": "Tuna Nigiri",
       "price": "7.00",
       "description": "Ahi tuna on rice",
-      "image": ""
+      "image": "",
+      "menuId": "m-sushiyama-all"
     },
     {
       "id": "mi-sushiyama-ebi",
       "name": "Ebi (Shrimp) Nigiri",
       "price": "5.50",
       "description": "Butterflied shrimp",
-      "image": ""
+      "image": "",
+      "menuId": "m-sushiyama-all"
     },
     {
       "id": "mi-sushiyama-california",
       "name": "California Roll",
       "price": "8.00",
       "description": "Crab, avocado, cucumber",
-      "image": ""
+      "image": "",
+      "menuId": "m-sushiyama-all"
     },
     {
       "id": "mi-sushiyama-spicy-tuna",
       "name": "Spicy Tuna Roll",
       "price": "9.00",
       "description": "Tuna, chili mayo, scallion",
-      "image": ""
+      "image": "",
+      "menuId": "m-sushiyama-all"
     },
     {
       "id": "mi-sushiyama-dragon",
       "name": "Dragon Roll",
       "price": "13.00",
       "description": "Eel, avocado, cucumber",
-      "image": ""
+      "image": "",
+      "menuId": "m-sushiyama-all"
     },
     {
       "id": "mi-sushiyama-vegetable",
       "name": "Vegetable Roll",
       "price": "7.50",
       "description": "Pickled veg, avocado",
-      "image": ""
+      "image": "",
+      "menuId": "m-sushiyama-all"
     },
     {
       "id": "mi-sushiyama-miso",
       "name": "Miso Soup",
       "price": "3.50",
       "description": "Tofu, seaweed, scallion",
-      "image": ""
+      "image": "",
+      "menuId": "m-sushiyama-all"
     },
     {
       "id": "mi-sushiyama-edamame",
       "name": "Edamame",
       "price": "5.00",
       "description": "Steamed soybeans, sea salt",
-      "image": ""
+      "image": "",
+      "menuId": "m-sushiyama-all"
     },
     {
       "id": "mi-sushiyama-omakase",
       "name": "Omakase Tasting",
       "price": "60.00",
       "description": "Chef's selection (seasonal)",
-      "image": ""
+      "image": "",
+      "menuId": "m-sushiyama-all"
     },
     {
       "id": "mi-taqueria-al-pastor",
       "name": "Al Pastor Taco",
       "price": "4.50",
       "description": "Marinated pork, pineapple",
-      "image": ""
+      "image": "",
+      "menuId": "m-taqueria-all"
     },
     {
       "id": "mi-taqueria-carne-asada",
       "name": "Carne Asada Taco",
       "price": "5.00",
       "description": "Grilled flank, cilantro",
-      "image": ""
+      "image": "",
+      "menuId": "m-taqueria-all"
     },
     {
       "id": "mi-taqueria-carnitas",
       "name": "Carnitas Taco",
       "price": "4.75",
       "description": "Slow-cooked pork",
-      "image": ""
+      "image": "",
+      "menuId": "m-taqueria-all"
     },
     {
       "id": "mi-taqueria-fish",
       "name": "Fish Taco",
       "price": "5.25",
       "description": "Beer-battered fish, slaw",
-      "image": ""
+      "image": "",
+      "menuId": "m-taqueria-all"
     },
     {
       "id": "mi-taqueria-vegetariano",
       "name": "Vegetariano Taco",
       "price": "4.00",
       "description": "Grilled vegetables, salsa",
-      "image": ""
+      "image": "",
+      "menuId": "m-taqueria-all"
     },
     {
       "id": "mi-taqueria-quesadilla",
       "name": "Cheese Quesadilla",
       "price": "7.00",
       "description": "Oaxaca cheese, salsa",
-      "image": ""
+      "image": "",
+      "menuId": "m-taqueria-all"
     },
     {
       "id": "mi-taqueria-elote",
       "name": "Elote",
       "price": "4.00",
       "description": "Grilled corn, crema, cotija",
-      "image": ""
+      "image": "",
+      "menuId": "m-taqueria-all"
     },
     {
       "id": "mi-taqueria-chips-salsa",
       "name": "Chips & Salsa",
       "price": "3.50",
       "description": "House tortilla chips",
-      "image": ""
+      "image": "",
+      "menuId": "m-taqueria-all"
     },
     {
       "id": "mi-taqueria-guacamole",
       "name": "Guacamole",
       "price": "8.00",
       "description": "Fresh avocado, lime",
-      "image": ""
+      "image": "",
+      "menuId": "m-taqueria-all"
     },
     {
       "id": "mi-taqueria-birria",
       "name": "Birria Taco",
       "price": "6.00",
       "description": "Braised beef, consommé",
-      "image": ""
+      "image": "",
+      "menuId": "m-taqueria-all"
     },
     {
       "id": "mi-pizzeria-margherita",
       "name": "Margherita",
       "price": "14.00",
       "description": "Tomato, basil, mozzarella",
-      "image": ""
+      "image": "",
+      "menuId": "m-pizzeria-all"
     },
     {
       "id": "mi-pizzeria-pepperoni",
       "name": "Pepperoni",
       "price": "15.00",
       "description": "Classic pepperoni",
-      "image": ""
+      "image": "",
+      "menuId": "m-pizzeria-all"
     },
     {
       "id": "mi-pizzeria-quattro",
       "name": "Quattro Formaggi",
       "price": "16.00",
       "description": "Four cheese blend",
-      "image": ""
+      "image": "",
+      "menuId": "m-pizzeria-all"
     },
     {
       "id": "mi-pizzeria-funghi",
       "name": "Funghi",
       "price": "15.00",
       "description": "Mushrooms, garlic, oregano",
-      "image": ""
+      "image": "",
+      "menuId": "m-pizzeria-all"
     },
     {
       "id": "mi-pizzeria-diavola",
       "name": "Diavola",
       "price": "16.00",
       "description": "Spicy salami, chili",
-      "image": ""
+      "image": "",
+      "menuId": "m-pizzeria-all"
     },
     {
       "id": "mi-pizzeria-greca",
       "name": "Greca",
       "price": "15.50",
       "description": "Feta, olives, oregano",
-      "image": ""
+      "image": "",
+      "menuId": "m-pizzeria-all"
     },
     {
       "id": "mi-pizzeria-prosciutto",
       "name": "Prosciutto & Arugula",
       "price": "17.00",
       "description": "Cured ham, fresh arugula",
-      "image": ""
+      "image": "",
+      "menuId": "m-pizzeria-all"
     },
     {
       "id": "mi-pizzeria-ricotta",
       "name": "Ricotta & Spinach",
       "price": "15.00",
       "description": "Ricotta, spinach, lemon",
-      "image": ""
+      "image": "",
+      "menuId": "m-pizzeria-all"
     },
     {
       "id": "mi-pizzeria-calzone",
       "name": "Calzone",
       "price": "13.50",
       "description": "Folded pizza, ricotta",
-      "image": ""
+      "image": "",
+      "menuId": "m-pizzeria-all"
     },
     {
       "id": "mi-pizzeria-burrata",
       "name": "Burrata Pizza",
       "price": "18.00",
       "description": "Burrata, heirloom tomato",
-      "image": ""
+      "image": "",
+      "menuId": "m-pizzeria-all"
     },
     {
       "id": "mi-bistro-salmondouce",
       "name": "Pan-Seared Salmon",
       "price": "26.00",
       "description": "Herb butter, lemon",
-      "image": ""
+      "image": "",
+      "menuId": "m-bistro-all"
     },
     {
       "id": "mi-bistro-lamb",
       "name": "Herb-Crusted Lamb",
       "price": "34.00",
       "description": "Mint jus, roasted veg",
-      "image": ""
+      "image": "",
+      "menuId": "m-bistro-all"
     },
     {
       "id": "mi-bistro-provencal-veg",
       "name": "Provencal Vegetables",
       "price": "14.00",
       "description": "Tomato, zucchini, eggplant",
-      "image": ""
+      "image": "",
+      "menuId": "m-bistro-all"
     },
     {
       "id": "mi-bistro-soup",
       "name": "Bouillabaisse",
       "price": "28.00",
       "description": "Fish stew, rouille",
-      "image": ""
+      "image": "",
+      "menuId": "m-bistro-all"
     },
     {
       "id": "mi-bistro-frites",
       "name": "Pommes Frites",
       "price": "6.00",
       "description": "Crispy fries, sea salt",
-      "image": ""
+      "image": "",
+      "menuId": "m-bistro-all"
     },
     {
       "id": "mi-bistro-salad",
       "name": "Frisée Aux Lardons",
       "price": "12.00",
       "description": "Warm bacon vinaigrette",
-      "image": ""
+      "image": "",
+      "menuId": "m-bistro-all"
     },
     {
       "id": "mi-bistro-duck",
       "name": "Confit Duck",
       "price": "29.00",
       "description": "Duck leg confit, potatoes",
-      "image": ""
+      "image": "",
+      "menuId": "m-bistro-all"
     },
     {
       "id": "mi-bistro-olive-tapenade",
       "name": "Olive Tapenade",
       "price": "8.00",
       "description": "Olives, capers, crostini",
-      "image": ""
+      "image": "",
+      "menuId": "m-bistro-all"
     },
     {
       "id": "mi-bistro-ricotta-tart",
       "name": "Ricotta Tart",
       "price": "9.00",
       "description": "Herb ricotta, lemon zest",
-      "image": ""
+      "image": "",
+      "menuId": "m-bistro-all"
     },
     {
       "id": "mi-bistro-figs",
       "name": "Roasted Figs",
       "price": "10.00",
       "description": "Honey, goat cheese",
-      "image": ""
+      "image": "",
+      "menuId": "m-bistro-all"
     },
     {
       "id": "mi-greens-buddha",
       "name": "Buddha Bowl",
       "price": "14.00",
       "description": "Quinoa, roasted veg, tahini",
-      "image": ""
+      "image": "",
+      "menuId": "m-greensgarden-all"
     },
     {
       "id": "mi-greens-risotto",
       "name": "Spring Pea Risotto",
       "price": "18.00",
       "description": "Peas, lemon, parmesan",
-      "image": ""
+      "image": "",
+      "menuId": "m-greensgarden-all"
     },
     {
       "id": "mi-greens-vburger",
       "name": "Veggie Burger",
       "price": "13.00",
       "description": "House patty, pickles",
-      "image": ""
+      "image": "",
+      "menuId": "m-greensgarden-all"
     },
     {
       "id": "mi-greens-flatbread",
       "name": "Grilled Veg Flatbread",
       "price": "12.00",
       "description": "Seasonal vegetables",
-      "image": ""
+      "image": "",
+      "menuId": "m-greensgarden-all"
     },
     {
       "id": "mi-greens-soup",
       "name": "Roasted Tomato Soup",
       "price": "8.00",
       "description": "Basil oil, grilled bread",
-      "image": ""
+      "image": "",
+      "menuId": "m-greensgarden-all"
     },
     {
       "id": "mi-greens-salad",
       "name": "Kale Caesar",
       "price": "11.00",
       "description": "Kale, vegan parmesan",
-      "image": ""
+      "image": "",
+      "menuId": "m-greensgarden-all"
     },
     {
       "id": "mi-greens-tofu",
       "name": "Miso Tofu",
       "price": "12.00",
       "description": "Maple miso glaze",
-      "image": ""
+      "image": "",
+      "menuId": "m-greensgarden-all"
     },
     {
       "id": "mi-greens-stuffed-peppers",
       "name": "Stuffed Peppers",
       "price": "13.50",
       "description": "Rice, lentils, herbs",
-      "image": ""
+      "image": "",
+      "menuId": "m-greensgarden-all"
     },
     {
       "id": "mi-greens-polenta",
       "name": "Crispy Polenta",
       "price": "10.00",
       "description": "Mushrooms, sage",
-      "image": ""
+      "image": "",
+      "menuId": "m-greensgarden-all"
     },
     {
       "id": "mi-greens-chocolate-mousse",
       "name": "Avocado Chocolate Mousse",
       "price": "7.00",
       "description": "Vegan mousse, raspberries",
-      "image": ""
+      "image": "",
+      "menuId": "m-greensgarden-all"
     }
   ],
 

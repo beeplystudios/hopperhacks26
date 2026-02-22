@@ -121,6 +121,7 @@ await db.transaction(async (tx) => {
         price: mi.price,
         description: mi.description,
         image: mi.image,
+        menuId: mi.menuId,
       })),
     )
     .onConflictDoNothing();

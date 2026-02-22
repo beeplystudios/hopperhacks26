@@ -253,6 +253,9 @@ export const menuItem = pgTable("menu_item", {
   price: text("price").notNull(),
   description: text("description"),
   image: text("image"),
+  menuId: text("menu_id")
+    .notNull()
+    .references(() => menu.id, { onDelete: "cascade" }),
 });
 
 export const menuItemRelations = relations(menuItem, ({ many }) => ({
