@@ -1,9 +1,12 @@
-import { createFileRoute } from '@tanstack/react-router'
+import Ingredients from "@/components/pages/Manage/Ingredients";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/manage/$id/ingredients')({
-  component: RouteComponent,
-})
-
-function RouteComponent() {
-  return <div>Hello "/manage/$id/ingredients"!</div>
-}
+export const Route = createFileRoute("/manage/$id/ingredients")({
+  component: Ingredients,
+  loader: async ({ params: { id }, context: { trpc, queryClient } }) => {
+    const ingredients = await queryClient.ensureQueryData(
+      trpc.menu.getIngredients.queryOptions({ restaurantId: id }),
+    );
+    return { ingredients };
+  },
+});
