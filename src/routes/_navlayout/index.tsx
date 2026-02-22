@@ -52,7 +52,9 @@ function App() {
     <div className="text-center flex flex-col items-center w-full pt-22">
       {(pastRestaurantQuery.data?.length ?? 0) > 0 && (
         <>
-          <p className="text-left w-full">Visit Again</p>
+          <h2 className="text-center w-full text-xl font-semibold">
+            Visit Again
+          </h2>
           <RestaurantRow restaurants={pastRestaurantQuery.data ?? []} />
         </>
       )}
