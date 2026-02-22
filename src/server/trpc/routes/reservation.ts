@@ -2,7 +2,7 @@ import { publicProcedure, router } from "../trpc-config";
 import { db } from "@/server/db";
 import { orderItem, reservation, restaurant, table } from "@/server/db/schema";
 import { z } from "zod";
-import { and, asc, eq, gt, gte, lt } from "drizzle-orm";
+import { and, asc, eq, getTableColumns, gt, gte, lt } from "drizzle-orm";
 import {
   authedProcedure,
   restaurantOwnerProcedure,
@@ -88,6 +88,20 @@ export const reservationRouter = router({
 
       return res[0];
     }),
+
+  getMine: authedProcedure.query(async ({ ctx }) => {
+    const res = await db
+      .select({
+        ...getTableColumns(restaurant),
+        ...getTableColumns(reservation),
+      })
+      .from(reservation)
+      .innerJoin(restaurant, eq(restaurant.id, reservation.restaurantId))
+      .where(eq(reservation.userId, ctx.user.id));
+
+    return res;
+  }),
+
   changeStatus: authedProcedure
     .input(
       z.object({
