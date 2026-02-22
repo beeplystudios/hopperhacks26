@@ -1,11 +1,25 @@
 import { button, Button } from "@/components/ui/button";
 import { CalendarIcon, PlusMicroIcon, UsersIcon } from "@/components/ui/icons";
 import { Input } from "@/components/ui/input";
+import {
+  Modal,
+  ModalBody,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalHeading,
+} from "@/components/ui/modal";
 import { cn } from "@/lib/cn";
 import { useTRPC } from "@/lib/trpc-client";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueries,
+  useQuery,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { Link, useParams } from "@tanstack/react-router";
 import { motion } from "motion/react";
+import { DialogTrigger } from "react-aria-components";
 
 const categories = [
   "Appetizers",
@@ -58,8 +72,24 @@ export default function ReservationPage() {
   const removeMenuItem = useMutation(
     trpc.reservation.removeMenuItem.mutationOptions({
       onSuccess(_, __, ___, context) {
-        context.client.invalidateQueries({
-          queryKey: trpc.menu.getReservationMenus.queryKey(),
+        return context.client.invalidateQueries({
+          queryKey: trpc.menu.pathKey(),
+        });
+      },
+    }),
+  );
+
+  const orderItems = useQuery(
+    trpc.reservation.getOrderItems.queryOptions({
+      reservationId: param.reservationId,
+    }),
+  );
+
+  const confirmReservation = useMutation(
+    trpc.reservation.confirmReservation.mutationOptions({
+      onSuccess(_, __, ___, context) {
+        return context.client.invalidateQueries({
+          queryKey: trpc.menu.pathKey(),
         });
       },
     }),
@@ -71,10 +101,70 @@ export default function ReservationPage() {
         layoutId="restaurant-heading"
         className="bg-white shadow-xs rounded-md border-zinc-300/70 border-[0.0125rem] p-8"
       >
-        <div>
-          <h1 className="text-xl font-semibold">{restaurant.data.name}</h1>
-          <p className="text-sm text-zinc-700">{restaurant.data.address}</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-semibold">{restaurant.data.name}</h1>
+            <p className="text-sm text-zinc-700">{restaurant.data.address}</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <p className="text-sm font-medium bg-zinc-50 p-2 rounded-full border-[0.0125rem] border-zinc-300/70">
+              {reservation.data.status}
+            </p>
+            {reservation.data.status === "PENDING" && (
+              <DialogTrigger>
+                <Button variant="brand">Checkout</Button>
+                <Modal>
+                  <ModalBody>
+                    <ModalHeader>
+                      <ModalHeading>Confirm your Reservation</ModalHeading>
+                      <ModalDescription>
+                        You will be for the following amount listed below +
+                        taxes and fees. A hold will be placed on your card until
+                        your meal is completed.
+                      </ModalDescription>
+                    </ModalHeader>
+                    {orderItems.data &&
+                      orderItems.data.map((item) => (
+                        <div className="flex items-center gap-2 justify-between pb-2">
+                          <p className="font-medium text-sm">
+                            {item.name} x{item.quantity}
+                          </p>
+                          <p className="font-mono text-sm text-neutral-600">
+                            ${item.quantity * parseFloat(item.price)}
+                          </p>
+                        </div>
+                      ))}
+
+                    <div className="flex items-center gap-2 justify-between border-t-[0.0125rem] border-t-zinc-300/70 pt-4">
+                      <p className="font-medium">Total</p>
+                      <p className="font-mono text-sm text-neutral-600">
+                        $
+                        {orderItems.data
+                          ?.map(
+                            (item) => item.quantity * parseFloat(item.price),
+                          )
+                          .reduce((a, b) => a + b)}
+                      </p>
+                    </div>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button
+                      variant="brand"
+                      onPress={() =>
+                        confirmReservation.mutate({
+                          reservationId: param.reservationId,
+                        })
+                      }
+                    >
+                      Confirm
+                    </Button>
+                  </ModalFooter>
+                </Modal>
+              </DialogTrigger>
+            )}
+          </div>
         </div>
+
         <div className="flex gap-2 my-2">
           <div
             className={cn(

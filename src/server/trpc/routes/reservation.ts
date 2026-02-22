@@ -1,6 +1,12 @@
 import { publicProcedure, router } from "../trpc-config";
 import { db } from "@/server/db";
-import { orderItem, reservation, restaurant, table } from "@/server/db/schema";
+import {
+  menuItem,
+  orderItem,
+  reservation,
+  restaurant,
+  table,
+} from "@/server/db/schema";
 import { z } from "zod";
 import {
   and,
@@ -206,6 +212,40 @@ export const reservationRouter = router({
         );
     }),
 
+  getOrderItems: authedProcedure
+    .input(
+      z.object({
+        reservationId: z.string(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const orderItems = await ctx.db
+        .select({
+          ...getTableColumns(orderItem),
+          ...getTableColumns(menuItem),
+        })
+        .from(orderItem)
+        .innerJoin(menuItem, eq(menuItem.id, orderItem.menuItem))
+        .where(eq(orderItem.reservation, input.reservationId));
+
+      return orderItems;
+    }),
+
+  confirmReservation: authedProcedure
+    .input(
+      z.object({
+        reservationId: z.string(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      await ctx.db
+        .update(reservation)
+        .set({
+          status: "CONFIRMED",
+        })
+        .where(eq(reservation.id, input.reservationId));
+    }),
+
   getInDateRange: restaurantOwnerProcedure
     .input(
       z.object({
@@ -230,6 +270,7 @@ export const reservationRouter = router({
         .orderBy(asc(reservation.startTime));
       return reservations;
     }),
+
   getAvailableTimes: publicProcedure
     .input(
       z.object({

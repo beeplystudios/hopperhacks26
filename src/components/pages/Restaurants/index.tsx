@@ -68,24 +68,6 @@ export default function Restaurants() {
     }),
   );
 
-  useEffect(() => {
-    const color = restaurant.data.color ?? "0.648 0.2 131.684";
-    const [l, c, h] = color.split(" ").map(Number.parseFloat);
-
-    document.documentElement.style.setProperty(
-      "--light-restaurant-color",
-      `oklch(${l + 0.45} ${c} ${h})`,
-    );
-    document.documentElement.style.setProperty(
-      "--base-restaurant-color",
-      `oklch(${l} ${c} ${h})`,
-    );
-    document.documentElement.style.setProperty(
-      "--hover-restaurant-color",
-      `oklch(${l + 0.1} ${c} ${h})`,
-    );
-  }, [restaurant.data]);
-
   return (
     <div>
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-3/4  lg:w-1/2 flex flex-col gap-4">
