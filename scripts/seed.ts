@@ -105,6 +105,8 @@ await db.transaction(async (tx) => {
         id: m.id,
         name: m.name,
         restaurantId: m.restaurantId,
+        startTime: m.startTime,
+        endTime: m.endTime,
       })),
     )
     .onConflictDoNothing();

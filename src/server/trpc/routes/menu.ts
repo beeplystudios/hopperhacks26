@@ -6,8 +6,9 @@ import {
   menuItemToMenu,
 } from "@/server/db/schema";
 import { router } from "../trpc-config";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, gte, isNull, lte, or, sql } from "drizzle-orm";
 import type { DbType } from "@/server/db";
+import { logger } from "@/lib/logger";
 
 export const getRestaurantIngredients = async (
   db: DbType,
@@ -31,7 +32,24 @@ export const getRestaurantIngredients = async (
   return menuItems;
 };
 
-export const getRestaurantMenus = async (db: DbType, restaurantId: string) => {
+interface GetRestaurantMenuOptions {
+  restaurantId: string;
+  /**
+   * Get which menus are active at a given time. Note that only the "hour" and "minute" of this time
+   * is considered.
+   */
+  time: Date;
+}
+
+export const getRestaurantMenus = async (
+  db: DbType,
+  options: GetRestaurantMenuOptions,
+) => {
+  const targetTime = sql`make_time(${options.time.getHours()}, ${options.time.getMinutes()}, 0)`;
+  logger.trace(
+    `getRestaurantMenus target time: ${options.time.getHours()}:${options.time.getMinutes()}`,
+  );
+
   const records = await db
     .select({
       menuId: menu.id,
@@ -54,7 +72,17 @@ export const getRestaurantMenus = async (db: DbType, restaurantId: string) => {
       )`.as("items"),
     })
     .from(menu)
-    .where(eq(menu.restaurantId, restaurantId))
+    .where(
+      and(
+        eq(menu.restaurantId, options.restaurantId),
+        // TODO: if we want to support menus across different time zones, the time conversion logic
+        // would go here.
+        or(
+          and(gte(targetTime, menu.startTime), lte(targetTime, menu.endTime)),
+          and(isNull(menu.startTime), isNull(menu.endTime)),
+        ),
+      ),
+    )
     .innerJoin(menuItemToMenu, eq(menuItemToMenu.menuId, menu.id))
     .innerJoin(menuItem, eq(menuItem.id, menuItemToMenu.menuItemId))
     .groupBy(menu.id);
