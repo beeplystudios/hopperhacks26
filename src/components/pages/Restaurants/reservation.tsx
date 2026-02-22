@@ -145,7 +145,7 @@ export default function ReservationPage() {
                           ?.map(
                             (item) => item.quantity * parseFloat(item.price),
                           )
-                          .reduce((a, b) => a + b)}
+                          .reduce((a, b) => a + b, 0)}
                       </p>
                     </div>
                   </ModalBody>
