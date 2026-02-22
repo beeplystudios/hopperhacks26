@@ -19,7 +19,7 @@ function ManageLayout() {
       <div className="flex gap-12 h-screen pt-20 pb-8 w-full pl-8 pr-8">
         <div className="flex flex-col gap-3 items-center">
           <ManageTab to="/manage/$id" id={id} Icon={HomeIcon}>
-            Home
+            Today
           </ManageTab>
           <ManageTab to="/manage/$id/menus" id={id} Icon={MenuIcon}>
             Menus
@@ -32,7 +32,7 @@ function ManageLayout() {
           </ManageTab>
         </div>
         <div className="border-l border-black/30 h-full"></div>
-        <div className="h-full inset-shadow-sm overflow-auto rounded-md bg-gray-200 p-3 w-full">
+        <div className="h-full overflow-auto w-full">
           <Outlet />
         </div>
       </div>
