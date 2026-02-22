@@ -172,6 +172,51 @@ export const restaurantRouter = router({
   getAll: publicProcedure.query(async () => {
     return await db.select().from(restaurant);
   }),
+  patchById: restaurantOwnerProcedure
+    .input(
+      z.object({
+        restaurantId: z.string(),
+        name: z.string(),
+        description: z.string(),
+        address: z.string(),
+        color: z.string(),
+        bannerImageUrl: z.string(),
+        logoImageUrl: z.string(),
+        openTime: z.string(),
+        closeTime: z.string(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const fieldsToUpdate: Partial<{
+        name: string;
+        description: string;
+        address: string;
+        color: string;
+        bannerImageUrl: string;
+        logoImageUrl: string;
+        openTime: string;
+        closeTime: string;
+      }> = {};
+
+      if (input.name !== undefined) fieldsToUpdate.name = input.name;
+      if (input.description !== undefined)
+        fieldsToUpdate.description = input.description;
+      if (input.address !== undefined) fieldsToUpdate.address = input.address;
+      if (input.color !== undefined) fieldsToUpdate.color = input.color;
+      if (input.bannerImageUrl !== undefined)
+        fieldsToUpdate.bannerImageUrl = input.bannerImageUrl;
+      if (input.logoImageUrl !== undefined)
+        fieldsToUpdate.logoImageUrl = input.logoImageUrl;
+      if (input.openTime !== undefined)
+        fieldsToUpdate.openTime = input.openTime;
+      if (input.closeTime !== undefined)
+        fieldsToUpdate.closeTime = input.closeTime;
+
+      await db
+        .update(restaurant)
+        .set(fieldsToUpdate)
+        .where(eq(restaurant.id, input.restaurantId));
+    }),
   getPastRestraunts: authedProcedure.query(async ({ ctx }) => {
     return await db
       .select({ ...getTableColumns(restaurant) })
@@ -295,8 +340,8 @@ export const restaurantRouter = router({
   getAllReservations: restaurantOwnerProcedure
     .input(
       z.object({
-        startTime: z.date().nullish(),
-        endTime: z.date().nullish(),
+        startTime: z.date(),
+        endTime: z.date(),
       }),
     )
     .query(async ({ input }) => {
