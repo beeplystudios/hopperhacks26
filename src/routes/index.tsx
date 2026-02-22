@@ -1,15 +1,54 @@
 import RestaurantCard from "@/components/pages/Restaurants/RestaurantCard";
+import { Button } from "@/components/ui/button";
+import { MenuItem, SubmenuItem } from "@/components/ui/menu-item";
 import { signInOptions, signOutOptions } from "@/lib/auth-client";
 import { useTRPC } from "@/lib/trpc-client";
 import { TRPCRouter } from "@/server/trpc/routes";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { inferRouterOutputs } from "@trpc/server";
-import { signInSocial, signOut } from "better-auth/api";
+import React from "react";
+import { Menu, MenuSection, MenuTrigger } from "react-aria-components";
 
 export const Route = createFileRoute("/")({
   component: App,
 });
+
+const Navbar: React.FC = () => {
+  const trpc = useTRPC();
+  const user = useQuery(trpc.me.queryOptions());
+
+  const signIn = useMutation(signInOptions);
+  const signOut = useMutation(signOutOptions);
+
+  return (
+    <nav className="w-full flex items-center px-8 pt-2 pb-8">
+      <h1 className="font-medium text-2xl">Restrauntzulsàveplated</h1>
+
+      <div className="ml-auto">
+        {user.data && (
+          <div>
+            <MenuTrigger>
+              <Button>
+                <p className="font-medium text-lg">{user.data.name}</p>
+              </Button>
+              <Menu>
+                <MenuSection>
+                  <MenuItem onAction={() => signOut.mutate()}>
+                    Sign Out
+                  </MenuItem>
+                </MenuSection>
+              </Menu>
+            </MenuTrigger>
+          </div>
+        )}
+        {user.status === "success" && !user.data && (
+          <Button onClick={() => signIn.mutate()}>Sign In</Button>
+        )}
+      </div>
+    </nav>
+  );
+};
 
 function App() {
   const trpc = useTRPC();
@@ -21,6 +60,7 @@ function App() {
 
   return (
     <div className="text-center flex flex-col items-center w-full py-8">
+      <Navbar />
       <h2 className="text-6xl font-bold text-left w-full px-8">Welcome!</h2>
 
       <p className="text-left">Order Again</p>
