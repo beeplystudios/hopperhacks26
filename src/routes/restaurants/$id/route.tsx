@@ -5,7 +5,7 @@ export const Route = createFileRoute("/restaurants/$id")({
   loader: async ({ context, params }) =>
     context.queryClient.ensureQueryData(
       context.trpc.restaurant.getById.queryOptions({
-        id: params.id,
+        restaurantId: params.id,
       }),
     ),
   component: Restaurants,
