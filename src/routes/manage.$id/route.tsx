@@ -4,6 +4,7 @@ import {
   MenuTabIcon,
   SettingsIcon,
   TablesIcon,
+  UpcomingIcon,
 } from "@/components/ui/icons";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 
@@ -20,6 +21,9 @@ function ManageLayout() {
         <div className="flex flex-col gap-3 items-center">
           <ManageTab to="/manage/$id" id={id} Icon={HomeIcon}>
             Today
+          </ManageTab>
+          <ManageTab to="/manage/$id/upcoming" id={id} Icon={UpcomingIcon}>
+            Upcoming
           </ManageTab>
           <ManageTab to="/manage/$id/menus" id={id} Icon={MenuTabIcon}>
             Menus

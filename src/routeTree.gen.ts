@@ -15,6 +15,7 @@ import { Route as RestaurantsIdRouteRouteImport } from './routes/restaurants/$id
 import { Route as ManageIdRouteRouteImport } from './routes/manage.$id/route'
 import { Route as RestaurantsIdIndexRouteImport } from './routes/restaurants/$id/index'
 import { Route as ManageIdIndexRouteImport } from './routes/manage.$id/index'
+import { Route as ManageIdUpcomingRouteImport } from './routes/manage.$id/upcoming'
 import { Route as ManageIdTablesRouteImport } from './routes/manage.$id/tables'
 import { Route as ManageIdSettingsRouteImport } from './routes/manage.$id/settings'
 import { Route as ManageIdMenusRouteImport } from './routes/manage.$id/menus'
@@ -50,6 +51,11 @@ const RestaurantsIdIndexRoute = RestaurantsIdIndexRouteImport.update({
 const ManageIdIndexRoute = ManageIdIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => ManageIdRouteRoute,
+} as any)
+const ManageIdUpcomingRoute = ManageIdUpcomingRouteImport.update({
+  id: '/upcoming',
+  path: '/upcoming',
   getParentRoute: () => ManageIdRouteRoute,
 } as any)
 const ManageIdTablesRoute = ManageIdTablesRouteImport.update({
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/manage/$id/menus': typeof ManageIdMenusRoute
   '/manage/$id/settings': typeof ManageIdSettingsRoute
   '/manage/$id/tables': typeof ManageIdTablesRoute
+  '/manage/$id/upcoming': typeof ManageIdUpcomingRoute
   '/manage/$id/': typeof ManageIdIndexRoute
   '/restaurants/$id/': typeof RestaurantsIdIndexRoute
   '/restaurants/$id/reserve/$reservationId': typeof RestaurantsIdReserveReservationIdRoute
@@ -106,6 +113,7 @@ export interface FileRoutesByTo {
   '/manage/$id/menus': typeof ManageIdMenusRoute
   '/manage/$id/settings': typeof ManageIdSettingsRoute
   '/manage/$id/tables': typeof ManageIdTablesRoute
+  '/manage/$id/upcoming': typeof ManageIdUpcomingRoute
   '/manage/$id': typeof ManageIdIndexRoute
   '/restaurants/$id': typeof RestaurantsIdIndexRoute
   '/restaurants/$id/reserve/$reservationId': typeof RestaurantsIdReserveReservationIdRoute
@@ -121,6 +129,7 @@ export interface FileRoutesById {
   '/manage/$id/menus': typeof ManageIdMenusRoute
   '/manage/$id/settings': typeof ManageIdSettingsRoute
   '/manage/$id/tables': typeof ManageIdTablesRoute
+  '/manage/$id/upcoming': typeof ManageIdUpcomingRoute
   '/manage/$id/': typeof ManageIdIndexRoute
   '/restaurants/$id/': typeof RestaurantsIdIndexRoute
   '/restaurants/$id/reserve/$reservationId': typeof RestaurantsIdReserveReservationIdRoute
@@ -137,6 +146,7 @@ export interface FileRouteTypes {
     | '/manage/$id/menus'
     | '/manage/$id/settings'
     | '/manage/$id/tables'
+    | '/manage/$id/upcoming'
     | '/manage/$id/'
     | '/restaurants/$id/'
     | '/restaurants/$id/reserve/$reservationId'
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
     | '/manage/$id/menus'
     | '/manage/$id/settings'
     | '/manage/$id/tables'
+    | '/manage/$id/upcoming'
     | '/manage/$id'
     | '/restaurants/$id'
     | '/restaurants/$id/reserve/$reservationId'
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '/manage/$id/menus'
     | '/manage/$id/settings'
     | '/manage/$id/tables'
+    | '/manage/$id/upcoming'
     | '/manage/$id/'
     | '/restaurants/$id/'
     | '/restaurants/$id/reserve/$reservationId'
@@ -221,6 +233,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ManageIdIndexRouteImport
       parentRoute: typeof ManageIdRouteRoute
     }
+    '/manage/$id/upcoming': {
+      id: '/manage/$id/upcoming'
+      path: '/upcoming'
+      fullPath: '/manage/$id/upcoming'
+      preLoaderRoute: typeof ManageIdUpcomingRouteImport
+      parentRoute: typeof ManageIdRouteRoute
+    }
     '/manage/$id/tables': {
       id: '/manage/$id/tables'
       path: '/tables'
@@ -270,6 +289,7 @@ interface ManageIdRouteRouteChildren {
   ManageIdMenusRoute: typeof ManageIdMenusRoute
   ManageIdSettingsRoute: typeof ManageIdSettingsRoute
   ManageIdTablesRoute: typeof ManageIdTablesRoute
+  ManageIdUpcomingRoute: typeof ManageIdUpcomingRoute
   ManageIdIndexRoute: typeof ManageIdIndexRoute
 }
 
@@ -277,6 +297,7 @@ const ManageIdRouteRouteChildren: ManageIdRouteRouteChildren = {
   ManageIdMenusRoute: ManageIdMenusRoute,
   ManageIdSettingsRoute: ManageIdSettingsRoute,
   ManageIdTablesRoute: ManageIdTablesRoute,
+  ManageIdUpcomingRoute: ManageIdUpcomingRoute,
   ManageIdIndexRoute: ManageIdIndexRoute,
 }
 
