@@ -1,6 +1,12 @@
-import Restaurant from "@/components/pages/Restaurants/Restaurant";
+import Restaurants from "@/components/pages/Restaurants";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/restaurants/$id")({
-  component: Restaurant,
+  loader: async ({ context, params }) =>
+    context.queryClient.ensureQueryData(
+      context.trpc.restaurant.getById.queryOptions({
+        id: params.id,
+      }),
+    ),
+  component: Restaurants,
 });
