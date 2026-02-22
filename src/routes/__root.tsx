@@ -37,7 +37,9 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       },
     ],
   }),
-
+  beforeLoad: async ({ context }) => {
+    await context.queryClient.prefetchQuery(context.trpc.me.queryOptions());
+  },
   shellComponent: RootDocument,
 });
 
