@@ -223,6 +223,9 @@ export default function Restaurants() {
                 </AriaButton>
               ))}
             </div>
+            {reservationTimes.data.length === 0 && (
+              <p className="text-center w-full">No available times</p>
+            )}
           </div>
         )}
       </div>

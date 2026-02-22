@@ -181,6 +181,7 @@ export const restaurantRouter = router({
         and(
           eq(reservation.userId, ctx.user.id),
           lte(reservation.endTime, new Date()),
+          eq(reservation.status, "CONFIRMED"),
         ),
       );
   }),
