@@ -130,11 +130,9 @@ export const Navbar: React.FC = () => {
   const signIn = useMutation(signInOptions);
 
   return (
-    <nav className="w-full shadow-sm flex items-center p-4 px-8 absolute top-0 left-0 z-100 backdrop-blur-md bg-white/90">
+    <nav className="w-full shadow-sm flex items-center p-4 px-8 absolute top-0 left-0 z-100 backdrop-blur-lg bg-white/70">
       <Link to="/">
-        <h1 className="font-medium text-2xl text-shadow-sm text-shadow-white text-black">
-          Resàve
-        </h1>
+        <h1 className="font-medium text-2xl text-black">Resàve</h1>
       </Link>
       <div className="ml-auto">
         {user.data && <SidebarMenu />}
