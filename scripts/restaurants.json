@@ -38,7 +38,7 @@
       "address": "23 Via Roma, New York, NY 10012",
       "location": "40.723000, -73.995000",
       "description": "Rustic Italian osteria focusing on handmade pasta and regional wines.",
-      "bannerImage": "https://example.com/osteria.jpg",
+      "bannerImage": "https://www.google.com/url?sa=t&source=web&rct=j&url=https%3A%2F%2Fosteriabella.com%2F&ved=0CBYQjRxqGAoTCMjjxqah7JIDFQAAAAAdAAAAABCqAQ&opi=89978449",
       "openTime": "11:30:00",
       "closeTime": "23:00:00"
     },
@@ -48,7 +48,7 @@
       "address": "7 Rue de Fleur, New York, NY 10003",
       "location": "40.730000, -73.990000",
       "description": "Classic French bistro with seasonal plates and a curated wine list.",
-      "bannerImage": "https://example.com/chezlouis.jpg",
+      "bannerImage": "https://curio.space/cdn/shop/files/Chez_Louis_Restaurant_Bar_in_Grenada_2.jpg?v=1741360567&width=5760",
       "openTime": "12:00:00",
       "closeTime": "22:30:00"
     },
@@ -58,7 +58,7 @@
       "address": "101 Sushi St, New York, NY 10009",
       "location": "40.726000, -73.980000",
       "description": "Modern sushi bar serving nigiri, rolls, and omakase tasting menus.",
-      "bannerImage": "https://example.com/sushiyama.jpg",
+      "bannerImage": "https://images.squarespace-cdn.com/content/v1/5e6ffd3deead8d0e05b56a24/1609967028668-C63X8QGY6KLN6T69KUC4/yama_juliati-134.jpg",
       "openTime": "11:00:00",
       "closeTime": "22:00:00"
     },
@@ -68,7 +68,7 @@
       "address": "55 Calle Verde, New York, NY 10011",
       "location": "40.740000, -74.000000",
       "description": "Vibrant taqueria offering tacos, salsas, and mezcal cocktails.",
-      "bannerImage": "https://example.com/taqueria.jpg",
+      "bannerImage": "https://popmenucloud.com/sveqptmk/98c076e0-1a3e-40bb-8e64-57950a61c043.png",
       "openTime": "10:00:00",
       "closeTime": "01:00:00"
     },
@@ -78,7 +78,7 @@
       "address": "9 Vesuvio Ln, New York, NY 10002",
       "location": "40.715000, -73.990500",
       "description": "Wood-fired Neapolitan pizzas with imported Italian ingredients.",
-      "bannerImage": "https://example.com/pizzeria.jpg",
+      "bannerImage": "https://images.squarespace-cdn.com/content/v1/661c51aabe365c0d741ae9d6/cfad515c-d9f8-4d96-91c1-dfdede046056/Margarita+Pizza.jpg",
       "openTime": "11:00:00",
       "closeTime": "23:30:00"
     },
@@ -88,7 +88,7 @@
       "address": "18 Rue Lavande, New York, NY 10007",
       "location": "40.709000, -74.010000",
       "description": "Provençal-inspired bistro with herbs, olive oil, and coastal dishes.",
-      "bannerImage": "https://example.com/bistro.jpg",
+      "bannerImage": "https://s.hdnux.com/photos/41/16/51/8710760/4/rawImage.jpg",
       "openTime": "12:00:00",
       "closeTime": "22:00:00"
     },
@@ -98,7 +98,7 @@
       "address": "300 Plant Ave, New York, NY 10014",
       "location": "40.735000, -74.005000",
       "description": "Seasonal vegetarian and vegan restaurant focusing on farm-forward dishes.",
-      "bannerImage": "https://example.com/greens.jpg",
+      "bannerImage": "https://plantperfect.com/wp-content/uploads/2022/03/Plant-Perfect-Pet-Veggie-gardens-layout-organized-vegetable-bed.jpghttps://plantperfect.com/wp-content/uploads/2022/03/Plant-Perfect-Pet-Veggie-gardens-layout-organized-vegetable-bed.jpg",
       "openTime": "10:30:00",
       "closeTime": "21:30:00"
     }
