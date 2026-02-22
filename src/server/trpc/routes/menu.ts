@@ -4,11 +4,15 @@ import {
   menuItem,
   menuItemIngredient,
   menuItemToMenu,
+  orderItem,
 } from "@/server/db/schema";
 import { publicProcedure, router } from "../trpc-config";
 import { and, eq, gte, isNull, lte, or, sql } from "drizzle-orm";
 import type { DbType } from "@/server/db";
-import { restaurantOwnerProcedure } from "../middleware/auth-middleware";
+import {
+  authedProcedure,
+  restaurantOwnerProcedure,
+} from "../middleware/auth-middleware";
 import z from "zod";
 
 export const getRestaurantIngredients = async (
@@ -116,6 +120,38 @@ export const menuRouter = router({
       });
 
       return menus;
+    }),
+
+  getReservationMenus: authedProcedure
+    .input(
+      z.object({
+        restaurantId: z.string(),
+        reservationId: z.string(),
+        date: z.date().optional(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const menus = await getRestaurantMenus(ctx.db, {
+        restaurantId: input.restaurantId,
+        time: input.date ?? new Date(),
+      });
+
+      const orderItems = await ctx.db
+        .select()
+        .from(orderItem)
+        .where(eq(orderItem.reservation, input.reservationId));
+
+      const orderMap = new Map(
+        orderItems.map((item) => [item.menuItem, item.quantity]),
+      );
+
+      return menus.map((menu) => ({
+        ...menu,
+        items: menu.items.map((item) => ({
+          ...item,
+          quantity: orderMap.get(item.id),
+        })),
+      }));
     }),
 
   getAllMenus: restaurantOwnerProcedure.query(async ({ ctx, input }) => {

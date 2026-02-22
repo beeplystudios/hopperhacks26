@@ -28,7 +28,7 @@ export const button = cva(
         outline:
           "border-[0.0125rem] border-zinc-300/70 hover:border-zinc-400/80 disabled:hover:bg-transparent shadow-xs",
         secondary:
-          "bg-zinc-100 border-[0.0125rem] border-zinc-300/70 hover:bg-zinc-200/70",
+          "bg-zinc-100 border-[0.0125rem] border-zinc-300/70 hover:bg-zinc-200",
         ghost:
           "border-transparent hover:bg-neutral-100 disabled:hover:bg-transparent",
         danger:
