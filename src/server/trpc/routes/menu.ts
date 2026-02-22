@@ -5,10 +5,11 @@ import {
   menuItemIngredient,
   menuItemToMenu,
 } from "@/server/db/schema";
-import { router } from "../trpc-config";
+import { publicProcedure, router } from "../trpc-config";
 import { and, eq, gte, isNull, lte, or, sql } from "drizzle-orm";
 import type { DbType } from "@/server/db";
-import { logger } from "@/lib/logger";
+import { restaurantOwnerProcedure } from "../middleware/auth-middleware";
+import z from "zod";
 
 export const getRestaurantIngredients = async (
   db: DbType,
@@ -38,28 +39,30 @@ interface GetRestaurantMenuOptions {
    * Get which menus are active at a given time. Note that only the "hour" and "minute" of this time
    * is considered.
    */
-  time: Date;
+  time?: Date;
 }
 
 export const getRestaurantMenus = async (
   db: DbType,
   options: GetRestaurantMenuOptions,
 ) => {
-  const targetTime = sql`make_time(${options.time.getHours()}, ${options.time.getMinutes()}, 0)`;
-  logger.trace(
-    `getRestaurantMenus target time: ${options.time.getHours()}:${options.time.getMinutes()}`,
-  );
+  const targetTime = options.time
+    ? sql`make_time(${options.time.getHours()}, ${options.time.getMinutes()}, 0)`
+    : null;
 
   const records = await db
     .select({
       menuId: menu.id,
       menuName: menu.name,
+      startTime: menu.startTime,
+      endTime: menu.endTime,
+      name: menu.name,
       items: sql<
         {
           id: string;
           name: string;
           description: string;
-          price: number;
+          price: string;
         }[]
       >`jsonb_agg(
         jsonb_build_object(
@@ -77,10 +80,15 @@ export const getRestaurantMenus = async (
         eq(menu.restaurantId, options.restaurantId),
         // TODO: if we want to support menus across different time zones, the time conversion logic
         // would go here.
-        or(
-          and(gte(targetTime, menu.startTime), lte(targetTime, menu.endTime)),
-          and(isNull(menu.startTime), isNull(menu.endTime)),
-        ),
+        targetTime === null
+          ? sql`true`
+          : or(
+              and(
+                gte(targetTime, menu.startTime),
+                lte(targetTime, menu.endTime),
+              ),
+              and(isNull(menu.startTime), isNull(menu.endTime)),
+            ),
       ),
     )
     .innerJoin(menuItemToMenu, eq(menuItemToMenu.menuId, menu.id))
@@ -90,4 +98,31 @@ export const getRestaurantMenus = async (
   return records;
 };
 
-export const menuRouter = router({});
+export const menuRouter = router({
+  getIngredients: restaurantOwnerProcedure.query(async ({ ctx, input }) => {
+    const ingredients = await getRestaurantIngredients(
+      ctx.db,
+      input.restaurantId,
+    );
+    return ingredients;
+  }),
+
+  getCurrentMenus: publicProcedure
+    .input(z.object({ restaurantId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const menus = await getRestaurantMenus(ctx.db, {
+        restaurantId: input.restaurantId,
+        time: new Date(),
+      });
+
+      return menus;
+    }),
+
+  getAllMenus: restaurantOwnerProcedure.query(async ({ ctx, input }) => {
+    const menus = await getRestaurantMenus(ctx.db, {
+      restaurantId: input.restaurantId,
+    });
+
+    return menus;
+  }),
+});

@@ -3,7 +3,10 @@ import { db } from "@/server/db";
 import { orderItem, reservation, restaurant, table } from "@/server/db/schema";
 import { z } from "zod";
 import { and, asc, eq, gt, gte, lt } from "drizzle-orm";
-import { authedProcedure } from "../middleware/auth-middleware";
+import {
+  authedProcedure,
+  restaurantOwnerProcedure,
+} from "../middleware/auth-middleware";
 
 const timeStringToMinutes = (time: string) => {
   const [hours, minutes] = time.split(":").map(Number);
@@ -43,6 +46,30 @@ export const reservationRouter = router({
         .returning();
 
       return newReservation;
+    }),
+  getForRestaurantOnDate: restaurantOwnerProcedure
+    .input(
+      z.object({
+        restaurantId: z.string(),
+        date: z.date(),
+      }),
+    )
+    .query(async ({ input }) => {
+      const startOfDay = new Date(input.date);
+      startOfDay.setHours(0, 0, 0, 0);
+      const endOfDay = new Date(input.date);
+      endOfDay.setHours(23, 59, 59, 999);
+      const reservations = await db
+        .select()
+        .from(reservation)
+        .where(
+          and(
+            eq(reservation.restaurantId, input.restaurantId),
+            gt(reservation.startTime, startOfDay),
+            lt(reservation.startTime, endOfDay),
+          ),
+        );
+      return reservations;
     }),
   getById: authedProcedure
     .input(z.object({ reservationId: z.string() }))
