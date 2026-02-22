@@ -9,11 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as NavlayoutRouteRouteImport } from './routes/_navlayout/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiHealthcheckRouteImport } from './routes/api/healthcheck'
-import { Route as RestaurantsIdRouteRouteImport } from './routes/restaurants/$id/route'
 import { Route as ManageIdRouteRouteImport } from './routes/manage.$id/route'
-import { Route as RestaurantsIdIndexRouteImport } from './routes/restaurants/$id/index'
 import { Route as ManageIdIndexRouteImport } from './routes/manage.$id/index'
 import { Route as ManageIdUpcomingRouteImport } from './routes/manage.$id/upcoming'
 import { Route as ManageIdTablesRouteImport } from './routes/manage.$id/tables'
@@ -22,8 +21,14 @@ import { Route as ManageIdMenusRouteImport } from './routes/manage.$id/menus'
 import { Route as ManageIdIngredientsRouteImport } from './routes/manage.$id/ingredients'
 import { Route as ApiTrpcSplatRouteImport } from './routes/api/trpc.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
-import { Route as RestaurantsIdReserveReservationIdRouteImport } from './routes/restaurants/$id/reserve.$reservationId'
+import { Route as NavlayoutRestaurantsIdRouteRouteImport } from './routes/_navlayout/restaurants/$id/route'
+import { Route as NavlayoutRestaurantsIdIndexRouteImport } from './routes/_navlayout/restaurants/$id/index'
+import { Route as NavlayoutRestaurantsIdReserveReservationIdRouteImport } from './routes/_navlayout/restaurants/$id/reserve.$reservationId'
 
+const NavlayoutRouteRoute = NavlayoutRouteRouteImport.update({
+  id: '/_navlayout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -34,20 +39,10 @@ const ApiHealthcheckRoute = ApiHealthcheckRouteImport.update({
   path: '/api/healthcheck',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RestaurantsIdRouteRoute = RestaurantsIdRouteRouteImport.update({
-  id: '/restaurants/$id',
-  path: '/restaurants/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ManageIdRouteRoute = ManageIdRouteRouteImport.update({
   id: '/manage/$id',
   path: '/manage/$id',
   getParentRoute: () => rootRouteImport,
-} as any)
-const RestaurantsIdIndexRoute = RestaurantsIdIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => RestaurantsIdRouteRoute,
 } as any)
 const ManageIdIndexRoute = ManageIdIndexRouteImport.update({
   id: '/',
@@ -89,18 +84,30 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RestaurantsIdReserveReservationIdRoute =
-  RestaurantsIdReserveReservationIdRouteImport.update({
+const NavlayoutRestaurantsIdRouteRoute =
+  NavlayoutRestaurantsIdRouteRouteImport.update({
+    id: '/restaurants/$id',
+    path: '/restaurants/$id',
+    getParentRoute: () => NavlayoutRouteRoute,
+  } as any)
+const NavlayoutRestaurantsIdIndexRoute =
+  NavlayoutRestaurantsIdIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => NavlayoutRestaurantsIdRouteRoute,
+  } as any)
+const NavlayoutRestaurantsIdReserveReservationIdRoute =
+  NavlayoutRestaurantsIdReserveReservationIdRouteImport.update({
     id: '/reserve/$reservationId',
     path: '/reserve/$reservationId',
-    getParentRoute: () => RestaurantsIdRouteRoute,
+    getParentRoute: () => NavlayoutRestaurantsIdRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/manage/$id': typeof ManageIdRouteRouteWithChildren
-  '/restaurants/$id': typeof RestaurantsIdRouteRouteWithChildren
   '/api/healthcheck': typeof ApiHealthcheckRoute
+  '/restaurants/$id': typeof NavlayoutRestaurantsIdRouteRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
   '/manage/$id/ingredients': typeof ManageIdIngredientsRoute
@@ -109,8 +116,8 @@ export interface FileRoutesByFullPath {
   '/manage/$id/tables': typeof ManageIdTablesRoute
   '/manage/$id/upcoming': typeof ManageIdUpcomingRoute
   '/manage/$id/': typeof ManageIdIndexRoute
-  '/restaurants/$id/': typeof RestaurantsIdIndexRoute
-  '/restaurants/$id/reserve/$reservationId': typeof RestaurantsIdReserveReservationIdRoute
+  '/restaurants/$id/': typeof NavlayoutRestaurantsIdIndexRoute
+  '/restaurants/$id/reserve/$reservationId': typeof NavlayoutRestaurantsIdReserveReservationIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -123,15 +130,16 @@ export interface FileRoutesByTo {
   '/manage/$id/tables': typeof ManageIdTablesRoute
   '/manage/$id/upcoming': typeof ManageIdUpcomingRoute
   '/manage/$id': typeof ManageIdIndexRoute
-  '/restaurants/$id': typeof RestaurantsIdIndexRoute
-  '/restaurants/$id/reserve/$reservationId': typeof RestaurantsIdReserveReservationIdRoute
+  '/restaurants/$id': typeof NavlayoutRestaurantsIdIndexRoute
+  '/restaurants/$id/reserve/$reservationId': typeof NavlayoutRestaurantsIdReserveReservationIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_navlayout': typeof NavlayoutRouteRouteWithChildren
   '/manage/$id': typeof ManageIdRouteRouteWithChildren
-  '/restaurants/$id': typeof RestaurantsIdRouteRouteWithChildren
   '/api/healthcheck': typeof ApiHealthcheckRoute
+  '/_navlayout/restaurants/$id': typeof NavlayoutRestaurantsIdRouteRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
   '/manage/$id/ingredients': typeof ManageIdIngredientsRoute
@@ -140,16 +148,16 @@ export interface FileRoutesById {
   '/manage/$id/tables': typeof ManageIdTablesRoute
   '/manage/$id/upcoming': typeof ManageIdUpcomingRoute
   '/manage/$id/': typeof ManageIdIndexRoute
-  '/restaurants/$id/': typeof RestaurantsIdIndexRoute
-  '/restaurants/$id/reserve/$reservationId': typeof RestaurantsIdReserveReservationIdRoute
+  '/_navlayout/restaurants/$id/': typeof NavlayoutRestaurantsIdIndexRoute
+  '/_navlayout/restaurants/$id/reserve/$reservationId': typeof NavlayoutRestaurantsIdReserveReservationIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/manage/$id'
-    | '/restaurants/$id'
     | '/api/healthcheck'
+    | '/restaurants/$id'
     | '/api/auth/$'
     | '/api/trpc/$'
     | '/manage/$id/ingredients'
@@ -177,9 +185,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/_navlayout'
     | '/manage/$id'
-    | '/restaurants/$id'
     | '/api/healthcheck'
+    | '/_navlayout/restaurants/$id'
     | '/api/auth/$'
     | '/api/trpc/$'
     | '/manage/$id/ingredients'
@@ -188,14 +197,14 @@ export interface FileRouteTypes {
     | '/manage/$id/tables'
     | '/manage/$id/upcoming'
     | '/manage/$id/'
-    | '/restaurants/$id/'
-    | '/restaurants/$id/reserve/$reservationId'
+    | '/_navlayout/restaurants/$id/'
+    | '/_navlayout/restaurants/$id/reserve/$reservationId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  NavlayoutRouteRoute: typeof NavlayoutRouteRouteWithChildren
   ManageIdRouteRoute: typeof ManageIdRouteRouteWithChildren
-  RestaurantsIdRouteRoute: typeof RestaurantsIdRouteRouteWithChildren
   ApiHealthcheckRoute: typeof ApiHealthcheckRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiTrpcSplatRoute: typeof ApiTrpcSplatRoute
@@ -203,6 +212,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_navlayout': {
+      id: '/_navlayout'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof NavlayoutRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -217,26 +233,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiHealthcheckRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/restaurants/$id': {
-      id: '/restaurants/$id'
-      path: '/restaurants/$id'
-      fullPath: '/restaurants/$id'
-      preLoaderRoute: typeof RestaurantsIdRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/manage/$id': {
       id: '/manage/$id'
       path: '/manage/$id'
       fullPath: '/manage/$id'
       preLoaderRoute: typeof ManageIdRouteRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/restaurants/$id/': {
-      id: '/restaurants/$id/'
-      path: '/'
-      fullPath: '/restaurants/$id/'
-      preLoaderRoute: typeof RestaurantsIdIndexRouteImport
-      parentRoute: typeof RestaurantsIdRouteRoute
     }
     '/manage/$id/': {
       id: '/manage/$id/'
@@ -294,15 +296,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/restaurants/$id/reserve/$reservationId': {
-      id: '/restaurants/$id/reserve/$reservationId'
+    '/_navlayout/restaurants/$id': {
+      id: '/_navlayout/restaurants/$id'
+      path: '/restaurants/$id'
+      fullPath: '/restaurants/$id'
+      preLoaderRoute: typeof NavlayoutRestaurantsIdRouteRouteImport
+      parentRoute: typeof NavlayoutRouteRoute
+    }
+    '/_navlayout/restaurants/$id/': {
+      id: '/_navlayout/restaurants/$id/'
+      path: '/'
+      fullPath: '/restaurants/$id/'
+      preLoaderRoute: typeof NavlayoutRestaurantsIdIndexRouteImport
+      parentRoute: typeof NavlayoutRestaurantsIdRouteRoute
+    }
+    '/_navlayout/restaurants/$id/reserve/$reservationId': {
+      id: '/_navlayout/restaurants/$id/reserve/$reservationId'
       path: '/reserve/$reservationId'
       fullPath: '/restaurants/$id/reserve/$reservationId'
-      preLoaderRoute: typeof RestaurantsIdReserveReservationIdRouteImport
-      parentRoute: typeof RestaurantsIdRouteRoute
+      preLoaderRoute: typeof NavlayoutRestaurantsIdReserveReservationIdRouteImport
+      parentRoute: typeof NavlayoutRestaurantsIdRouteRoute
     }
   }
 }
+
+interface NavlayoutRestaurantsIdRouteRouteChildren {
+  NavlayoutRestaurantsIdIndexRoute: typeof NavlayoutRestaurantsIdIndexRoute
+  NavlayoutRestaurantsIdReserveReservationIdRoute: typeof NavlayoutRestaurantsIdReserveReservationIdRoute
+}
+
+const NavlayoutRestaurantsIdRouteRouteChildren: NavlayoutRestaurantsIdRouteRouteChildren =
+  {
+    NavlayoutRestaurantsIdIndexRoute: NavlayoutRestaurantsIdIndexRoute,
+    NavlayoutRestaurantsIdReserveReservationIdRoute:
+      NavlayoutRestaurantsIdReserveReservationIdRoute,
+  }
+
+const NavlayoutRestaurantsIdRouteRouteWithChildren =
+  NavlayoutRestaurantsIdRouteRoute._addFileChildren(
+    NavlayoutRestaurantsIdRouteRouteChildren,
+  )
+
+interface NavlayoutRouteRouteChildren {
+  NavlayoutRestaurantsIdRouteRoute: typeof NavlayoutRestaurantsIdRouteRouteWithChildren
+}
+
+const NavlayoutRouteRouteChildren: NavlayoutRouteRouteChildren = {
+  NavlayoutRestaurantsIdRouteRoute:
+    NavlayoutRestaurantsIdRouteRouteWithChildren,
+}
+
+const NavlayoutRouteRouteWithChildren = NavlayoutRouteRoute._addFileChildren(
+  NavlayoutRouteRouteChildren,
+)
 
 interface ManageIdRouteRouteChildren {
   ManageIdIngredientsRoute: typeof ManageIdIngredientsRoute
@@ -326,24 +372,10 @@ const ManageIdRouteRouteWithChildren = ManageIdRouteRoute._addFileChildren(
   ManageIdRouteRouteChildren,
 )
 
-interface RestaurantsIdRouteRouteChildren {
-  RestaurantsIdIndexRoute: typeof RestaurantsIdIndexRoute
-  RestaurantsIdReserveReservationIdRoute: typeof RestaurantsIdReserveReservationIdRoute
-}
-
-const RestaurantsIdRouteRouteChildren: RestaurantsIdRouteRouteChildren = {
-  RestaurantsIdIndexRoute: RestaurantsIdIndexRoute,
-  RestaurantsIdReserveReservationIdRoute:
-    RestaurantsIdReserveReservationIdRoute,
-}
-
-const RestaurantsIdRouteRouteWithChildren =
-  RestaurantsIdRouteRoute._addFileChildren(RestaurantsIdRouteRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  NavlayoutRouteRoute: NavlayoutRouteRouteWithChildren,
   ManageIdRouteRoute: ManageIdRouteRouteWithChildren,
-  RestaurantsIdRouteRoute: RestaurantsIdRouteRouteWithChildren,
   ApiHealthcheckRoute: ApiHealthcheckRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiTrpcSplatRoute: ApiTrpcSplatRoute,

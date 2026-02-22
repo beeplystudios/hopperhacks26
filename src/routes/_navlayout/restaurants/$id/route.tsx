@@ -2,7 +2,7 @@ import { useTRPC } from "@/lib/trpc-client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Outlet, useParams } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/restaurants/$id")({
+export const Route = createFileRoute("/_navlayout/restaurants/$id")({
   loader: async ({ context, params }) =>
     context.queryClient.ensureQueryData(
       context.trpc.restaurant.getById.queryOptions({
@@ -13,7 +13,7 @@ export const Route = createFileRoute("/restaurants/$id")({
 });
 
 function RouteComponent() {
-  const param = useParams({ from: "/restaurants/$id" });
+  const param = useParams({ from: "/_navlayout/restaurants/$id" });
 
   const trpc = useTRPC();
   const restaurant = useSuspenseQuery(

@@ -26,7 +26,7 @@ import { cn } from "@/lib/cn";
 import { formatPsqlTime } from "@/lib/parse-time";
 
 export default function Restaurants() {
-  const param = useParams({ from: "/restaurants/$id/" });
+  const param = useParams({ from: "/_navlayout/restaurants/$id/" });
 
   const trpc = useTRPC();
   const restaurant = useSuspenseQuery(
