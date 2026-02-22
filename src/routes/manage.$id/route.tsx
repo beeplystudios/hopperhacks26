@@ -1,3 +1,10 @@
+import { Navbar } from "@/components/pages/navbar";
+import {
+  HomeIcon,
+  MenuIcon,
+  SettingsIcon,
+  TablesIcon,
+} from "@/components/ui/icons";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/manage/$id")({
@@ -7,64 +14,59 @@ export const Route = createFileRoute("/manage/$id")({
 function ManageLayout() {
   const { id } = Route.useParams();
   return (
-    <div className="grid grid-rows-[2rem_1fr] h-screen overflow-none p-3 gap-3">
-      <div className="flex gap-3 items-center">
-        <Link
-          to="/manage/$id"
-          params={{ id }}
-          activeOptions={{
-            exact: true,
-          }}
-          className="bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full p-2 transition-colors"
-          activeProps={{
-            className: "bg-lime-700 !text-gray-200 pointer-events-none",
-          }}
-        >
-          Home
-        </Link>
-        <Link
-          to="/manage/$id/menus"
-          params={{ id }}
-          activeOptions={{
-            exact: true,
-          }}
-          className="bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full p-2 transition-colors"
-          activeProps={{
-            className: "bg-lime-700 !text-gray-200 pointer-events-none",
-          }}
-        >
-          Menus
-        </Link>
-        <Link
-          to="/manage/$id/tables"
-          params={{ id }}
-          activeOptions={{
-            exact: true,
-          }}
-          className="bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full p-2 transition-colors"
-          activeProps={{
-            className: "bg-lime-700 !text-gray-200 pointer-events-none",
-          }}
-        >
-          Tables
-        </Link>
-        <Link
-          to="/manage/$id/settings"
-          params={{ id }}
-          activeOptions={{
-            exact: true,
-          }}
-          className="bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-full p-2 transition-colors"
-          activeProps={{
-            className: "bg-lime-700 !text-gray-200 pointer-events-none",
-          }}
-        >
-          Settings
-        </Link>
+    <>
+      <Navbar />
+      <div className="flex gap-12 h-screen pt-20 pb-8 w-full pl-8 pr-8">
+        <div className="flex flex-col gap-3 items-center">
+          <ManageTab to="/manage/$id" id={id} Icon={HomeIcon}>
+            Home
+          </ManageTab>
+          <ManageTab to="/manage/$id/menus" id={id} Icon={MenuIcon}>
+            Menus
+          </ManageTab>
+          <ManageTab to="/manage/$id/tables" id={id} Icon={TablesIcon}>
+            Tables
+          </ManageTab>
+          <ManageTab to="/manage/$id/settings" id={id} Icon={SettingsIcon}>
+            Settings
+          </ManageTab>
+        </div>
+        <div className="border-l border-black/30 h-full"></div>
+        <div className="h-full inset-shadow-sm overflow-auto rounded-md bg-gray-200 p-3 w-full">
+          <Outlet />
+        </div>
       </div>
-      <div className="h-full inset-shadow-sm overflow-auto rounded-md bg-gray-200 p-3">
-        <Outlet />
-      </div>
-    </div>
+    </>
   );
 }
+
+const ManageTab: React.FC<
+  React.PropsWithChildren<{
+    id: string;
+    to: string;
+    Icon: React.FC;
+  }>
+> = ({ id, to, Icon, children }) => {
+  return (
+    <Link
+      to={to}
+      params={{ id }}
+      activeOptions={{
+        exact: true,
+      }}
+      className="text-gray-800 py-2 transition-colors w-full text-left"
+      activeProps={{
+        className: "font-bold pointer-events-none",
+      }}
+    >
+      <span className="flex items-center gap-2">
+        <Icon />
+        {children}
+      </span>
+      <span className="flex items-center gap-2 h-0 opacity-0 font-bold pointer-events-none">
+        <Icon />
+        {children}
+      </span>
+    </Link>
+  );
+};
