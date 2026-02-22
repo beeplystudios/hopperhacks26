@@ -44,11 +44,12 @@ export type InputProps = Omit<AriaInputProps, "className" | "disabled"> &
     ref?: React.Ref<HTMLInputElement>;
   };
 
-export const Input: React.FC<InputProps> = ({
+export const Input: React.FC<InputProps & { className?: string }> = ({
   fullWidth,
   leadingVisual,
   trailingVisual,
   isDisabled,
+  className = "",
   ...props
 }) => {
   const [leadingVisualRef, leadingBounds] = useMeasure();
@@ -89,6 +90,7 @@ export const Input: React.FC<InputProps> = ({
             fullWidth,
             visual,
             invalid: isInvalid,
+            className,
           })
         }
         disabled={isDisabled}

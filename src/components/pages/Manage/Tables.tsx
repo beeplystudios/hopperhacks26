@@ -53,8 +53,6 @@ export default function Tables() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">Tables</h1>
-      <h3 className="text-lg">Configure available tables</h3>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -70,65 +68,78 @@ export default function Tables() {
                   {field.state.value.map((_, i) => (
                     <div
                       key={i + "-table"}
-                      className="w-full flex items-center gap-1"
+                      className="w-full flex items-center gap-3"
                     >
-                      <tableForm.Field name={`tables[${i}].name`}>
-                        {(subField) => (
-                          <div>
-                            <Label>
-                              <p>Name</p>
-                              <Input
-                                value={subField.state.value}
-                                type="string"
-                                onChange={(e) =>
-                                  subField.handleChange(e.target.value)
-                                }
-                              />
-                            </Label>
-                          </div>
-                        )}
-                      </tableForm.Field>
-                      <tableForm.Field name={`tables[${i}].maxSeats`}>
-                        {(subField) => (
-                          <div>
-                            <Label>
-                              <p>Seats</p>
-                              <Input
-                                value={subField.state.value}
-                                type="number"
-                                onChange={(e) =>
-                                  subField.handleChange(
-                                    Number.parse(e.target.value),
-                                  )
-                                }
-                              />
-                            </Label>
-                          </div>
-                        )}
-                      </tableForm.Field>
-                      <tableForm.Field
-                        name={`tables[${i}].maxReservationLength`}
-                      >
-                        {(subField) => (
-                          <div>
-                            <Label>
-                              <p>Max Minutes</p>
-                              <Input
-                                value={subField.state.value}
-                                type="number"
-                                step={15}
-                                onChange={(e) =>
-                                  subField.handleChange(
-                                    Number.parse(e.target.value),
-                                  )
-                                }
-                              />
-                            </Label>
-                          </div>
-                        )}
-                      </tableForm.Field>
+                      <div className="border rounded flex border-gray-400 items-center gap-2 px-2 h-8">
+                        <tableForm.Field name={`tables[${i}].name`}>
+                          {(subField) => (
+                            <div>
+                              <Label className="mb-0 flex items-center gap-1">
+                                <Input
+                                  value={subField.state.value}
+                                  type="string"
+                                  className="border-0! outline-0! ring-0! w-48! px-0! bg-transparent!"
+                                  onChange={(e) =>
+                                    subField.handleChange(e.target.value)
+                                  }
+                                />
+                                <p className="text-sm text-gray-500 font-medium">
+                                  Name
+                                </p>
+                              </Label>
+                            </div>
+                          )}
+                        </tableForm.Field>
+                        <div className="border-l border-gray-300 h-full min-h-5"></div>
+                        <tableForm.Field name={`tables[${i}].maxSeats`}>
+                          {(subField) => (
+                            <div>
+                              <Label className="mb-0 flex items-center gap-1">
+                                <Input
+                                  value={subField.state.value}
+                                  type="number"
+                                  className="border-0! outline-0! ring-0! w-18! px-0! bg-transparent!"
+                                  onChange={(e) =>
+                                    subField.handleChange(
+                                      Number.parse(e.target.value),
+                                    )
+                                  }
+                                />
+                                <p className="text-sm text-gray-500 font-medium">
+                                  Seats
+                                </p>
+                              </Label>
+                            </div>
+                          )}
+                        </tableForm.Field>
+                        <div className="border-l border-gray-300 h-full min-h-5"></div>
+                        <tableForm.Field
+                          name={`tables[${i}].maxReservationLength`}
+                        >
+                          {(subField) => (
+                            <div>
+                              <Label className="mb-0 flex items-center gap-1">
+                                <Input
+                                  value={subField.state.value}
+                                  type="number"
+                                  className="border-0! outline-0! ring-0! w-20! px-0! bg-transparent!"
+                                  step={15}
+                                  onChange={(e) =>
+                                    subField.handleChange(
+                                      Number.parse(e.target.value),
+                                    )
+                                  }
+                                />
+                                <p className="text-sm text-gray-500 font-medium">
+                                  Max Minutes
+                                </p>
+                              </Label>
+                            </div>
+                          )}
+                        </tableForm.Field>
+                      </div>
 
-                      <div className="mt-4 flex gap-1">
+                      <div className="flex gap-3">
                         <Button
                           onClick={() => {
                             const name = field.state.value[i].name;
@@ -148,6 +159,7 @@ export default function Tables() {
                               });
                             }
                           }}
+                          isCircular={false}
                         >
                           Duplicate
                         </Button>
@@ -155,6 +167,8 @@ export default function Tables() {
                           onClick={() => {
                             field.removeValue(i);
                           }}
+                          isCircular={false}
+                          variant="danger"
                         >
                           Delete
                         </Button>
