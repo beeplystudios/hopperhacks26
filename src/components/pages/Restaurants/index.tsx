@@ -15,24 +15,42 @@ import {
 } from "@/components/ui/select";
 import { useTRPC } from "@/lib/trpc-client";
 import { CalendarDate, today } from "@internationalized/date";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { useParams } from "@tanstack/react-router";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { Link, useParams } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { DateValue, DialogTrigger } from "react-aria-components";
 import useMeasure from "react-use-measure";
+import { motion } from "motion/react";
 
 export default function Restaurants() {
-  const param = useParams({ from: "/restaurants/$id" });
+  const param = useParams({ from: "/restaurants/$id/" });
 
   const trpc = useTRPC();
   const restaurant = useSuspenseQuery(
-    trpc.restaurant.getById.queryOptions({ id: param.id }),
+    trpc.restaurant.getById.queryOptions({ restaurantId: param.id }),
   );
 
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const [date, setDate] = useState<DateValue | null>(today(userTimeZone));
+  const [date, setDate] = useState<DateValue>(today(userTimeZone));
+  const [queryEnabled, setQueryEnabled] = useState(false);
+  const [partySize, setPartySize] = useState(2);
   const [triggerRef, { width: triggerWidth }] = useMeasure();
+
+  const reservationTimes = useQuery(
+    trpc.reservation.getAvailableTimes.queryOptions(
+      {
+        restaurantId: param.id,
+        date: date.toDate(userTimeZone),
+        partySize: partySize,
+      },
+      {
+        enabled: queryEnabled,
+      },
+    ),
+  );
+
+  console.log(reservationTimes.data);
 
   useEffect(() => {
     const color = restaurant.data.color ?? "0.648 0.2 131.684";
@@ -54,13 +72,11 @@ export default function Restaurants() {
 
   return (
     <div>
-      <img
-        src={restaurant.data.bannerImage!}
-        alt=""
-        className="h-[50vh] w-screen object-cover"
-      />
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-3/4  lg:w-1/2 flex flex-col gap-4">
-        <div className="bg-white shadow-xs rounded-md border-zinc-300/70 border-[0.0125rem] p-8">
+        <motion.div
+          layoutId="restaurant-heading"
+          className="bg-white shadow-xs rounded-md border-zinc-300/70 border-[0.0125rem] p-8"
+        >
           <div>
             <h1 className="text-xl font-semibold">{restaurant.data.name}</h1>
             <p className="text-sm text-zinc-700">{restaurant.data.address}</p>
@@ -89,7 +105,12 @@ export default function Restaurants() {
                 </div>
               </ModalPopover>
             </DialogTrigger>
-            <Select defaultValue="2">
+            <Select
+              defaultValue="2"
+              onChange={(value) =>
+                typeof value === "string" && setPartySize(parseInt(value))
+              }
+            >
               <SelectTrigger
                 triggerRef={triggerRef}
                 btnProps={{
@@ -120,12 +141,17 @@ export default function Restaurants() {
                 <SelectItem id="12">12 Guests</SelectItem>
               </SelectBody>
             </Select>
-            <Button variant="brand" isCircular={false} className="h-12">
+            <Button
+              variant="brand"
+              isCircular={false}
+              className="h-12"
+              onPress={() => setQueryEnabled(true)}
+            >
               Search
             </Button>
           </div>
-        </div>
-        {date && (
+        </motion.div>
+        {reservationTimes.isSuccess && (
           <div className="bg-white shadow-xs rounded-md border-zinc-300/70 border-[0.0125rem] p-8">
             <div className="flex justify-between items-center">
               <Button
@@ -149,10 +175,25 @@ export default function Restaurants() {
               </Button>
             </div>
             <div className="flex gap-4 flex-wrap mt-4">
-              {[...new Array(10)].map((_, idx) => (
-                <div className="bg-(--light-restaurant-color) py-2 px-4 rounded-md">
-                  <p className="text-sm font-medium">{idx}:00 AM</p>
-                </div>
+              {reservationTimes.data.map((slot) => (
+                <Link
+                  to="/restaurants/$id/reserve/$reservationId"
+                  params={{
+                    id: param.id,
+                    reservationId: "aaa",
+                  }}
+                  className="bg-(--light-restaurant-color) hover:bg-(--hover-restaurant-color) hover:text-white transition-colors py-2 px-4 rounded-md flex items-center gap-2"
+                >
+                  <div>
+                    <p className="text-sm font-medium">
+                      {slot.time.slice(0, 5)}
+                    </p>
+                    <p className="text-xs font-semibold">
+                      {slot.maxSeats} Seats Available
+                    </p>
+                  </div>
+                  <ChevronRightIcon />
+                </Link>
               ))}
             </div>
           </div>
