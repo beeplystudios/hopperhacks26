@@ -26,7 +26,13 @@ import { eq } from "drizzle-orm";
 //   process.exit(0);
 // });
 
-getRestaurantMenus(db, "r-katz").then((res) => {
-  console.log(res[0]);
+const time = new Date();
+time.setHours(14);
+
+getRestaurantMenus(db, {
+  restaurantId: "r-blueribbon",
+  time,
+}).then((res) => {
+  console.log(res);
   process.exit(0);
 });
