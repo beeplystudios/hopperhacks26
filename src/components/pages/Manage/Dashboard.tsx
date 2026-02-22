@@ -1,3 +1,11 @@
 export default function ManageDashboard() {
-  return <p>Hello, ManageDashboard!</p>;
+  return (
+    <div>
+      <table className="w-full">
+        <tr>
+          <td>Table Size</td>
+        </tr>
+      </table>
+    </div>
+  );
 }
